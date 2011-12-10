@@ -1,0 +1,14 @@
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+	<t:form t:id="leagueEditForm">
+		<t:label for="name"/>
+		<t:textfield t:id="name" /><br/>
+		<t:label for="shortName"/>
+		<t:textfield t:id="shortName" /><br/>
+		<div class="button-bar">
+			<t:linksubmit t:id="submit" class="button-inline">${message:save}</t:linksubmit>
+			<t:eventlink t:id="cancel" class="button-inline">${message:cancel}</t:eventlink>
+		</div>
+	</t:form>
+
+</div>

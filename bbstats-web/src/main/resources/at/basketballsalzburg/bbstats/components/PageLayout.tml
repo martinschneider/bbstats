@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+<head>
+<title>${message:applicationname}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="shortcut icon" href="/favicon.ico"
+	type="image/vnd.microsoft.icon" />
+<link rel="icon" href="/favicon.ico" type="image/vnd.microsoft.icon" />
+</head>
+
+<body>
+
+	<t:if test="login">
+		<t:body />
+		<p:else>
+			<div id="header">
+				<div class="application-logo"></div>
+			</div>
+			<div class="menu">
+				<div class="liststart"></div>
+				<ul class="toplevel">
+					<li><a href="#">${message:games}</a>
+						<div class="menubox">
+							<div class="shadow-top-right"></div>
+							<div class="shadow-right"></div>
+							<div class="shadow-bottom-left"></div>
+							<div class="shadow-bottom"></div>
+							<div class="shadow-bottom-right"></div>
+							<ul class="sublevel">
+								<li><t:pagelink page="games">${message:overview}</t:pagelink></li>
+							</ul>
+						</div></li>
+						<li><a href="#">${message:practices}</a>
+						<div class="menubox">
+							<div class="shadow-top-right"></div>
+							<div class="shadow-right"></div>
+							<div class="shadow-bottom-left"></div>
+							<div class="shadow-bottom"></div>
+							<div class="shadow-bottom-right"></div>
+							<ul class="sublevel">
+								<li><t:pagelink page="practices">${message:overview}</t:pagelink></li>
+							</ul>
+						</div></li>
+					<li><a class="toplevel" href="#">${message:maintenance}</a>
+						<div class="menubox">
+							<div class="shadow-top-right"></div>
+							<div class="shadow-right"></div>
+							<div class="shadow-bottom-left"></div>
+							<div class="shadow-bottom"></div>
+							<div class="shadow-bottom-right"></div>
+							<ul class="sublevel">
+								<li><t:pagelink page="agegroupmaintenance">${message:agegroups}</t:pagelink></li>
+								<li><t:pagelink page="coachmaintenance">${message:coaches}</t:pagelink></li>
+								<li><t:pagelink page="gymmaintenance">${message:gyms}</t:pagelink></li>
+								<li><t:pagelink page="leaguemaintenance">${message:leagues}</t:pagelink></li>
+								<li><t:pagelink page="playermaintenance">${message:players}</t:pagelink></li>
+								<li><t:pagelink page="teammaintenance">${message:teams}</t:pagelink></li>
+								<li><t:pagelink page="gameStatBatchImporter">${message:statImport}</t:pagelink></li>
+							</ul>
+						</div></li>
+					<li><a class="toplevel" href="${contextPath}/logout">${message:logout}</a></li>
+				</ul>
+				<div class="listend"></div>
+			</div>
+
+			<div id="page-content">
+				<t:body />
+			</div>
+		</p:else>
+
+	</t:if>
+
+</body>
+
+</html>

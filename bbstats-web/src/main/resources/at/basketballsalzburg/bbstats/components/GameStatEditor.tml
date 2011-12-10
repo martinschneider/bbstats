@@ -1,0 +1,53 @@
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+	<t:grid t:id="gameStatGrid">
+		<p:nameCell>${gameStatForGrid.player.displayName}</p:nameCell>
+		<p:ftCell>${gameStatForGrid.ftm}/${gameStatForGrid.fta}</p:ftCell>
+		<p:editCell>
+			<t:eventlink t:id="editGameStat" class="edit-item"
+				title="${message:edit}" />
+		</p:editCell>
+		<p:deleteCell>
+			<t:eventlink t:id="deleteGameStat" class="delete-item"
+				title="${message:delete}" />
+		</p:deleteCell>
+	</t:grid>
+
+	<div class="button-bar">
+		<t:eventlink t:id="newGameStat" class="button-inline">${message:new}</t:eventlink>
+	</div>
+	<t:zone t:id="gameStatEditFieldsZone">
+		<t:if test="showEditor">
+			<t:label for="playerSelect" />
+			<t:select t:id="playerSelect" />
+			<br />
+			<t:label for="points" />
+			<t:textfield t:id="points" />
+			<br />
+			<t:label for="fta" />
+			<t:textfield t:id="fta" />
+			<br />
+			<t:label for="ftm" />
+			<t:textfield t:id="ftm" />
+			<br />
+			<t:label for="threes" />
+			<t:textfield t:id="threes" />
+			<br />
+			<t:label for="fouls" />
+			<t:textfield t:id="fouls" />
+			<br />
+			<div class="button-bar">
+				<t:linksubmit t:id="statSubmit" class="button-inline">
+					<t:if test="edit">${message:save}
+				<p:else>
+					${message:add}
+				</p:else>
+					</t:if>
+				</t:linksubmit>
+				<t:eventlink t:id="cancel" class="button-inline">${message:cancel}</t:eventlink>
+			</div>
+
+		</t:if>
+	</t:zone>
+</div>

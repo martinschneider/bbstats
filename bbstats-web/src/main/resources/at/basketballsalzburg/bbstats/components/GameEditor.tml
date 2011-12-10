@@ -1,0 +1,52 @@
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+	<t:form t:id="gameEditForm">
+		<t:label for="date" />
+		<t:datetimefield t:id="date" />
+		<br />
+		<t:label for="gymSelect" />
+		<t:select t:id="gymSelect" />
+		<br />
+		<t:label for="leagueSelect" />
+		<t:select t:id="leagueSelect" />
+		<br />
+		<t:label for="teamASelect" />
+		<t:textfield t:id="teamASelect" />
+		<br />
+		<t:label for="teamBSelect" />
+		<t:textfield t:id="teamBSelect" />
+		<br />
+		<t:label for="periods" />
+		<t:textfield t:id="periods" />
+		<br />
+		<t:label for="scoreA1" />
+		<t:textfield t:id="scoreA1" />:<t:textfield t:id="scoreB1" />
+		<br />
+		<t:label for="scoreA2" />
+		<t:textfield t:id="scoreA2" />:<t:textfield t:id="scoreB2" />
+		<br />
+		<t:label for="scoreA3" />
+		<t:textfield t:id="scoreA3" />:<t:textfield t:id="scoreB3" />
+		<br />
+		<t:label for="scoreA4" />
+		<t:textfield t:id="scoreA4" />:<t:textfield t:id="scoreB4" />
+		<br />
+		<t:label for="scoreAV" />
+		<t:textfield t:id="scoreAV" />:<t:textfield t:id="scoreBV" />
+		<br />
+		<label>${message:players}</label>
+		<t:box t:id="gameStatBox">
+			<t:gameStatEditor t:id="gameStatEditor" />
+		</t:box>
+		<label>${message:coaches}</label>
+		<t:palette t:id="coachPalette" />
+		<br />
+		<label>${message:ageGroups}</label>
+		<t:palette t:id="ageGroupPalette" />
+		<div class="button-bar">
+			<t:linksubmit t:id="submitButton" class="button-inline">${message:save}</t:linksubmit>
+			<t:eventlink t:id="cancel" class="button-inline">${message:cancel}</t:eventlink>
+		</div>
+	</t:form>
+
+</div>

@@ -1,0 +1,14 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
+    <persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
+       <class>at.basketballsalzburg.bbstats.entities.AgeGroup</class>
+       <class>at.basketballsalzburg.bbstats.entities.Game</class>
+       <class>at.basketballsalzburg.bbstats.entities.GameStat</class>
+       <class>at.basketballsalzburg.bbstats.entities.Gym</class>
+       <class>at.basketballsalzburg.bbstats.entities.Coach</class>
+       <class>at.basketballsalzburg.bbstats.entities.League</class>
+       <class>at.basketballsalzburg.bbstats.entities.Player</class>
+       <class>at.basketballsalzburg.bbstats.entities.Practice</class>
+       <class>at.basketballsalzburg.bbstats.entities.Team</class>
+       <class>at.basketballsalzburg.bbstats.entities.Transaction</class>
+    </persistence-unit>
+</persistence>

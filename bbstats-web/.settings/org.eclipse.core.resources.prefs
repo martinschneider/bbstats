@@ -1,0 +1,17 @@
+#Sat Dec 10 14:54:40 CET 2011
+eclipse.preferences.version=1
+encoding//src/main/resources/at/basketballsalzburg/bbstats/components/GameEditor.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/components/GameStatEditor.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/components/PageLayout.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/components/PlayerEditor.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/components/PracticeEditor.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/AgeGroupMaintenance.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/CoachMaintenance.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/GameStatBatchImporter.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/Games.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/GymMaintenance.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/LeagueMaintenance.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/PlayerMaintenance.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/Practices.properties=UTF-8
+encoding//src/main/resources/at/basketballsalzburg/bbstats/pages/TeamMaintenance.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/app.properties=UTF-8

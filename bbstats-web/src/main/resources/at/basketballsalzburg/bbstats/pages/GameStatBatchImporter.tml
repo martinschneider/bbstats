@@ -1,0 +1,20 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+<p>
+	<b>${message:exampleHeader}</b><br/>${message:example1}<br/>${message:example2}
+</p>
+
+<t:form t:id="importForm">
+	<t:label for="input" />
+	<t:textarea t:id="input" style="width:500px;height:200px;" />
+	<br />
+	<div class="button-bar">
+		<t:linksubmit t:id="importData" class="button-inline">${message:import}</t:linksubmit>
+	</div>
+	<t:label for="result" />
+	<t:textarea t:id="result" style="width:500px;height:200px;" />
+	<br />
+</t:form>
+</html>

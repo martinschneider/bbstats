@@ -1,0 +1,248 @@
+@charset "UTF-8";
+
+/***********************************************************************************************************************
+ * global styles
+ **********************************************************************************************************************/
+body {
+	min-width: 980px;
+}
+
+body {
+	background-image: url("../images/page-content-background.png");
+	background-position: 0px 1px;
+	color: #000;
+	font-family: tahoma, arial, sans-serif;
+	font-size: 10pt;
+	padding: 0;
+	margin: 0;
+	cursor: default;
+}
+
+#page-content {
+	background-repeat: repeat;
+	padding: 10px;
+	border-top: 1px solid #999;
+	position: static;
+	margin-top: 84px;
+}
+
+/***********************************************************************************************************************
+ * page header
+ **********************************************************************************************************************/
+.menu, #header {
+ 	position: fixed; 
+ 	z-index: 100;
+}
+
+#header {
+	top: 0;
+	left: 0;
+	right: 0;
+}
+
+.menu {
+	top: 60px;
+    left: 0;
+    right: 0;
+}
+
+#header {
+	background-color: #000;
+	width: 100%;
+	height: 60px;
+}
+
+.application-logo {
+ 	background-image: url("../images/header.png");
+	background-repeat: no-repeat;
+	background-position: center left;
+	height: inherit;
+	width: 220px;
+	float: left;
+}
+
+/* style for user login */
+#header-tools {
+	height: inherit;
+	float: right;
+	text-align: right;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+
+#header-tools li {
+	padding-bottom: 4px;
+}
+
+#header-tools a {
+	color: #333;
+	background-image: none;
+	text-decoration: none;
+}
+
+/* hover style */
+#header-tools a:hover {
+   color: #02449E; /*dark-blue*/
+   text-decoration: underline;
+   cursor: pointer;
+}
+
+/*
+.user-login {
+	height: inherit;
+	float: right;
+	color: transparent;
+	width: 120px;
+	text-align: right;
+	padding-top: 5px;
+}
+*/
+/* custom link style for header */
+/*
+.user-login a {
+	display: block;
+	padding-right: 20px;
+	margin-right: 5px;
+	min-height: 16px;
+	margin-bottom: 4px;
+	background-repeat: no-repeat;
+	background-position: center right;
+	outline: 0;
+	text-decoration: none;
+}
+
+.user-login a:hover {
+	text-decoration: none;
+}
+
+.user-login a span {
+	visibility: hidden;
+	color: #d87102;
+}
+
+.user-login a:hover span {
+	visibility: visible;
+}
+
+.logout-button {
+	background-image: url("../images/icons/16x16/logout.png");
+}
+
+.logout-button:hover {
+	background-image: url("../images/icons/16x16/logout-hover.png");
+}
+
+.logout-button:active {
+	background-image: url("../images/icons/16x16/logout-pressed.png");
+}
+
+.about-button {
+	background-image: url("../images/icons/16x16/info.png");
+}
+
+.about-button:hover {
+	background-image: url("../images/icons/16x16/info-hover.png");
+}
+
+.about-button:active {
+	background-image: url("../images/icons/16x16/info-pressed.png");
+}
+
+.userinfo-button {
+	background-image: url("../images/icons/16x16/user.png");
+}
+
+.userinfo-button:hover {
+	background-image: url("../images/icons/16x16/user-hover.png");
+}
+
+.userinfo-button:active {
+	background-image: url("../images/icons/16x16/user-pressed.png");
+}
+*/
+/***********************************************************************************************************************
+ * page title  
+ **********************************************************************************************************************/
+/* #page-title { */
+/* 	background-image: url("../images/layout/page-title-background.png"); */
+/* 	background-repeat: repeat-x; */
+/* 	background-color: #eee; */
+/* 	width: 100%; */
+/* 	height: 33px; */
+/* 	line-height: 33px; */
+/* 	border-bottom: 1px solid #555; */
+/* } */
+
+/* #page-title .text { */
+/* 	color: #d87102; */
+/* 	font-weight: bold; */
+/* 	padding-left: 10px; */
+/* 	font-family: Segoe UI, Tahoma, Arial, Sans; */
+/* 	text-shadow: 1px 1px #fff; */
+/* } */
+
+/* breadcrumbbar containing breadcrumbs and view-controls */
+#breadcrumb-bar {
+	height: 20px;
+	padding-top: -5px; /* 10px padding from pagecontent*/
+	margin-bottom: 5px;
+	clear: both;
+}
+
+div#breadcrumb-bar span.breadcrumbs,
+div#breadcrumb-bar span.view-controls {
+	line-height: 20px;
+}
+
+div#breadcrumb-bar span.breadcrumbs {
+	float: left;
+/* 	background-color: orange; */
+}
+
+div#breadcrumb-bar span.view-controls {
+	float: right; 
+/* 	background-color: green; */
+}
+
+div#breadcrumb-bar span.view-controls a {
+	padding: 0;
+	background-image: none;
+	text-decoration: underline;
+}
+
+div#breadcrumb-bar span.view-controls a.active {
+	padding: 0;
+	color: #ffba00;
+	font-weight: bold;
+	background-image: none;
+	text-decoration: none;
+}
+
+div#breadcrumb-bar span.view-controls a.active:hover {
+	text-decoration: none;
+	cursor: default;
+}
+	
+/***********************************************************************************************************************
+ * browser-requirements warning messages 
+ * -currently only in crossng-pagelayout available
+ **********************************************************************************************************************/
+#browser-requirements {
+	position: fixed;
+	padding: 10px 0 0 10px;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-image: url("../images/page-content-background.png");
+	z-index: 1;
+}
+
+/* used to hide elements */
+.hidden {
+	display: none;
+	height: 0;
+	width: 0;
+	padding: 0;
+	margin: 0;
+}

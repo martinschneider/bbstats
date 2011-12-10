@@ -1,0 +1,12 @@
+div.t-palette-title
+{
+   background-image: url("../images/box-title-background.png");
+   background-repeat: repeat-x;
+   color: #fff;
+   width: 200px;
+   line-height: 30px;
+   vertical-align: middle;
+   padding-left: 0;
+   padding-right: 0;
+   overflow: hidden;
+}

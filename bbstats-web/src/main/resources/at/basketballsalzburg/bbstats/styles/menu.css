@@ -1,0 +1,167 @@
+@charset "UTF-8";
+
+/***********************************************************************************************************************
+ * main menu
+ **********************************************************************************************************************/
+.menu {
+	height: 24px;
+	background-image: url("../images/menu.png");
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+	background-color: #000;
+}
+
+.menu > ul {
+	float: left;
+}
+
+.menu .liststart {
+	height: inherit;
+	width: 10px;
+	float: left;
+	border-right: 1px solid #444444;
+}
+
+.menu .listend {
+	height: inherit;
+	width: 10px;
+	float: left;
+	border-left: 1px solid #666666;
+}
+
+.menu ul.toplevel {
+	list-style-type: none;
+	vertical-align: middle;
+	height: inherit;
+	color: #333;
+}
+
+.menu ul.toplevel > li {
+	float: left;
+	height: 24px;
+	line-height: 23px;
+	min-width: 100px;
+	border-style: solid;
+	border-left-color: #666666;
+	border-right-color: #444444;
+	border-left-width: 1px;
+	border-right-width: 1px;
+}
+
+.menu ul.toplevel > li:hover .menubox {
+    -moz-transition: all 200ms ease;
+/*     -webkit-transition: all 200ms ease; */ /*does not work on iOS 4.3*/
+    -o-transition: all 200ms ease;
+    transition: all 200ms ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Links */
+.menu a {
+	color: #fff;
+	display: block;
+	width: inherit;
+	text-decoration: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-image: none;
+	font-family: Segoe UI, Tahoma, Arial, Sans;
+}
+
+.menu ul.toplevel > li > a {
+	text-align: center;
+	font-weight: bold;
+	text-shadow: 1px 1px #000;
+	min-width: 130px;
+}
+
+.menu ul.toplevel > li.active, .menu ul.toplevel > li.group {
+	background-image: url("../images/menu.png");
+	background-position: 0px -24px;
+	background-repeat: repeat-x;
+	border-left-color: #777777;
+}
+
+.menu ul.toplevel > li.active > a, .menu ul.toplevel > li.group > a {
+	color: #AFD9FF;
+}
+
+.menu ul.sublevel a {
+	text-align: left;
+	font-weight: normal;
+	color: #000;
+	min-width: 130px; /* minimum from toplevel */
+}
+
+.menu ul.sublevel li {
+	line-height: 1.4em;
+}
+
+/***********************************************************************************************************************
+ * sub-menu
+ **********************************************************************************************************************/
+
+.menu .menubox {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	min-width: 105px; /* = min-with von li + margin */
+}
+
+.menu ul.sublevel {
+	background-color: #E2E9F3;
+	background-image: url("../images/menu.png");
+	background-position: 0px -72px;
+	background-repeat: repeat-x;
+	border: 1px solid #7F9DB9;
+	border-top-width: 0;
+	margin-left: -1px;
+}
+
+.menu ul.sublevel > li a {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+
+.menu ul.sublevel li a:hover {
+	background: #000;
+	color: #AFD9FF;
+	opacity: 0.7;
+	filter:alpha(opacity=70);
+	width: inherit;
+/* 	box-shadow: inset 0px 0px 1px 1px #fbeca7; */
+}
+
+/***********************************************************************************************************************
+ * shadows
+ **********************************************************************************************************************/
+
+.menu .menubox {
+	box-shadow: 3px 3px 3px #8F8F8F;
+	-webkit-box-shadow: 3px 3px 3px #8F8F8F;
+}
+
+/* hovers (better at the end of a css file) */
+
+.menu ul.toplevel > li:hover {
+	border-left-color: #7F9DB9;
+	border-right-color: #7F9DB9;
+	background-image: url("../images/menu.png");
+	background-position: 0px -48px;
+	background-repeat: repeat-x;
+}
+
+.menu li:hover a {
+	color: #000;
+}
+
+.menu li:hover .menubox {
+	border: 0px solid #7F9DB9;
+	width: inherit;
+}
+
+.menu ul.toplevel > li.active:hover > a, .menu ul.toplevel > li.group:hover > a, .menu ul.toplevel > li:hover > a {
+	color: #000;
+	text-shadow: 1px 1px #fff;
+}

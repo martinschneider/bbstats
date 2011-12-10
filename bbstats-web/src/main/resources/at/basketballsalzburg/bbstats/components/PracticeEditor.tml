@@ -1,0 +1,25 @@
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+
+	<t:form t:id="practiceEditForm">
+		<t:label for="date" />
+		<t:datetimefield t:id="date" />
+		<br />
+		<t:label for="duration" />
+		<t:textfield t:id="duration" /><br />
+		<t:label for="guests" />
+		<t:textfield t:id="guests" /><br/>
+		<t:label for="gymSelect" />
+		<t:select t:id="gymSelect" /><br />
+		<label>${message:players}</label>
+		<t:select t:id="playerPalette" />
+		<label>${message:coaches}</label>
+		<t:select t:id="coachPalette" />
+		<label>${message:ageGroups}</label>
+		<t:select t:id="ageGroupPalette" />
+		<div class="button-bar">
+			<t:linksubmit t:id="submit" class="button-inline">${message:save}</t:linksubmit>
+			<t:eventlink t:id="cancel" class="button-inline">${message:cancel}</t:eventlink>
+		</div>
+	</t:form>
+
+</div>

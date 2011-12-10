@@ -1,0 +1,32 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+<t:zone t:id="teamEditorZone">
+	<t:if test="editorVisible">
+		<t:box t:id="teamEditorBox">
+			<t:teamEditor t:id="teamEditor" teamParameter="team" />
+		</t:box>
+		<p:else>
+			<div class="button-bar">
+				<t:eventlink t:id="newTeam" class="button-inline">${message:newTeam}</t:eventlink>
+			</div>
+		</p:else>
+	</t:if>
+</t:zone>
+<t:zone t:id="teamGridZone">
+	<t:box t:id="teamGridBox">
+		<t:grid t:id="teamGrid">
+			<p:editCell>
+				<t:eventlink t:id="editTeam" class="edit-item"
+					title="${message:edit}" />
+			</p:editCell>
+			<p:deleteCell>
+				<t:eventlink t:id="deleteTeam" class="delete-item"
+					title="${message:delete}" />
+			</p:deleteCell>
+		</t:grid>
+	</t:box>
+</t:zone>
+
+</html>

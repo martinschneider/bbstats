@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite hostname="Martin-Schneiders-MacBook-Air.local" name="at.basketballsalzburg.bbstats.AgeGroupServiceTest" tests="4" failures="0" timestamp="10 Dec 2011 14:13:37 GMT" time="5.747" errors="0">
+  <testcase name="addAgeGroup" time="0.386" classname="at.basketballsalzburg.bbstats.AgeGroupServiceTest"/>
+  <testcase name="addCoach" time="0.06" classname="at.basketballsalzburg.bbstats.CoachServiceTest"/>
+  <testcase name="editCoach" time="0.056" classname="at.basketballsalzburg.bbstats.CoachServiceTest"/>
+  <testcase name="addGym" time="0.092" classname="at.basketballsalzburg.bbstats.GymServiceTest"/>
+</testsuite>

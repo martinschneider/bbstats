@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TestNG:  Unit Test</title>
+<style type="text/css">
+table caption,table.info_table,table.param,table.passed,table.failed {margin-bottom:10px;border:1px solid #000099;border-collapse:collapse;empty-cells:show;}
+table.info_table td,table.info_table th,table.param td,table.param th,table.passed td,table.passed th,table.failed td,table.failed th {
+border:1px solid #000099;padding:.25em .5em .25em .5em
+}
+table.param th {vertical-align:bottom}
+td.numi,th.numi,td.numi_attn {
+text-align:right
+}
+tr.total td {font-weight:bold}
+table caption {
+text-align:center;font-weight:bold;
+}
+table.passed tr.stripe td,table tr.passedodd td {background-color: #00AA00;}
+table.passed td,table tr.passedeven td {background-color: #33FF33;}
+table.passed tr.stripe td,table tr.skippedodd td {background-color: #cccccc;}
+table.passed td,table tr.skippedodd td {background-color: #dddddd;}
+table.failed tr.stripe td,table tr.failedodd td,table.param td.numi_attn {background-color: #FF3333;}
+table.failed td,table tr.failedeven td,table.param tr.stripe td.numi_attn {background-color: #DD0000;}
+tr.stripe td,tr.stripe th {background-color: #E6EBF9;}
+p.totop {font-size:85%;text-align:center;border-bottom:2px black solid}
+div.shootout {padding:2em;border:3px #4854A8 solid}
+</style>
+</head>
+<body>
+<table cellspacing=0 cellpadding=0 class="param">
+<tr><th>Test</th><th class="numi">Methods<br/>Passed</th><th class="numi">Scenarios<br/>Passed</th><th class="numi"># skipped</th><th class="numi"># failed</th><th class="numi">Total<br/>Time</th><th class="numi">Included<br/>Groups</th><th class="numi">Excluded<br/>Groups</th></tr>
+<tr><td style="text-align:left;padding-right:2em">Default test</td><td class="numi">0</td><td class="numi">0</td><td class="numi">0</td><td class="numi_attn">1</td><td class="numi">31.0 seconds</td><td class="numi"></td><td class="numi"></td></tr>
+</table>
+<a id="summary"></a>
+<table cellspacing=0 cellpadding=0 class="passed">
+<tr><th>Class</th><th>Method</th><th># of<br/>Scenarios</th><th>Time<br/>(Msecs)</th></tr>
+<tr><th colspan="4">Default test &#8212; failed</th></tr>
+<tr class="failedodd"><td rowspan="1">at.basketballsalzburg.bbstats.GameServiceTest<td><a href="#m1"><b>addAgeGroup</b>  </a></td><td class="numi">1</td><td class="numi">26385</td></tr>
+</table>
+<h1>Default test</h1>
+<a id="m1"></a><h2>at.basketballsalzburg.bbstats.GameServiceTest:addAgeGroup</h2>
+<div style="padding-left:3em">
+<p>org.hibernate.exception.DataException: could not insert: [at.basketballsalzburg.bbstats.entities.Game]</p>
+org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1215)
+<br/>at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1148)
+<br/>at org.hibernate.ejb.AbstractEntityManagerImpl.convert(AbstractEntityManagerImpl.java:1154)
+<br/>at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:678)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:240)
+<br/>at $Proxy27.persist(Unknown Source)
+<br/>at com.googlecode.genericdao.dao.jpa.JPABaseDAO._persist(JPABaseDAO.java:99)
+<br/>at com.googlecode.genericdao.dao.jpa.GenericDAOImpl.persist(GenericDAOImpl.java:109)
+<br/>at at.basketballsalzburg.bbstats.services.impl.GameServiceImpl.save(GameServiceImpl.java:35)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)
+<br/>at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+<br/>at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)
+<br/>at $Proxy32.save(Unknown Source)
+<br/>at at.basketballsalzburg.bbstats.GameServiceTest.addAgeGroup(GameServiceTest.java:87)
+<br/>32 lines not shown
+<p>Caused by could not insert: [at.basketballsalzburg.bbstats.entities.Game]</p>
+org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:102)
+<br/>at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:66)
+<br/>at org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:64)
+<br/>at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2345)
+<br/>at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2852)
+<br/>at org.hibernate.action.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:71)
+<br/>at org.hibernate.engine.ActionQueue.execute(ActionQueue.java:273)
+<br/>at org.hibernate.event.def.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:320)
+<br/>at org.hibernate.event.def.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:203)
+<br/>at org.hibernate.event.def.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:129)
+<br/>at org.hibernate.ejb.event.EJB3PersistEventListener.saveWithGeneratedId(EJB3PersistEventListener.java:69)
+<br/>at org.hibernate.event.def.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:179)
+<br/>at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:135)
+<br/>at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+<br/>at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+<br/>at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+<br/>at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+<br/>at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:672)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:240)
+<br/>at $Proxy27.persist(Unknown Source)
+<br/>at com.googlecode.genericdao.dao.jpa.JPABaseDAO._persist(JPABaseDAO.java:99)
+<br/>at com.googlecode.genericdao.dao.jpa.GenericDAOImpl.persist(GenericDAOImpl.java:109)
+<br/>at at.basketballsalzburg.bbstats.services.impl.GameServiceImpl.save(GameServiceImpl.java:35)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)
+<br/>at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+<br/>at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)
+<br/>at $Proxy32.save(Unknown Source)
+<br/>at at.basketballsalzburg.bbstats.GameServiceTest.addAgeGroup(GameServiceTest.java:87)
+<br/>32 lines not shown
+<p>Caused by Numeric value out of range: &quot;164&quot;; SQL statement:
+insert into bbstats_game (id, coachId, date, gymId, league, periods, scoreA1, scoreA2, scoreA3, scoreA4, scoreAV, scoreB1, scoreB2, scoreB3, scoreB4, scoreBV, teamA, teamB, time) values (null, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) -- (NULL, ?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14, ?15, ?16, ?17, ?18) [22003-160]</p>
+org.h2.message.DbException.getJdbcSQLException(DbException.java:329)
+<br/>at org.h2.message.DbException.get(DbException.java:169)
+<br/>at org.h2.message.DbException.get(DbException.java:146)
+<br/>at org.h2.value.Value.convertToByte(Value.java:931)
+<br/>at org.h2.value.Value.convertTo(Value.java:539)
+<br/>at org.h2.table.Column.convert(Column.java:152)
+<br/>at org.h2.command.dml.Insert.insertRows(Insert.java:112)
+<br/>at org.h2.command.dml.Insert.update(Insert.java:84)
+<br/>at org.h2.command.CommandContainer.update(CommandContainer.java:73)
+<br/>at org.h2.command.Command.executeUpdate(Command.java:219)
+<br/>at org.h2.jdbc.JdbcPreparedStatement.executeUpdateInternal(JdbcPreparedStatement.java:143)
+<br/>at org.h2.jdbc.JdbcPreparedStatement.executeUpdate(JdbcPreparedStatement.java:129)
+<br/>at org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:102)
+<br/>at org.apache.commons.dbcp.DelegatingPreparedStatement.executeUpdate(DelegatingPreparedStatement.java:102)
+<br/>at org.hibernate.id.IdentityGenerator$GetGeneratedKeysDelegate.executeAndExtract(IdentityGenerator.java:94)
+<br/>at org.hibernate.id.insert.AbstractReturningDelegate.performInsert(AbstractReturningDelegate.java:57)
+<br/>at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2345)
+<br/>at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:2852)
+<br/>at org.hibernate.action.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:71)
+<br/>at org.hibernate.engine.ActionQueue.execute(ActionQueue.java:273)
+<br/>at org.hibernate.event.def.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:320)
+<br/>at org.hibernate.event.def.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:203)
+<br/>at org.hibernate.event.def.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:129)
+<br/>at org.hibernate.ejb.event.EJB3PersistEventListener.saveWithGeneratedId(EJB3PersistEventListener.java:69)
+<br/>at org.hibernate.event.def.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:179)
+<br/>at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:135)
+<br/>at org.hibernate.event.def.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:61)
+<br/>at org.hibernate.impl.SessionImpl.firePersist(SessionImpl.java:808)
+<br/>at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:782)
+<br/>at org.hibernate.impl.SessionImpl.persist(SessionImpl.java:786)
+<br/>at org.hibernate.ejb.AbstractEntityManagerImpl.persist(AbstractEntityManagerImpl.java:672)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:240)
+<br/>at $Proxy27.persist(Unknown Source)
+<br/>at com.googlecode.genericdao.dao.jpa.JPABaseDAO._persist(JPABaseDAO.java:99)
+<br/>at com.googlecode.genericdao.dao.jpa.GenericDAOImpl.persist(GenericDAOImpl.java:109)
+<br/>at at.basketballsalzburg.bbstats.services.impl.GameServiceImpl.save(GameServiceImpl.java:35)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+<br/>at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
+<br/>at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
+<br/>at java.lang.reflect.Method.invoke(Method.java:597)
+<br/>at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:309)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:183)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:150)
+<br/>at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:110)
+<br/>at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:172)
+<br/>at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:202)
+<br/>at $Proxy32.save(Unknown Source)
+<br/>at at.basketballsalzburg.bbstats.GameServiceTest.addAgeGroup(GameServiceTest.java:87)
+<br/>32 lines not shown
+</div>
+<p class="totop"><a href="#summary">back to summary</a></p>
+</body></html>

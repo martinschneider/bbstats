@@ -1,0 +1,35 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+<t:zone t:id="playerEditorZone">
+	<t:if test="editorVisible">
+		<t:box t:id="playerEditorBox">
+			<t:playerEditor t:id="playerEditor" playerParameter="player" />
+		</t:box>
+		<p:else>
+			<div class="button-bar">
+				<t:eventlink t:id="newPlayer" class="button-inline">${message:newPlayer}</t:eventlink>
+				<t:eventlink t:id="downloadXLS" class="button-inline">${message:downloadXLS}</t:eventlink>
+			</div>
+		</p:else>
+	</t:if>
+</t:zone>
+<t:zone t:id="playerGridZone">
+	<t:box t:id="playerGridBox">
+		<t:grid t:id="playersGrid">
+			<p:birthdayCell>
+				<t:output format="literal:dd.MM.yyyy"
+					value="player.birthday" />
+			</p:birthdayCell>
+			<p:editCell>
+				<t:eventlink t:id="editPlayer" class="edit-item" title="${message:edit}"/>
+			</p:editCell>
+			<p:deleteCell>
+				<t:eventlink t:id="deletePlayer" class="delete-item" title="${message:delete}"/>
+			</p:deleteCell>
+		</t:grid>
+	</t:box>
+</t:zone>
+
+</html>

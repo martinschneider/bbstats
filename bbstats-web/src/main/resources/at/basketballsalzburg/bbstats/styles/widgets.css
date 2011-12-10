@@ -1,0 +1,201 @@
+@charset "UTF-8";
+
+/***********************************************************************************************************************
+ * custom widget styles
+ **********************************************************************************************************************/
+
+/***********************************************************************************************************************
+ * buttons
+ **********************************************************************************************************************/
+
+.button-inline, 
+.button-glass {
+	min-width: 50px;
+	text-align: center;
+}
+
+/** inline buttons ****************************************************************************************************/
+.button-inline {
+	background-image: url("../images/buttons.png");
+	background-position: 0px 0px;
+	background-repeat: repeat-x;
+	display: inline-block;
+	height: 23px;
+	line-height: 23px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-right: 10px;
+	color: #000;
+	border-radius: 3px 3px;
+	-webkit-border-radius: 3px 3px;
+	box-shadow: 2px 2px 1px #9F9F9F;
+	-moz-box-shadow: 2px 2px 1px #9F9F9F;
+	-webkit-box-shadow: 2px 2px 1px #9F9F9F;
+	filter: progid:DXImageTransform.Microsoft.Shadow(Direction=135, Strength=3, Color='#303030');
+	text-decoration: none;
+}
+
+.button-inline:active {
+	background-position: 0px -23px;
+	text-decoration: none;
+	color: #fff;
+	box-shadow: 1px 1px 1px #9F9F9F;
+	-webkit-box-shadow: 1px 1px 1px #9F9F9F;
+	filter: progid:DXImageTransform.Microsoft.Shadow(Direction=135, Strength=1, Color='#303030');
+}
+
+.button-inline:hover, .button-inline:focus {
+	background-position: 0px -23px;
+	text-decoration: none;
+	color: #fff;
+	outline: 0px;
+}
+
+/** glas buttons ******************************************************************************************************/
+.button-glass {
+	background-image: url("../images/layout/buttons.png");
+	background-position: 0px -46px;
+	background-repeat: repeat-x;
+	display: inline-block;
+	height: 25px;
+	line-height: 25px;
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+	color: #000;
+	border-radius: 5px 5px;
+	-webkit-border-radius: 5px 5px;
+	box-shadow: 3px 3px 3px #9F9F9F;
+	-webkit-box-shadow: 3px 3px 3px #9F9F9F;
+	filter: progid:DXImageTransform.Microsoft.Shadow(Direction=135, Strength=3, Color='#303030');
+	text-decoration: none;
+}
+
+.button-glass:active {
+	background-position: 0px -71px;
+	text-decoration: none;
+	color: #fff;
+	box-shadow: 1px 1px 1px #9F9F9F;
+	-webkit-box-shadow: 1px 1px 1px #9F9F9F;
+	filter: progid:DXImageTransform.Microsoft.Shadow(Direction=135, Strength=1, Color='#303030');
+}
+
+.button-glass:hover, .button-glass:focus {
+	background-position: 0px -71px;
+	text-decoration: none;
+	color: #fff;
+	outline: 0px;
+}
+
+/** toolbar buttons ***************************************************************************************************/
+.button-toolbar {
+    background-image: url("../images/buttons.png");
+    background-position: 0px 0px;
+    background-repeat: repeat-x;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
+    maring-right: 10px;
+    color: #000;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    box-shadow: 2px 2px 2px #9F9F9F;
+    -webkit-box-shadow: 2px 2px 2px #9F9F9F;
+    filter: progid:DXImageTransform.Microsoft.Shadow(Direction=135, Strength=2, Color='black');
+}
+
+.button-toolbar:active {
+    background-position: 0px -23px;
+    text-decoration: none;
+    color: #000;
+    box-shadow: 1px 1px 1px #9F9F9F;
+    -webkit-box-shadow: 1px 1px 1px #9F9F9F;
+    filter: progid:DXImageTransform.Microsoft.Shadow(Direction=135, Strength=1, Color='black');
+    margin-top: 1px;
+    margin-left: 1px;
+    margin-bottom: -1px;
+    margin-right: -1px;
+}
+
+.button-toolbar:hover, .button-toolbar:focus {
+    background-position: 0px -23px;
+    text-decoration: none;
+    color: #000;
+    outline: 0px;
+}
+
+/* disabled */
+.button-toolbar.disabled:hover, .button-toolbar.disabled:focus {
+	background-position: 0 0;
+	color: #AFAFAF;
+	cursor: default;
+}
+
+
+
+/***********************************************************************************************************************
+ * delete/edit
+ **********************************************************************************************************************/ 
+
+/* limit column width*/
+.edit, .delete, .stats-icon, .route-icon, .win, .loss {
+    width: 30px;
+}
+
+.delete-item, .edit-item, .stats-icon, .route-icon, .win, .loss {
+   padding: 0;
+   margin-right: 8px;
+   height: 24px;
+   width: 24px;
+   display: inline-block;
+   background-position: center center;
+   background-repeat: no-repeat;
+}
+
+.delete-item {
+   background-image: url("../images/delete.png");
+}
+
+.win {
+   background-image: url("../images/win.png");
+}
+
+.loss {
+   background-image: url("../images/loss.png");
+}
+
+.stats-icon {
+   background-image: url("../images/stats.png");
+}
+
+.stats-icon:hover {
+   background-image: url("../images/stats-hover.png");
+}
+
+.route-icon {
+   background-image: url("../images/route.png");
+}
+
+.route-icon:hover {
+   background-image: url("../images/route-hover.png");
+}
+
+.delete-item:hover {
+   background-image: url("../images/delete-hover.png");
+}
+
+.edit-item {
+    background-image: url("../images/edit.png");
+}
+
+.edit-item:hover {
+    background-image: url("../images/edit-hover.png");
+}
+
+.details {
+	width:500px;
+}
