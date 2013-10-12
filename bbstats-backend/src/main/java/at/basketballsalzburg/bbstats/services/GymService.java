@@ -4,6 +4,9 @@ import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.GymDTO;
 
+/**
+ * @author Martin Schneider
+ */
 public interface GymService {
 
 	public abstract void save(GymDTO gym);

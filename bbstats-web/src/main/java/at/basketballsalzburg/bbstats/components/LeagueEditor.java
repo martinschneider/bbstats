@@ -31,6 +31,7 @@ public class LeagueEditor {
 
 	@Component(parameters = { "value=league.shortname" })
 	private TextField shortname;
+
 	@Component
 	private LinkSubmit submit;
 

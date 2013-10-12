@@ -3,6 +3,9 @@ package at.basketballsalzburg.bbstats.dto;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+/**
+ * @author Martin Schneider
+ */
 public class AgeGroupDTO implements Comparable<AgeGroupDTO> {
 	private Long id;
 
@@ -34,5 +37,10 @@ public class AgeGroupDTO implements Comparable<AgeGroupDTO> {
 
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

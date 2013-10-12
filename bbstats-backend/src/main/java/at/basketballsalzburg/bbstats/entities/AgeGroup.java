@@ -1,11 +1,15 @@
 package at.basketballsalzburg.bbstats.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author Martin Schneider
+ */
 @Entity
 @Table(name = "bbstats_agegroup")
 public class AgeGroup {
@@ -14,6 +18,7 @@ public class AgeGroup {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(length = 30)
 	private String name;
 
 	public Long getId() {

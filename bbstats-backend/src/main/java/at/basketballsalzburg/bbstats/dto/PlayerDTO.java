@@ -2,11 +2,15 @@ package at.basketballsalzburg.bbstats.dto;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+/**
+ * @author Martin Schneider
+ */
 public class PlayerDTO implements Comparable<PlayerDTO> {
 	private Long id;
 
@@ -121,6 +125,14 @@ public class PlayerDTO implements Comparable<PlayerDTO> {
 
 	public String getDisplayName() {
 		return lastName + " " + firstName;
+	}
+
+	public String getNationalityDisplayName(Locale locale) {
+		try {
+			return new Locale("", nationality).getDisplayCountry(locale);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	public int compareTo(PlayerDTO rhs) {

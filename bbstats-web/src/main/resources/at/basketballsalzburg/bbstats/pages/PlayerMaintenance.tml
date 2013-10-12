@@ -1,35 +1,56 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
-	xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
 
-<t:zone t:id="playerEditorZone">
-	<t:if test="editorVisible">
-		<t:box t:id="playerEditorBox">
-			<t:playerEditor t:id="playerEditor" playerParameter="player" />
+	<t:zone t:id="playerEditorZone">
+		<t:if test="editorVisible">
+			<t:box t:id="playerEditorBox">
+				<t:playerEditor t:id="playerEditor" playerParameter="player" />
+			</t:box>
+			<p:else>
+				<div class="btn-group">
+					<t:eventlink t:id="newPlayer" class="btn btn-primary">${message:newPlayer}
+					</t:eventlink>
+					<t:eventlink t:id="downloadXLS" class="btn btn-primary">${message:downloadXLS}
+					</t:eventlink>
+				</div>
+			</p:else>
+		</t:if>
+	</t:zone>
+	<t:box t:id="filterBox">
+		<t:form t:id="form">
+			<ul class="inline-form">
+				<li>
+					<div class="control-group">
+						<t:label for="activeSinceField" class="control-label" />
+						<t:datetimefield t:id="activeSinceField" />
+						<t:linksubmit t:id="submit" class="btn btn-primary">${message:refresh}</t:linksubmit>
+					</div>
+				</li>
+			</ul>
+		</t:form>
 		</t:box>
-		<p:else>
-			<div class="button-bar">
-				<t:eventlink t:id="newPlayer" class="button-inline">${message:newPlayer}</t:eventlink>
-				<t:eventlink t:id="downloadXLS" class="button-inline">${message:downloadXLS}</t:eventlink>
-			</div>
-		</p:else>
-	</t:if>
-</t:zone>
-<t:zone t:id="playerGridZone">
-	<t:box t:id="playerGridBox">
-		<t:grid t:id="playersGrid">
-			<p:birthdayCell>
-				<t:output format="literal:dd.MM.yyyy"
-					value="player.birthday" />
-			</p:birthdayCell>
-			<p:editCell>
-				<t:eventlink t:id="editPlayer" class="edit-item" title="${message:edit}"/>
-			</p:editCell>
-			<p:deleteCell>
-				<t:eventlink t:id="deletePlayer" class="delete-item" title="${message:delete}"/>
-			</p:deleteCell>
-		</t:grid>
-	</t:box>
-</t:zone>
+	<t:zone t:id="playerGridZone">
+		<t:box t:id="playerGridBox">
+			<t:grid t:id="playersGrid" class="table-striped table-condensed">
+				<p:displayNameCell>
+					<t:pagelink t:id="playerDetail" context="${player.id}">${player.displayName}
+					</t:pagelink>
+				</p:displayNameCell>
+				<p:birthdayCell>
+					<t:output format="literal:dd.MM.yyyy" value="player.birthday" />
+				</p:birthdayCell>
+				<p:nationalityCell>
+					${player.getNationalityDisplayName(request.locale)}
+				</p:nationalityCell>
+				<p:editCell>
+					<t:eventlink t:id="editPlayer" class="edit-item" title="${message:edit}" />
+				</p:editCell>
+				<p:deleteCell>
+					<t:eventlink t:id="deletePlayer" class="delete-item"
+						title="${message:delete}" />
+				</p:deleteCell>
+			</t:grid>
+		</t:box>
+	</t:zone>
 
 </html>

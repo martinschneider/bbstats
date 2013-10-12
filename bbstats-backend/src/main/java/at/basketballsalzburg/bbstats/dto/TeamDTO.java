@@ -1,6 +1,9 @@
 package at.basketballsalzburg.bbstats.dto;
 
-public class TeamDTO {
+/**
+ * @author Martin Schneider
+ */
+public class TeamDTO implements Comparable<TeamDTO>{
 
 	private Long id;
 
@@ -32,4 +35,12 @@ public class TeamDTO {
 		this.shortName = shortName;
 	}
 
+	public int compareTo(TeamDTO rhs) {
+		return name.compareTo(rhs.getName());
+	}
+
+	public String toString()
+	{
+		return name;
+	}
 }

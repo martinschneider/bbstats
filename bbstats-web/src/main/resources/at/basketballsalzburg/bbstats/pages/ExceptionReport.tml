@@ -1,0 +1,16 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<head>
+<title>${message:error}</title>
+</head>
+
+<body>
+
+	<t:box t:id="exceptionBox">${exceptionOutput}</t:box>
+	<p>
+		<t:pagelink page="index">${message:backToStart}</t:pagelink>
+	</p>
+
+</body>
+
+</html>

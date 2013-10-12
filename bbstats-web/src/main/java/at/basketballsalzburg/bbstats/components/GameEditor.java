@@ -1,21 +1,34 @@
 package at.basketballsalzburg.bbstats.components;
 
+import java.util.ArrayList;
+
+import org.apache.tapestry5.Asset;
+import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.Block;
+import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
+import org.apache.tapestry5.beaneditor.Validate;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
 import org.apache.tapestry5.corelib.components.Palette;
 import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
+import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
-import org.chenillekit.tapestry.core.components.DateTimeField;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
@@ -33,6 +46,7 @@ import at.basketballsalzburg.bbstats.utils.LeagueSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
 import at.basketballsalzburg.bbstats.utils.TeamSelectModel;
 
+@Import(library = { "GameEditor.js" })
 public class GameEditor {
 	public static final String GAME_EDIT_CANCEL = "gameeditcancel";
 	public static final String GAME_EDIT_SAVE = "gameeditsave";
@@ -65,6 +79,14 @@ public class GameEditor {
 	private SelectModelFactory selectModelFactory;
 
 	@Inject
+	private JavaScriptSupport javaScriptSupport;
+
+	@Inject
+	@Property
+	@Path("GameEditor.js")
+	private Asset gameEditorJs;
+
+	@Inject
 	@Property
 	private CoachValueEncoder coachValueEncoder;
 
@@ -76,53 +98,96 @@ public class GameEditor {
 	@Property
 	private AgeGroupValueEncoder ageGroupValueEncoder;
 
+	private Object zoneToUpdate;
+
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
+	@Property
+	private String zone;
+
+	@Component
+	private Zone periodsZone;
+
 	@Component
 	// (parameters = { "zone=gameEditZone" })
 	private Form gameEditForm;
 
-	// @Component
-	// private Zone gameEditZone;
-
-	@Component
+	@Component(parameters="type=innerbox")
 	private Box gameStatBox;
 
 	@Component(parameters = { "value=game.dateTime",
 			"datePattern=dd.MM.yyyy, HH:mm", "timePicker=true",
-			"timePickerAdjacent=true" })
+			"timePickerAdjacent=true", "use24hrs=true" })
+	@Validate(value = "required")
 	private DateTimeField date;
 
-	@Component(parameters = { "value=game.periods" })
-	private TextField periods;
+	@Component(parameters = { "value=game.periods", "model=literal:4,2,1",
+			"zone=periodsZone", "blankOption=NEVER" })
+	@Validate(value = "required")
+	private Select periods;
 
 	@Component(parameters = { "value=game.scoreA1", "nulls=zero" })
-	private TextField scoreA1;
+	@Validate(value = "min=0")
+	private TextField scoreA;
 
 	@Component(parameters = { "value=game.scoreB1", "nulls=zero" })
-	private TextField scoreB1;
+	@Validate(value = "min=0")
+	private TextField scoreB;
 
-	@Component(parameters = { "value=game.scoreA2", "nulls=zero" })
-	private TextField scoreA2;
+	@Component(parameters = { "value=game.scoreA1", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreAFirstHalf;
 
-	@Component(parameters = { "value=game.scoreB2", "nulls=zero" })
-	private TextField scoreB2;
+	@Component(parameters = { "value=game.scoreB1", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreBFirstHalf;
 
 	@Component(parameters = { "value=game.scoreA3", "nulls=zero" })
-	private TextField scoreA3;
+	@Validate(value = "min=0")
+	private TextField scoreASecondHalf;
 
 	@Component(parameters = { "value=game.scoreB3", "nulls=zero" })
-	private TextField scoreB3;
+	@Validate(value = "min=0")
+	private TextField scoreBSecondHalf;
+
+	@Component(parameters = { "value=game.scoreA1", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreAFirstQuarter;
+
+	@Component(parameters = { "value=game.scoreB1", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreBFirstQuarter;
+
+	@Component(parameters = { "value=game.scoreA2", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreASecondQuarter;
+
+	@Component(parameters = { "value=game.scoreB2", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreBSecondQuarter;
+
+	@Component(parameters = { "value=game.scoreA3", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreAThirdQuarter;
+
+	@Component(parameters = { "value=game.scoreB3", "nulls=zero" })
+	@Validate(value = "min=0")
+	private TextField scoreBThirdQuarter;
 
 	@Component(parameters = { "value=game.scoreA4", "nulls=zero" })
-	private TextField scoreA4;
+	@Validate(value = "min=0")
+	private TextField scoreAFourthQuarter;
 
 	@Component(parameters = { "value=game.scoreB4", "nulls=zero" })
-	private TextField scoreB4;
+	@Validate(value = "min=0")
+	private TextField scoreBFourthQuarter;
 
 	@Component(parameters = { "value=game.scoreAV", "nulls=zero" })
-	private TextField scoreAV;
+	@Validate(value = "min=0")
+	private TextField scoreAOvertime;
 
 	@Component(parameters = { "value=game.scoreBV", "nulls=zero" })
-	private TextField scoreBV;
+	@Validate(value = "min=0")
+	private TextField scoreBOvertime;
 
 	@Component(parameters = { "value=gymId", "model=gymSelectModel" })
 	private Select gymSelect;
@@ -148,7 +213,10 @@ public class GameEditor {
 			"selectedLabel=message:selectedAgeGroups" })
 	private Palette ageGroupPalette;
 
-	@Component(parameters = "gameStatsParameter=game.stats")
+	@Inject
+	private Block onePeriod, twoPeriods, fourPeriods;
+
+	@Component
 	private GameStatEditor gameStatEditor;
 
 	@Property
@@ -169,25 +237,32 @@ public class GameEditor {
 	@Property
 	private SelectModel teamSelectModel;
 
-	@Component
+	@Component(parameters = { "zone=prop:zone" })
 	private LinkSubmit submitButton;
 
-	@Component(parameters = "event=cancel")
+	@Component(parameters = { "event=cancel", "zone=prop:zone" })
 	private EventLink cancel;
 
 	@Persist
 	private GameDTO game;
 
 	@Property
+	@Validate(value = "required")
 	private Long gymId;
 
 	@Property
+	@Validate(value = "required")
+	@Persist
 	private Long leagueId;
 
 	@Property
+	@Validate(value = "required")
+	@Persist
 	private Long teamAId;
 
 	@Property
+	@Validate(value = "required")
+	@Persist
 	private Long teamBId;
 
 	public GameDTO getGame() {
@@ -198,14 +273,37 @@ public class GameEditor {
 		this.game = game;
 	}
 
+	@AfterRender
+	void afterRender() {
+		javaScriptSupport.importJavaScriptLibrary(gameEditorJs);
+	}
+
 	@OnEvent(value = "selected", component = "submitButton")
-	void onSubmtButton() {
+	void onSubmitButton() {
 		gameStatEditor.setModified(false);
 	}
 
-	void onSuccessFromGameEditForm() {
+	@OnEvent(value = EventConstants.VALUE_CHANGED, component = "periods")
+	Object onValueChangedFromPeriods(int value) {
+		if (value == 1) {
+			game.setScoreA2(0);
+			game.setScoreA3(0);
+			game.setScoreA4(0);
+			game.setScoreB2(0);
+			game.setScoreB3(0);
+			game.setScoreB4(0);
+		} else if (value == 2) {
+			game.setScoreA2(0);
+			game.setScoreA4(0);
+			game.setScoreB2(0);
+			game.setScoreB4(0);
+		}
+		return periodsZone;
+	}
+
+	Object onSuccessFromGameEditForm() {
 		if (gameStatEditor.isModified()) {
-			return;
+			return false;
 		}
 		game.setGym(gymService.findById(gymId));
 		game.setLeague(leagueService.findById(leagueId));
@@ -218,12 +316,27 @@ public class GameEditor {
 			}
 		}
 		gameService.save(game);
-		componentResources.triggerEvent(GAME_EDIT_SAVE, null, null);
+		componentResources.triggerEvent(GAME_EDIT_SAVE, null, getMyCallback());
+		return false; // return zoneToUpdate
+	}
+
+	private ComponentEventCallback<Object> getMyCallback() {
+
+		ComponentEventCallback<Object> callback = new ComponentEventCallback<Object>() {
+			public boolean handleResult(Object result) {
+				zoneToUpdate = result;
+				return false;
+			}
+		};
+
+		return callback;
 	}
 
 	@OnEvent(value = "cancel")
-	void onEventFromCancel() {
-		componentResources.triggerEvent(GAME_EDIT_CANCEL, null, null);
+	Object onEventFromCancel() {
+		componentResources
+				.triggerEvent(GAME_EDIT_CANCEL, null, getMyCallback());
+		return zoneToUpdate;
 	}
 
 	@SetupRender
@@ -249,6 +362,24 @@ public class GameEditor {
 				"displayName");
 		ageGroupSelectModel = selectModelFactory.create(
 				ageGroupService.findAll(), "name");
+
+		if (game.getStats() == null) {
+			game.setStats(new ArrayList<GameStatDTO>());
+		}
 		gameStatEditor.setGameStats(game.getStats());
+		gameStatEditor.setGameId(game.getId());
+	}
+
+	public Object getPeriodResultFields() {
+		switch (game.getPeriods().intValue()) {
+		case 1:
+			return onePeriod;
+		case 2:
+			return twoPeriods;
+		case 4:
+			return fourPeriods;
+		default:
+			return null;
+		}
 	}
 }

@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.basketballsalzburg.bbstats.dao.GymDAO;
@@ -12,8 +14,10 @@ import at.basketballsalzburg.bbstats.dto.GymDTO;
 import at.basketballsalzburg.bbstats.entities.Gym;
 import at.basketballsalzburg.bbstats.services.GymService;
 
-import com.googlecode.genericdao.search.Search;
-
+/**
+ * @author Martin Schneider
+ */
+@Repository
 @Transactional
 public class GymServiceImpl implements GymService {
 	private GymDAO dao;
@@ -32,19 +36,13 @@ public class GymServiceImpl implements GymService {
 
 	/** {@inheritDoc} **/
 	public void save(GymDTO dto) {
-		Gym gym = mapper.map(dto, Gym.class);
-		if (gym.getId() == null) {
-			dao.persist(gym);
-		} else {
-			dao.merge(gym);
-		}
-		dao.flush();
+		dao.saveAndFlush(mapper.map(dto, Gym.class));
 	}
 
 	/** {@inheritDoc} **/
 	public List<GymDTO> findAll() {
 		List<GymDTO> gyms = new ArrayList<GymDTO>();
-		for (Gym gym : dao.findAll()) {
+		for (Gym gym : dao.findAll(new Sort(Sort.Direction.ASC, "city", "name"))) {
 			gyms.add(mapper.map(gym, GymDTO.class));
 		}
 		return gyms;
@@ -52,18 +50,14 @@ public class GymServiceImpl implements GymService {
 
 	/** {@inheritDoc} **/
 	public GymDTO findByName(String name) {
-		if (name == null)
-			return null;
-		return mapper.map(
-				dao.searchUnique(new Search().addFilterEqual("name", name)),
-				GymDTO.class);
+		return mapper.map(dao.findByName(name), GymDTO.class);
 	}
 
 	public GymDTO findById(Long gymId) {
-		return mapper.map(dao.find(gymId), GymDTO.class);
+		return mapper.map(dao.findOne(gymId), GymDTO.class);
 	}
 
 	public void delete(GymDTO gym) {
-		dao.remove(mapper.map(gym, Gym.class));
+		dao.delete(mapper.map(gym, Gym.class));
 	}
 }

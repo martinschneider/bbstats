@@ -4,6 +4,9 @@ import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.TeamDTO;
 
+/**
+ * @author Martin Schneider
+ */
 public interface TeamService {
 
 	public abstract void save(TeamDTO team);
@@ -14,5 +17,5 @@ public interface TeamService {
 
 	public abstract void delete(TeamDTO league);
 
-	public abstract TeamDTO findById(Long leagueId);
+	public abstract TeamDTO findById(Long teamId);
 }

@@ -1,28 +1,15 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
 
-<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
-
-		<t:if test="boxTitle">
-			<div class="${type}box-title-bar">
-				<div class="title-container">
-					<t:if test="boxIcon">
-						<img src="${boxIcon}" class="box-icon" title="${boxIconAltText}" alt="${boxIconAltText}"  />
-					</t:if>
-					<span class="title">${boxTitle}</span>
-					
-		            <t:if test="headerBlock">
-		                <span class="box-edit">
-		                    <t:delegate to="headerBlock" />
-		                </span>
-		            </t:if>
-		            					       
-				</div>
-			</div>
-		
-		   <p:else></p:else>
-		</t:if>
-	
-		<div class="${type}box-body">
-			<t:body />
+	<t:if test="boxTitle">
+		<div class="box-title">
+				${boxTitle}
 		</div>
+
+		<p:else></p:else>
+	</t:if>
+	<div class="${type}box-body">
+		<t:body />
+	</div>
 
 </t:container>

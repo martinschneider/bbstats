@@ -1,24 +1,23 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.tapestry5.Asset;
-import org.apache.tapestry5.annotations.AfterRender;
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
+import org.apache.tapestry5.beaneditor.BeanModel;
+import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Grid;
-import org.apache.tapestry5.corelib.components.LinkSubmit;
+import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
-import org.chenillekit.tapestry.core.components.DateTimeField;
+import org.apache.tapestry5.services.BeanModelSource;
 
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.GameEditor;
@@ -27,49 +26,43 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
+import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.GymService;
+import at.basketballsalzburg.bbstats.utils.LeaguePropertyConduit;
+import at.basketballsalzburg.bbstats.utils.TeamPropertyConduit;
 
 public class Games {
-
-	private static final String TEAM_NAME = "BSC Salzburg";
 
 	@Component
 	private PageLayout pageLayout;
 
-	@Component(parameters = "title=message:gameFilterBoxTitle")
-	private Box gameFilterBox;
-
-	@Component(parameters = "title=message:gameEditorBoxTitle")
-	private Box gameEditorBox;
-
-	@Component(parameters = "title=message:gameGridBoxTitle")
+	@Component(parameters = { "title=message:gameGridBoxTitle", "type=tablebox" })
 	private Box gameGridBox;
 
-	@Component(parameters = "title=message:statsBoxTitle")
-	private Box statsBox;
-
-	@Component
+	@Component(parameters = { "zone=gameEditorZone" })
 	private GameEditor gameEditor;
 
-	@Component(parameters = { "value=dateFrom", "datePattern=dd.MM.yyyy" })
-	private DateTimeField dateFromField;
-
-	@Component(parameters = { "value=dateTo", "datePattern=dd.MM.yyyy" })
-	private DateTimeField dateToField;
+	@Component(parameters = { "title=message:gameEditorBoxTitle" })
+	private Box gameEditorBox;
 
 	@Component
-	private LinkSubmit dateSubmit;
+	private Zone gameEditorZone;
 
-	@Component(parameters = { "source=gameList", "empty=message:noGameData",
-			"row=game", "include=dateTime", "rowsPerPage=9999",
-			"add=teama,teamb,result,stats,league,winloss,edit,delete",
-			"reorder=winloss,dateTime,league,teama,teamb,result,stats,edit,delete" })
+	// columns depend on user roles. use custom model and exclude instead of
+	// include
+	@Component(parameters = {
+			"source=gameList",
+			"empty=message:noGameData",
+			"row=game",
+			"rowsPerPage=20",
+			"exclude=id,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
+			"reorder=winloss", "model=gameModel", "inplace=true" })
 	private Grid gameGrid;
 
 	@Component(parameters = { "source=game.stats", "empty=message:noStatsData",
 			"row=gameStat", "include=points,fta,ftm,threes,fouls", "add=name",
-			"reorder=name,points,fta,ftm,threes,fouls" })
+			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true" })
 	private Grid statGrid;
 
 	@Inject
@@ -77,14 +70,6 @@ public class Games {
 
 	@Inject
 	private GymService gymService;
-
-	@Inject
-	private JavaScriptSupport javaScriptSupport;
-
-	@Inject
-	@Property
-	@Path("Games.js")
-	private Asset gamesJs;
 
 	@Property
 	private GameDTO game;
@@ -100,27 +85,25 @@ public class Games {
 
 	@Property
 	@Persist
-	private Date dateFrom;
-
-	@Property
-	@Persist
-	private Date dateTo;
-
-	@Property
-	@Persist
 	private List<GameDTO> gameList;
 
-	@Component(parameters = { "event=edit", "context=game.id" })
+	@Component(parameters = { "event=edit", "context=game.id",
+			"Permission.allowedPermissions=editGame" })
+	@MixinClasses(Permission.class)
 	private EventLink editGame;
 
-	@Component(parameters = { "event=delete", "context=game.id" })
+	@Component(parameters = { "event=delete", "context=game.id",
+			"zone=gameGridZone", "Permission.allowedPermissions=deleteGame" })
+	@MixinClasses(Permission.class)
 	private EventLink deleteGame;
 
-	@Component(parameters = { "event=new" })
+	@Component(parameters = { "event=new",
+			"Permission.allowedPermissions=newGame" })
+	@MixinClasses(Permission.class)
 	private EventLink newGame;
 
-	@Component
-	private Zone gameEditorZone;
+	@Component(parameters = { "page=player" })
+	private PageLink playerDetail;
 
 	@Component
 	private Zone gameGridZone;
@@ -129,66 +112,77 @@ public class Games {
 	@Persist
 	private boolean editorVisible;
 
-	private boolean ot;
-
 	@SetupRender
 	void setup() {
-		if (dateTo == null) {
-			dateTo = new Date();
-		}
-		if (dateFrom == null) {
-			Calendar now = Calendar.getInstance();
-			now.add(Calendar.MONTH, -1);
-			dateFrom = now.getTime();
-		}
-		if (gameList == null) {
-			gameList = gameService.findAll(dateFrom, dateTo);
-		}
-	}
-
-	@AfterRender
-	void afterRender() {
-		javaScriptSupport.importJavaScriptLibrary(gamesJs);
+		gameList = gameService.findBefore(new Date());
 	}
 
 	@OnEvent(value = "new")
 	Object onNew() {
+		editorVisible = true;
 		GameDTO newGame = new GameDTO();
 		gameEditor.setGame(newGame);
-		editorVisible = true;
-		return gameEditorZone;
+		gameEditor.getGame().setPeriods(4);
+		return this;
 	}
 
 	@OnEvent(value = GameEditor.GAME_EDIT_CANCEL)
-	void onCancel() {
+	Object onCancel() {
 		editorVisible = false;
+		gameList = gameService.findBefore(new Date());
+		return gameEditorZone.getBody();
 	}
 
 	@OnEvent(value = GameEditor.GAME_EDIT_SAVE)
-	void onSave() {
+	Object onSave() {
 		editorVisible = false;
+		gameList = gameService.findBefore(new Date());
+		return gameEditorZone.getBody();
 	}
 
 	@OnEvent(value = "edit")
 	Object onEdit(Long gameId) {
-		gameEditor.setGame(findGameById(gameId));
 		editorVisible = true;
-		return gameEditorZone;
+		gameEditor.setGame(findGameById(gameId));
+		return this;
 	}
 
 	@OnEvent(value = "delete")
 	Object onDelete(Long gameId) {
 		gameService.delete(gameService.findById(gameId));
-		gameList = gameService.findAll(dateFrom, dateTo);
+		gameList = gameService.findBefore(new Date());
 		return gameGridZone;
 	}
 
-	Object onSuccess() {
-		gameList = gameService.findAll(dateFrom, dateTo);
-		return gameGridZone;
+	@Inject
+	private BeanModelSource beanModelSource;
+	@Inject
+	private ComponentResources componentResources;
+
+	public BeanModel<GameDTO> getGameModel() {
+		BeanModel<GameDTO> beanModel = beanModelSource.createDisplayModel(
+				GameDTO.class, componentResources.getMessages());
+		beanModel.add("winloss", null).sortable(false);
+		beanModel.add("teama", new TeamPropertyConduit(1)).sortable(true);
+		beanModel.add("teamb", new TeamPropertyConduit(2)).sortable(true);
+		beanModel.add("league", new LeaguePropertyConduit()).sortable(true);
+		beanModel.add("result", null).sortable(false);
+		if (pageLayout.isPermitted("viewStats")) {
+			beanModel.add("stats", null).sortable(false);
+		}
+		if (pageLayout.isPermitted("editGame")) {
+			beanModel.add("edit", null).sortable(false);
+		}
+		if (pageLayout.isPermitted("deleteGame")) {
+			beanModel.add("delete", null).sortable(false);
+		}
+		return beanModel;
 	}
 
 	private GameDTO findGameById(Long gameId) {
+		if (gameList == null) {
+			setup();
+		}
 		for (GameDTO game : gameList) {
 			if (game.getId().equals(gameId)) {
 				return game;
@@ -197,64 +191,23 @@ public class Games {
 		return null;
 	}
 
-	public String printEndResult(GameDTO game) {
-		ot = false;
-		int sumA = game.getScoreA1().intValue() + game.getScoreA2().intValue()
-				+ game.getScoreA3().intValue() + game.getScoreA4().intValue();
-		int sumB = game.getScoreB1().intValue() + game.getScoreB2().intValue()
-				+ game.getScoreB3().intValue() + game.getScoreB4().intValue();
-		if (sumA == sumB) {
-			ot = true;
-			sumA += game.getScoreAV();
-			sumB += game.getScoreBV();
-		}
-		String resultStr = sumA + ":" + sumB;
-		return resultStr;
+	public boolean isNoResult() {
+		return (game.getScoreA() == 0 && game.getScoreB() == 0);
 	}
 
 	public boolean isOT() {
-		return ot;
-	}
-
-	public String printPeriodResults(GameDTO game) {
-		boolean ot = false;
-		int sumA = game.getScoreA1().intValue() + game.getScoreA2().intValue()
-				+ game.getScoreA3().intValue() + game.getScoreA4().intValue();
-		int sumB = game.getScoreB1().intValue() + game.getScoreB2().intValue()
-				+ game.getScoreB3().intValue() + game.getScoreB4().intValue();
-		if (sumA == sumB) {
-			ot = true;
-		}
-		String resultStr = "";
-		if (game.getPeriods().equals(4)) {
-			resultStr += " (" + game.getScoreA1() + ":" + game.getScoreB1()
-					+ ", " + game.getScoreA2() + ":" + game.getScoreB2() + ", "
-					+ game.getScoreA3() + ":" + game.getScoreB3() + ", "
-					+ game.getScoreA4() + ":" + game.getScoreB4();
-		} else if (game.getPeriods().equals(2)) {
-			resultStr += " (" + game.getScoreA1() + ":" + game.getScoreB1()
-					+ ", " + game.getScoreA3() + ":" + game.getScoreB3();
-		}
-		if (ot) {
-			resultStr += ", " + game.getScoreAV() + ":" + game.getScoreBV();
-		}
-		if (game.getPeriods().intValue() > 1) {
-			resultStr += ")";
-		}
-		return resultStr;
+		return game.isOT();
 	}
 
 	public boolean isWin() {
-		int sumA = game.getScoreA1().intValue() + game.getScoreA2().intValue()
-				+ game.getScoreA3().intValue() + game.getScoreA4().intValue()
-				+ game.getScoreAV().intValue();
-		int sumB = game.getScoreB1().intValue() + game.getScoreB2().intValue()
-				+ game.getScoreB3().intValue() + game.getScoreB4().intValue()
-				+ game.getScoreAV().intValue();
-		if ((game.getTeamA().getName().contains(TEAM_NAME) && sumA >= sumB)
-				|| (game.getTeamB().getName().contains(TEAM_NAME) && sumB >= sumA)) {
-			return true;
-		}
-		return false;
+		return gameService.isWin(game);
+	}
+
+	public boolean isHome() {
+		return gameService.isHome(game);
+	}
+
+	public boolean isAway() {
+		return gameService.isAway(game);
 	}
 }

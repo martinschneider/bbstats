@@ -2,8 +2,10 @@ package at.basketballsalzburg.bbstats.pages;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -19,8 +21,11 @@ import at.basketballsalzburg.bbstats.components.AgeGroupEditor;
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.PageLayout;
 import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
+import at.basketballsalzburg.bbstats.mixins.Permission;
+import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.AgeGroupService;
 
+@RequiresPermissions(Permissions.ageGroupMaintenancePage)
 public class AgeGroupMaintenance {
 
 	@Component
@@ -30,8 +35,9 @@ public class AgeGroupMaintenance {
 	private AgeGroupEditor ageGroupEditor;
 
 	@Component(parameters = { "source=ageGroupsList", "model=ageGroupModel",
-			"empty=message:noData", "row=ageGroup", "rowsPerPage=9999",
-			"include=name", "add=edit,delete", "reorder=name,edit,delete" })
+			"empty=message:noData", "row=ageGroup", "rowsPerPage=20",
+			"include=name", "add=edit,delete", "reorder=name,edit,delete",
+			"inplace=true" })
 	private Grid ageGroupGrid;
 
 	@Component
@@ -43,16 +49,23 @@ public class AgeGroupMaintenance {
 	@Component(parameters = "title=message:ageGroupEditorBoxTitle")
 	private Box ageGroupEditorBox;
 
-	@Component(parameters = "title=message:ageGroupGridBoxTitle")
+	@Component(parameters = { "title=message:ageGroupGridBoxTitle",
+			"type=tablebox" })
 	private Box ageGroupGridBox;
 
-	@Component(parameters = { "event=edit", "context=ageGroup.id" })
+	@Component(parameters = { "event=edit", "context=ageGroup.id",
+			"Permission.allowedPermissions=editAgeGroup" })
+	@MixinClasses(Permission.class)
 	private EventLink editAgeGroup;
 
-	@Component(parameters = { "event=delete", "context=ageGroup.id" })
+	@Component(parameters = { "event=delete", "context=ageGroup.id",
+			"Permission.allowedPermissions=deleteAgeGroup" })
+	@MixinClasses(Permission.class)
 	private EventLink deleteAgeGroup;
 
-	@Component(parameters = { "event=new" })
+	@Component(parameters = { "event=new",
+			"Permission.allowedPermissions=newAgeGroup" })
+	@MixinClasses(Permission.class)
 	private EventLink newAgeGroup;
 
 	@Inject

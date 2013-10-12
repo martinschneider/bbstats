@@ -1,12 +1,17 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 
 	<t:form t:id="ageGroupEditForm">
-		<t:label for="name" />
-		<t:textfield t:id="name" />
-		<br />
-		<div class="button-bar">
-			<t:linksubmit t:id="submit" class="button-inline">${message:save}</t:linksubmit>
-			<t:eventlink t:id="cancel" class="button-inline">${message:cancel}</t:eventlink>
+		<div class="control-group">
+			<t:label for="name" />
+			<div class="controls">
+				<t:textfield t:id="name" t:validate="required" />
+			</div>
+		</div>
+		<div class="btn-group">
+			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}
+			</t:linksubmit>
+			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}
+			</t:eventlink>
 		</div>
 	</t:form>
 

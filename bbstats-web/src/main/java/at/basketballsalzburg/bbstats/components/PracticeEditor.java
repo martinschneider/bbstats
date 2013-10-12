@@ -3,6 +3,7 @@ package at.basketballsalzburg.bbstats.components;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -15,7 +16,6 @@ import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
-import org.chenillekit.tapestry.core.components.DateTimeField;
 
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
 import at.basketballsalzburg.bbstats.entities.Coach;
@@ -30,6 +30,7 @@ import at.basketballsalzburg.bbstats.utils.CoachValueEncoder;
 import at.basketballsalzburg.bbstats.utils.GymSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
 
+@Import(library = "PracticeEditor.js")
 public class PracticeEditor {
 	public static final String PRACTICE_EDIT_CANCEL = "practiceeditcancel";
 	public static final String PRACTICE_EDIT_SAVE = "practiceeditsave";
@@ -72,11 +73,14 @@ public class PracticeEditor {
 
 	@Component(parameters = { "value=practice.dateTime",
 			"datePattern=dd.MM.yyyy, HH:mm", "timePicker=true",
-			"timePickerAdjacent=true" })
+			"timePickerAdjacent=true", "use24hrs=true" })
 	private DateTimeField date;
 
 	@Component(parameters = { "value=practice.duration" })
 	private TextField duration;
+
+	@Component(parameters = { "value=practice.comment" })
+	private TextField comment;
 
 	@Component(parameters = { "value=gymId", "model=gymSelectModel" })
 	private Select gymSelect;

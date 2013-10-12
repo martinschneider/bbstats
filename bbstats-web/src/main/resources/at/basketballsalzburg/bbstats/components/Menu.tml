@@ -1,0 +1,43 @@
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
+	xmlns:p="tapestry:parameter">
+
+	<div class="navbar navbar-fixed-top navbar-inverse">
+		<div class="navbar-inner">
+			<ul class="nav">
+			    <li class="main">
+			    	<a href="${homepageUrl}">${homepageName}</a>
+			    </li>
+				<t:loop t:source="menuItems" t:value="item">
+					<t:if test="item.group" negate="true">
+						<li>
+							<t:pagelink page="${item.page}">${item.key}</t:pagelink>
+						</li>
+						<p:else>
+							<li class="dropdown">
+								<a href="#" role="button" class="dropdown-toggle"
+									data-toggle="dropdown">
+									${item.key}
+									<b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+									<t:loop t:source="item.items" t:value="subitem">
+										<li>
+											<t:pagelink page="${subitem.page}">${subitem.key}</t:pagelink>
+										</li>
+									</t:loop>
+								</ul>
+							</li>
+						</p:else>
+					</t:if>
+				</t:loop>
+			</ul>
+
+			<ul class="nav pull-right">
+				<li>
+					<t:loginLink t:id="loginLink"/>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+</div>

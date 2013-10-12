@@ -7,11 +7,15 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+/**
+ * @author Martin Schneider
+ */
 public class PracticeDTO implements Comparable<PracticeDTO> {
 	private Long id;
 
 	private Date dateTime;
 	private Integer duration;
+	private String comment;
 
 	private GymDTO gym;
 
@@ -118,5 +122,13 @@ public class PracticeDTO implements Comparable<PracticeDTO> {
 
 	public void setNumberOfPlayers() {
 		// do nothing
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

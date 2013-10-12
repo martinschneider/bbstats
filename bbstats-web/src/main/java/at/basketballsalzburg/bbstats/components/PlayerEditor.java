@@ -11,7 +11,6 @@ import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.chenillekit.tapestry.core.components.DateSelector;
 
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.services.PlayerService;
@@ -53,9 +52,8 @@ public class PlayerEditor {
 	@Component(parameters = { "value=player.email" })
 	private TextField email;
 
-	@Component(parameters = { "value=player.birthday", "firstYear=1930",
-			"lastYear=prop:currentYear" })
-	private DateSelector birthday;
+	@Component(parameters = { "value=player.birthday", "datePattern=dd.MM.yyyy"})
+	private DateTimeField birthday;
 
 	@Component(parameters = { "value=player.nationality" })
 	private TextField nationality;

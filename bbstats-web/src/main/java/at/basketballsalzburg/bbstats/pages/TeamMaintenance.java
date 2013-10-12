@@ -2,8 +2,10 @@ package at.basketballsalzburg.bbstats.pages;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -19,8 +21,11 @@ import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.PageLayout;
 import at.basketballsalzburg.bbstats.components.TeamEditor;
 import at.basketballsalzburg.bbstats.dto.TeamDTO;
+import at.basketballsalzburg.bbstats.mixins.Permission;
+import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.TeamService;
 
+@RequiresPermissions(Permissions.teamMaintenancePage)
 public class TeamMaintenance {
 	@Component
 	private PageLayout pageLayout;
@@ -31,7 +36,7 @@ public class TeamMaintenance {
 	@Component(parameters = { "source=teamList", "model=teamModel",
 			"empty=message:noData", "row=team", "rowsPerPage=9999",
 			"include=name,shortname", "add=edit,delete",
-			"reorder=name,shortName,edit,delete" })
+			"reorder=name,shortName,edit,delete", "inplace=true" })
 	private Grid teamGrid;
 
 	@Component
@@ -43,16 +48,21 @@ public class TeamMaintenance {
 	@Component(parameters = "title=message:teamEditorBoxTitle")
 	private Box teamEditorBox;
 
-	@Component(parameters = "title=message:teamGridBoxTitle")
+	@Component(parameters = { "title=message:teamGridBoxTitle", "type=tablebox" })
 	private Box teamGridBox;
 
-	@Component(parameters = { "event=edit", "context=team.id" })
+	@Component(parameters = { "event=edit", "context=team.id",
+			"Permission.allowedPermissions=editTeam" })
+	@MixinClasses(Permission.class)
 	private EventLink editTeam;
 
-	@Component(parameters = { "event=delete", "context=team.id" })
+	@Component(parameters = { "event=delete", "context=team.id",
+			"Permission.allowedPermissions=deleteTeam" })
+	@MixinClasses(Permission.class)
 	private EventLink deleteTeam;
 
-	@Component(parameters = { "event=new" })
+	@Component(parameters = { "event=new", "Permission.allowedPermissions=newTeam" })
+	@MixinClasses(Permission.class)
 	private EventLink newTeam;
 
 	@Inject

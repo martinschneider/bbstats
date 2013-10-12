@@ -4,6 +4,9 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+/**
+ * @author Martin Schneider
+ */
 public class CoachDTO implements Comparable<CoachDTO> {
 	private Long id;
 

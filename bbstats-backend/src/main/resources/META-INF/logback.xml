@@ -1,0 +1,21 @@
+<configuration debug="true" scan="true">
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${logback.logdirectory}/licensing.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>${logback.logdirectory}/licensing.%i.log.zip</FileNamePattern>
+			<MinIndex>1</MinIndex>
+			<MaxIndex>3</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50MB</MaxFileSize>
+		</triggeringPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%.1level %d %X{user} %thread %logger{50} %msg %n</pattern>
+		</encoder>
+	</appender>
+	<root level="debug">
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>

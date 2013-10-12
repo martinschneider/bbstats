@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author Martin Schneider
+ */
 @Entity
 @Table(name = "bbstats_stat")
 public class GameStat {

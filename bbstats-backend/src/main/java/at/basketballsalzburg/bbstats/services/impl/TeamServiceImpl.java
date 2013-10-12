@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.basketballsalzburg.bbstats.dao.TeamDAO;
@@ -12,8 +14,10 @@ import at.basketballsalzburg.bbstats.dto.TeamDTO;
 import at.basketballsalzburg.bbstats.entities.Team;
 import at.basketballsalzburg.bbstats.services.TeamService;
 
-import com.googlecode.genericdao.search.Search;
-
+/**
+ * @author Martin Schneider
+ */
+@Repository
 @Transactional
 public class TeamServiceImpl implements TeamService {
 
@@ -30,39 +34,28 @@ public class TeamServiceImpl implements TeamService {
 		this.dao = dao;
 	}
 
-	public void save(TeamDTO TeamDTO) {
-		Team team = mapper.map(TeamDTO, Team.class);
-		if (team.getId() == null) {
-			dao.persist(team);
-		} else {
-			dao.merge(team);
-		}
-		dao.flush();
+	public void save(TeamDTO dto) {
+		dao.saveAndFlush(mapper.map(dto, Team.class));
 	}
 
 	public List<TeamDTO> findAll() {
 		List<TeamDTO> teams = new ArrayList<TeamDTO>();
-		for (Object team : dao.search(new Search(Team.class).addSort("name",
-				false))) {
+		for (Team team : dao.findAll(new Sort(Sort.Direction.ASC, "name"))) {
 			teams.add(mapper.map(team, TeamDTO.class));
 		}
 		return teams;
 	}
 
 	public TeamDTO findByName(String name) {
-		if (name == null)
-			return null;
-		return mapper.map(
-				dao.searchUnique(new Search().addFilterEqual("name", name)),
-				TeamDTO.class);
+		return mapper.map(dao.findByName(name), TeamDTO.class);
 	}
 
 	public void delete(TeamDTO team) {
-		dao.remove(mapper.map(team, Team.class));
+		dao.delete(mapper.map(team, Team.class));
 	}
 
 	public TeamDTO findById(Long teamId) {
-		return mapper.map(dao.find(teamId), TeamDTO.class);
+		return mapper.map(dao.findOne(teamId), TeamDTO.class);
 	}
 
 }

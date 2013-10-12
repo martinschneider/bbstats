@@ -1,0 +1,66 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<t:box t:id="datesBox">
+		<t:form t:id="form">
+			<ul class="inline-form">
+				<li>
+					<div class="control-group">
+						<t:label for="fromDateField" class="control-label" />
+						<t:datetimefield t:id="fromDateField" />
+					</div>
+				</li>
+				<li>
+					<div class="control-group">
+						<t:label for="toDateField" class="control-label" />
+						<t:datetimefield t:id="toDateField" />
+					</div>
+				</li>
+			</ul>
+			<t:linksubmit t:id="submit" class="btn btn-primary">${message:refresh}
+			</t:linksubmit>
+		</t:form>
+	</t:box>
+
+	<t:zone t:id="resultsZone">
+		<div class="row-fluid">
+			<div class="span3">
+				<t:box t:id="playersBox">
+					<t:grid t:id="playerPracticeGrid" class="table-striped table-condensed">
+						<p:nameCell>
+							<t:pagelink page="player" context="${playerPractice.id}">
+								${playerPractice.lastname}
+								${playerPractice.firstname}
+							</t:pagelink>
+						</p:nameCell>
+					</t:grid>
+				</t:box>
+			</div>
+			<div class="span3">
+				<t:box t:id="coachesBox">
+					<t:grid t:id="coachPracticeGrid" class="table-striped table-condensed">
+						<p:nameCell>
+							<t:pagelink page="coach" context="${coachPractice.id}">
+								${coachPractice.lastname} ${coachPractice.firstname}
+							</t:pagelink>
+						</p:nameCell>
+					</t:grid>
+				</t:box>
+			</div>
+			<div class="span3">
+				<t:box t:id="ageGroupsBox">
+					<t:grid t:id="ageGroupPracticeGrid" class="table-striped table-condensed" />
+				</t:box>
+			</div>
+			<div class="span3">
+				<t:box t:id="gymsBox">
+					<t:grid t:id="gymPracticeGrid" class="table-striped table-condensed">
+						<p:fullNameCell>
+							${gymPractice.name} ${gymPractice.city}
+						</p:fullNameCell>
+					</t:grid>
+				</t:box>
+			</div>
+		</div>
+	</t:zone>
+</html>

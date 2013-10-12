@@ -8,6 +8,9 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+/**
+ * @author Martin Schneider
+ */
 public class GameDTO implements Comparable<GameDTO> {
 	private Long id;
 	private Date dateTime;
@@ -216,6 +219,98 @@ public class GameDTO implements Comparable<GameDTO> {
 
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public int getScoreA() {
+		int scoreA = 0;
+		if (scoreA1 != null) {
+			scoreA += scoreA1;
+		}
+		if (scoreA2 != null) {
+			scoreA += scoreA2;
+		}
+		if (scoreA3 != null) {
+			scoreA += scoreA3;
+		}
+		if (scoreA4 != null) {
+			scoreA += scoreA4;
+		}
+		if (scoreAV != null) {
+			scoreA += scoreAV;
+		}
+		return scoreA;
+	}
+
+	public int getScoreB() {
+		int scoreB = 0;
+		if (scoreB1 != null) {
+			scoreB += scoreB1;
+		}
+		if (scoreB2 != null) {
+			scoreB += scoreB2;
+		}
+		if (scoreB3 != null) {
+			scoreB += scoreB3;
+		}
+		if (scoreB4 != null) {
+			scoreB += scoreB4;
+		}
+		if (scoreBV != null) {
+			scoreB += scoreBV;
+		}
+		return scoreB;
+	}
+
+	public String printEndResult() {
+		int sumA = getScoreA1().intValue() + getScoreA2().intValue()
+				+ getScoreA3().intValue() + getScoreA4().intValue();
+		int sumB = getScoreB1().intValue() + getScoreB2().intValue()
+				+ getScoreB3().intValue() + getScoreB4().intValue();
+		if (sumA == sumB) {
+			sumA += getScoreAV();
+			sumB += getScoreBV();
+		}
+		String resultStr = sumA + ":" + sumB;
+		return resultStr;
+	}
+
+	public boolean isOT() {
+		int sumA = getScoreA1().intValue() + getScoreA2().intValue()
+				+ getScoreA3().intValue() + getScoreA4().intValue();
+		int sumB = getScoreB1().intValue() + getScoreB2().intValue()
+				+ getScoreB3().intValue() + getScoreB4().intValue();
+		if (sumA == sumB) {
+			return true;
+		}
+		return false;
+	}
+
+	public String printPeriodResults() {
+		boolean ot = false;
+		int sumA = getScoreA1().intValue() + getScoreA2().intValue()
+				+ getScoreA3().intValue() + getScoreA4().intValue();
+		int sumB = getScoreB1().intValue() + getScoreB2().intValue()
+				+ getScoreB3().intValue() + getScoreB4().intValue();
+		if (sumA == sumB) {
+			ot = true;
+		}
+		String resultStr = "";
+		if (getPeriods().equals(4)) {
+			resultStr += " (" + getScoreA1() + ":" + getScoreB1() + ", "
+					+ getScoreA2() + ":" + getScoreB2() + ", " + getScoreA3()
+					+ ":" + getScoreB3() + ", " + getScoreA4() + ":"
+					+ getScoreB4();
+		} else if (getPeriods().equals(2)) {
+			resultStr += " (" + getScoreA1() + ":" + getScoreB1() + ", "
+					+ getScoreA3() + ":" + getScoreB3();
+		}
+		if (ot) {
+			resultStr += ", " + getScoreAV() + ":" + getScoreBV();
+		}
+		if (getPeriods().intValue() > 1) {
+			resultStr += ")";
+		}
+		return resultStr;
 	}
 
 	public int compareTo(GameDTO rhs) {

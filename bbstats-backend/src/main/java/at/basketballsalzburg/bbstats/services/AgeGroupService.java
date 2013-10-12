@@ -4,6 +4,9 @@ import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 
+/**
+ * @author Martin Schneider
+ */
 public interface AgeGroupService {
 
 	public abstract void save(AgeGroupDTO ageGroup);

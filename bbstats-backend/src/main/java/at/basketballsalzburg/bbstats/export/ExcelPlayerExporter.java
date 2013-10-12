@@ -17,6 +17,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 
+/**
+ * @author Martin Schneider
+ */
 public class ExcelPlayerExporter implements PlayerExporter {
 
 	public InputStream getFile(List<PlayerDTO> players) throws IOException {
@@ -93,6 +96,10 @@ public class ExcelPlayerExporter implements PlayerExporter {
 				cell.setCellStyle(dateStyle);
 			}
 			playerRow.createCell(9).setCellValue(player.getNationality());
+		}
+
+		for (int columnNr = 0; columnNr <= 9; columnNr++) {
+			sheet.autoSizeColumn(columnNr);
 		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();

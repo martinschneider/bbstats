@@ -1,5 +1,8 @@
 package at.basketballsalzburg.bbstats.dto;
 
+/**
+ * @author Martin Schneider
+ */
 public class LeagueDTO {
 
 	private Long id;

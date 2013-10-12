@@ -1,0 +1,51 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<t:zone t:id="gameEditorZone">
+		<t:if test="editorVisible">
+			<t:box t:id="gameEditorBox">
+				<t:gameEditor t:id="gameEditor" gameParameter="game" />
+			</t:box>
+			<p:else>
+				<t:eventlink t:id="newGame" class="btn btn-primary">${message:new}
+				</t:eventlink>
+				<t:eventlink t:id="downloadXLS" class="btn btn-primary">${message:downloadXLS}
+				</t:eventlink>
+				<t:eventlink t:id="downloadICal" class="btn btn-primary">${message:downloadICal}
+				</t:eventlink>
+			</p:else>
+		</t:if>
+	</t:zone>
+
+	<t:box t:id="gameGridBox">
+		<t:zone t:id="gameGridZone">
+			<t:grid t:id="gameGrid" class="table-striped table-condensed">
+				<p:dateTimeCell>
+					<t:output format="message:dateTimeFormat" value="game.dateTime" />
+				</p:dateTimeCell>
+				<p:gymCell>${game.gym.name}, ${game.gym.city}</p:gymCell>
+				<p:leagueCell>${game.league.shortname}</p:leagueCell>
+				<p:teamACell>
+					<t:if test="home">
+						<b>${game.teamA.name}</b>
+						<p:else>${game.teamA.name}</p:else>
+					</t:if>
+				</p:teamACell>
+				<p:teamBCell>
+					<t:if test="away">
+						<b>${game.teamB.name}</b>
+						<p:else>${game.teamB.name}</p:else>
+					</t:if>
+				</p:teamBCell>
+				<p:editCell>
+					<t:eventlink t:id="editGame" class="edit-item" title="${message:edit}" />
+				</p:editCell>
+				<p:deleteCell>
+					<t:eventlink t:id="deleteGame" class="delete-item"
+						title="${message:delete}" />
+				</p:deleteCell>
+			</t:grid>
+		</t:zone>
+	</t:box>
+
+</html>

@@ -2,8 +2,10 @@ package at.basketballsalzburg.bbstats.pages;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -19,8 +21,11 @@ import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.LeagueEditor;
 import at.basketballsalzburg.bbstats.components.PageLayout;
 import at.basketballsalzburg.bbstats.dto.LeagueDTO;
+import at.basketballsalzburg.bbstats.mixins.Permission;
+import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.LeagueService;
 
+@RequiresPermissions(Permissions.leagueMaintenancePage)
 public class LeagueMaintenance {
 	@Component
 	private PageLayout pageLayout;
@@ -31,7 +36,7 @@ public class LeagueMaintenance {
 	@Component(parameters = { "source=leagueList", "model=leagueModel",
 			"empty=message:noData", "row=league", "rowsPerPage=9999",
 			"include=shortname,name", "add=edit,delete",
-			"reorder=shortName,name,edit,delete" })
+			"reorder=shortName,name,edit,delete", "inplace=true" })
 	private Grid leagueGrid;
 
 	@Component
@@ -43,16 +48,19 @@ public class LeagueMaintenance {
 	@Component(parameters = "title=message:leagueEditorBoxTitle")
 	private Box leagueEditorBox;
 
-	@Component(parameters = "title=message:leagueGridBoxTitle")
+	@Component(parameters = {"title=message:leagueGridBoxTitle", "type=tablebox"})
 	private Box leagueGridBox;
 
-	@Component(parameters = { "event=edit", "context=league.id" })
+	@Component(parameters = { "event=edit", "context=league.id", "Permission.allowedPermissions=editLeague" })
+	@MixinClasses(Permission.class)
 	private EventLink editLeague;
 
-	@Component(parameters = { "event=delete", "context=league.id" })
+	@Component(parameters = { "event=delete", "context=league.id", "Permission.allowedPermissions=deleteLeague" })
+	@MixinClasses(Permission.class)
 	private EventLink deleteLeague;
 
-	@Component(parameters = { "event=new" })
+	@Component(parameters = { "event=new", "Permission.allowedPermissions=newLeague"})
+	@MixinClasses(Permission.class)
 	private EventLink newLeague;
 
 	@Inject

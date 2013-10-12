@@ -2,15 +2,26 @@ package at.basketballsalzburg.bbstats.services;
 
 import java.io.IOException;
 
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.realm.Realm;
+import org.apache.shiro.realm.text.IniRealm;
+import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.tapestry5.SymbolConstants;
+import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.Local;
+import org.apache.tapestry5.ioc.services.Coercion;
+import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestFilter;
 import org.apache.tapestry5.services.RequestHandler;
 import org.apache.tapestry5.services.Response;
+import org.apache.tapestry5.services.javascript.JavaScriptStack;
+import org.apache.tapestry5.services.javascript.JavaScriptStackSource;
+import org.joda.time.DateMidnight;
 import org.slf4j.Logger;
 
 /**
@@ -24,9 +35,9 @@ public class AppModule {
 
 	public static void contributeApplicationDefaults(
 			MappedConfiguration<String, String> configuration) {
-		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "de,en");
-		configuration.add(SymbolConstants.PRODUCTION_MODE, "false");
-		configuration.add(SymbolConstants.APPLICATION_VERSION, "1.0-SNAPSHOT");
+		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "de");
+		configuration.add(SymbolConstants.PRODUCTION_MODE, "true");
+		configuration.add(SymbolConstants.APPLICATION_VERSION, "13.10.12");
 	}
 
 	/**
@@ -55,12 +66,6 @@ public class AppModule {
 				long startTime = System.currentTimeMillis();
 
 				try {
-					// The responsibility of a filter is to invoke the
-					// corresponding method
-					// in the handler. When you chain multiple filters together,
-					// each filter
-					// received a handler that is a bridge to the next filter.
-
 					return handler.service(request, response);
 				} finally {
 					long elapsed = System.currentTimeMillis() - startTime;
@@ -82,12 +87,50 @@ public class AppModule {
 	public void contributeRequestHandler(
 			OrderedConfiguration<RequestFilter> configuration,
 			@Local RequestFilter filter) {
-		// Each contribution to an ordered configuration has a name, When
-		// necessary, you may
-		// set constraints to precisely control the invocation order of the
-		// contributed filter
-		// within the pipeline.
-
 		configuration.add("Timing", filter);
+	}
+
+	public static void contributeTypeCoercer(
+			Configuration<CoercionTuple> configuration) {
+		Coercion<String, String[]> coercion = new Coercion<String, String[]>() {
+			public String[] coerce(String input) {
+				return input.split(",");
+			}
+		};
+
+		configuration.add(new CoercionTuple<String, String[]>(String.class,
+				String[].class, coercion));
+
+		Coercion<java.util.Date, DateMidnight> toDateMidnight = new Coercion<java.util.Date, DateMidnight>() {
+			public DateMidnight coerce(java.util.Date input) {
+				return new DateMidnight(input);
+			}
+		};
+
+		configuration.add(new CoercionTuple<java.util.Date, DateMidnight>(
+				java.util.Date.class, DateMidnight.class, toDateMidnight));
+
+		Coercion<DateMidnight, java.util.Date> fromDateMidnight = new Coercion<DateMidnight, java.util.Date>() {
+			public java.util.Date coerce(DateMidnight input) {
+				return input.toDate();
+			}
+		};
+
+		configuration.add(new CoercionTuple<DateMidnight, java.util.Date>(
+				DateMidnight.class, java.util.Date.class, fromDateMidnight));
+	}
+
+	@Contribute(JavaScriptStackSource.class)
+	public static void addJQueryStack(
+			MappedConfiguration<String, JavaScriptStack> configuration) {
+		configuration.addInstance("bbstatsStack", BbstatsJSStack.class);
+	}
+
+	@Contribute(WebSecurityManager.class)
+	public static void addRealms(Configuration<Realm> configuration) {
+		IniRealm realm = new IniRealm("classpath:shiro.ini");
+		HashedCredentialsMatcher hcm = new HashedCredentialsMatcher("SHA-256");
+		realm.setCredentialsMatcher(hcm);
+		configuration.add(realm);
 	}
 }

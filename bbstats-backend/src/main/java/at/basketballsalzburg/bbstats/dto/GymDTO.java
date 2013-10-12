@@ -1,6 +1,11 @@
 package at.basketballsalzburg.bbstats.dto;
 
-public class GymDTO {
+import org.apache.commons.lang.builder.CompareToBuilder;
+
+/**
+ * @author Martin Schneider
+ */
+public class GymDTO implements Comparable<GymDTO> {
 	private Long id;
 
 	private String name;
@@ -68,5 +73,10 @@ public class GymDTO {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+
+	public int compareTo(GymDTO rhs) {
+		return new CompareToBuilder().append(this.getDisplayName(),
+				rhs.getDisplayName()).toComparison();
 	}
 }

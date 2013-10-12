@@ -4,6 +4,9 @@ import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 
+/**
+ * @author Martin Schneider
+ */
 public interface CoachService {
 
 	public abstract void save(CoachDTO coach);
@@ -14,6 +17,6 @@ public interface CoachService {
 
 	public abstract CoachDTO findByName(String firstName, String lastName);
 
-	public abstract CoachDTO findById(Long id);
+	public abstract CoachDTO findById(Long coachId);
 
 }

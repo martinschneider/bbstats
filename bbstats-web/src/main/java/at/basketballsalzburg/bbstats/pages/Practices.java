@@ -1,11 +1,11 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -13,11 +13,10 @@ import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.BeanModel;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Grid;
-import org.apache.tapestry5.corelib.components.LinkSubmit;
+import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
-import org.chenillekit.tapestry.core.components.DateTimeField;
 
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.PageLayout;
@@ -26,40 +25,32 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
+import at.basketballsalzburg.bbstats.mixins.Permission;
+import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.GymService;
 import at.basketballsalzburg.bbstats.services.PracticeService;
+import at.basketballsalzburg.bbstats.utils.GymPracticePropertyConduit;
 
+@RequiresPermissions(Permissions.practicesPage)
 public class Practices {
 
 	@Component
 	private PageLayout pageLayout;
 
-	@Component(parameters = "title=message:practiceFilterBoxTitle")
-	private Box practiceFilterBox;
-
 	@Component(parameters = "title=message:practiceEditorBoxTitle")
 	private Box practiceEditorBox;
 
-	@Component(parameters = "title=message:practiceGridBoxTitle")
+	@Component(parameters = {"title=message:practiceGridBoxTitle", "type=tablebox"})
 	private Box practiceGridBox;
 
 	@Component
 	private PracticeEditor practiceEditor;
 
-	@Component(parameters = { "value=dateFrom", "datePattern=dd.MM.yyyy" })
-	private DateTimeField dateFromField;
-
-	@Component(parameters = { "value=dateTo", "datePattern=dd.MM.yyyy" })
-	private DateTimeField dateToField;
-
-	@Component
-	private LinkSubmit dateSubmit;
-
 	@Component(parameters = { "source=practiceList",
 			"empty=message:noPracticeData", "row=practice",
-			"model=practiceModel", "rowsPerPage=9999",
-			"include=dateTime,duration",
-			"add=players,coaches,ageGroups,gym,edit,delete",
+			"model=practiceModel", "rowsPerPage=20",
+			"include=dateTime,duration,gym", "inplace=true",
+			"add=players,coaches,ageGroups,edit,delete",
 			"reorder=dateTime,gym,duration,players,coaches,ageGroups,edit,delete" })
 	private Grid practiceGrid;
 
@@ -83,24 +74,25 @@ public class Practices {
 
 	@Property
 	@Persist
-	private Date dateFrom;
-
-	@Property
-	@Persist
-	private Date dateTo;
-
-	@Property
-	@Persist
 	private List<PracticeDTO> practiceList;
 
-	@Component(parameters = { "event=edit", "context=practice.id" })
+	@Component(parameters = { "event=edit", "context=practice.id", "Permission.allowedPermissions=editPractice" })
+	@MixinClasses(Permission.class)
 	private EventLink editPractice;
-
-	@Component(parameters = { "event=delete", "context=practice.id" })
+	
+	@Component(parameters = { "event=delete", "context=practice.id", "Permission.allowedPermissions=deletePractice" })
+	@MixinClasses(Permission.class)
 	private EventLink deletePractice;
 
-	@Component(parameters = { "event=new" })
+	@Component(parameters = { "event=new", "Permission.allowedPermissions=newPractice" })
+	@MixinClasses(Permission.class)
 	private EventLink newPractice;
+	
+	@Component(parameters = {"page=player"})
+	private PageLink playerDetail;
+	
+	@Component(parameters = {"page=coach"})
+	private PageLink coachDetail;
 
 	@Component
 	private Zone practiceEditorZone;
@@ -122,7 +114,7 @@ public class Practices {
 	@OnEvent(value = "delete")
 	Object onDelete(Long practiceId) {
 		practiceService.delete(practiceService.findById(practiceId));
-		practiceList = practiceService.findAll(dateFrom, dateTo);
+		practiceList = practiceService.findAll();
 		return practiceGridZone;
 	}
 
@@ -134,7 +126,7 @@ public class Practices {
 		}
 		return null;
 	}
-
+	
 	@OnEvent(value = "new")
 	Object onNew() {
 		PracticeDTO newPractice = new PracticeDTO();
@@ -145,41 +137,32 @@ public class Practices {
 
 	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_CANCEL)
 	void onCancel() {
+		practiceList = practiceService.findAll();
 		editorVisible = false;
 	}
 
 	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_SAVE)
 	void onSave() {
+		practiceList = practiceService.findAll();
 		editorVisible = false;
 	}
-
-	Object onSuccess() {
-		practiceList = practiceService.findAll(dateFrom, dateTo);
-		return practiceGridZone;
-	}
-
+	
 	@Inject
 	private BeanModelSource beanModelSource;
 	@Inject
 	private ComponentResources componentResources;
 
 	public BeanModel<PracticeDTO> getPracticeModel() {
-		return beanModelSource.createDisplayModel(PracticeDTO.class,
+		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(PracticeDTO.class,
 				componentResources.getMessages());
+		beanModel.add("gym", new GymPracticePropertyConduit()).sortable(true);
+		return beanModel;
 	}
 
 	@SetupRender
 	void setup() {
-		if (dateTo == null) {
-			dateTo = new Date();
-		}
-		if (dateFrom == null) {
-			Calendar now = Calendar.getInstance();
-			now.add(Calendar.MONTH, -1);
-			dateFrom = now.getTime();
-		}
 		if (practiceList == null) {
-			practiceList = practiceService.findAll(dateFrom, dateTo);
+			practiceList = practiceService.findAll();
 		}
 	}
 }

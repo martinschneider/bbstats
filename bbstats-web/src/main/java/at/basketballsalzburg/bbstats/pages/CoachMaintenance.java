@@ -2,8 +2,10 @@ package at.basketballsalzburg.bbstats.pages;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -19,8 +21,11 @@ import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.CoachEditor;
 import at.basketballsalzburg.bbstats.components.PageLayout;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
+import at.basketballsalzburg.bbstats.mixins.Permission;
+import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.CoachService;
 
+@RequiresPermissions(Permissions.coachMaintenancePage)
 public class CoachMaintenance {
 
 	@Component
@@ -30,9 +35,9 @@ public class CoachMaintenance {
 	private CoachEditor coachEditor;
 
 	@Component(parameters = { "source=coachesList", "model=coachModel",
-			"empty=message:noData", "row=coach", "rowsPerPage=9999",
+			"empty=message:noData", "row=coach", "rowsPerPage=20",
 			"include=firstName,lastName", "add=edit,delete",
-			"reorder=lastName,firstName,edit,delete" })
+			"reorder=lastName,firstName,edit,delete", "inplace=true" })
 	private Grid coachesGrid;
 
 	@Component
@@ -44,16 +49,22 @@ public class CoachMaintenance {
 	@Component(parameters = "title=message:coachEditorBoxTitle")
 	private Box coachEditorBox;
 
-	@Component(parameters = "title=message:coachGridBoxTitle")
+	@Component(parameters = { "title=message:coachGridBoxTitle",
+			"type=tablebox" })
 	private Box coachGridBox;
 
-	@Component(parameters = { "event=edit", "context=coach.id" })
+	@Component(parameters = { "event=edit", "context=coach.id",
+			"Permission.allowedPermissions=editCoach" })
+	@MixinClasses(Permission.class)
 	private EventLink editCoach;
 
-	@Component(parameters = { "event=delete", "context=coach.id" })
+	@Component(parameters = { "event=delete", "context=coach.id",
+			"Permission.allowedPermissions=deleteCoach" })
+	@MixinClasses(Permission.class)
 	private EventLink deleteCoach;
 
-	@Component(parameters = { "event=new" })
+	@Component(parameters = { "event=new", "Permission.allowedPermissions=newCoach" })
+	@MixinClasses(Permission.class)
 	private EventLink newCoach;
 
 	@Inject

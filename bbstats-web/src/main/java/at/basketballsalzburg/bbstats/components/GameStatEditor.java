@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.ajax.MultiZoneUpdate;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
-import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
@@ -14,13 +14,15 @@ import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
 import org.apache.tapestry5.corelib.components.Select;
+import org.apache.tapestry5.corelib.components.TextArea;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
 
+import at.basketballsalzburg.bbstats.dataimport.GameStatCSVImporter;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
-import at.basketballsalzburg.bbstats.dto.PlayerDTO;
+import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 import at.basketballsalzburg.bbstats.utils.PlayerSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
@@ -28,15 +30,23 @@ import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
 public class GameStatEditor {
 
 	private static final String GAME_STAT_NEW = "gamestatnew";
-	private static final String GAME_STAT_CANCEL = "gamestatcancel";
+	private static final String GAME_STAT_IMPORT = "gamestatimport";
+	private static final String GAME_STAT_CANCEL = "gamestatcanceledit";
+	private static final String GAME_STAT_CANCEL_IMPORT = "gamestatcancelimport";
 	private static final String GAME_STAT_DELETE = "gamestatdelete";
 	private static final String GAME_STAT_EDIT = "gamestatedit";
 
 	@Persist
 	private List<GameStatDTO> gameStats;
 
+	@Persist
+	private Long gameId;
+
 	@Inject
 	private PlayerService playerService;
+
+	@Inject
+	private GameService gameService;
 
 	@Inject
 	private ComponentResources componentResources;
@@ -47,6 +57,19 @@ public class GameStatEditor {
 	@Inject
 	@Property
 	private PlayerValueEncoder playerValueEncoder;
+
+	@Inject
+	private GameStatCSVImporter importer;
+
+	@Component(parameters = { "value=data", "size=500" })
+	private TextArea input;
+
+	@Component(parameters = { "zone=literal:gameStatImporterZone" })
+	private LinkSubmit importData;
+
+	@Property
+	@Persist
+	private String data;
 
 	@Component(parameters = { "source=gameStats", "empty=message:noStatsData",
 			"row=gameStatForGrid", "include=points,threes,fouls",
@@ -72,28 +95,45 @@ public class GameStatEditor {
 	@Component(parameters = { "value=gamestat.fouls", "nulls=zero" })
 	private TextField fouls;
 
-	@Component(parameters = { "event=gamestatnew" })
+	@Component(parameters = { "event=gamestatnew", "zone=gameStatEditZone" })
 	private EventLink newGameStat;
 
-	@Component(parameters = { "event=gamestatedit", "context=gameStatIndex" })
+	@Component(parameters = { "event=gamestatimport", "zone=gameStatEditZone" })
+	private EventLink importGameStats;
+
+	@Component(parameters = { "event=gamestatedit", "context=gameStatIndex",
+			"zone=gameStatEditZone" })
 	private EventLink editGameStat;
 
-	@Component(parameters = { "event=gamestatdelete", "context=gameStatIndex" })
+	@Component(parameters = { "event=gamestatdelete", "context=gameStatIndex",
+			"zone=gameStatEditZone" })
 	private EventLink deleteGameStat;
 
-	@Component(parameters = { "event=gamestatcancel" })
-	private EventLink cancel;
+	@Component(parameters = { "event=gamestatcanceledit",
+			"zone=gameStatEditZone" })
+	private EventLink cancelEdit;
+
+	@Component(parameters = { "event=gamestatcancelimport",
+			"zone=gameStatEditZone" })
+	private EventLink cancelImport;
 
 	@Component
-	private Zone gameStatEditFieldsZone;
+	private Zone gameStatEditZone;
+
+	@Component
+	private Zone gameStatGridZone;
 
 	@Property
+	@Persist
 	private SelectModel playerSelectModel;
 
 	@Component
 	private LinkSubmit statSubmit;
 
 	private boolean modified;
+
+	@Persist
+	private boolean showImporter;
 
 	@Persist
 	private boolean edit;
@@ -121,24 +161,57 @@ public class GameStatEditor {
 		showEditor = false;
 	}
 
+	void onSelectedFromImportData() {
+		modified = true;
+		gameStats.addAll(importer.importCSV(data));
+		showImporter = false;
+		showEditor = false;
+	}
+
+	Object onSucessFromStatSubmit()
+	{
+		return new MultiZoneUpdate(gameStatGridZone).add(gameStatEditZone);
+	}
+	
+	Object onSucessFromImportData()
+	{
+		return new MultiZoneUpdate(gameStatGridZone).add(gameStatEditZone);
+	}
+	
+	
 	@OnEvent(value = GAME_STAT_NEW)
 	Object onNew() {
 		gameStat = new GameStatDTO();
 		playerId = null;
 		edit = false;
 		showEditor = true;
-		return gameStatEditFieldsZone;
+		showImporter = false;
+		return gameStatEditZone;
+	}
+
+	@OnEvent(value = GAME_STAT_IMPORT)
+	Object onImport() {
+		showImporter = true;
+		return gameStatEditZone;
+	}
+
+	@OnEvent(value = GAME_STAT_CANCEL_IMPORT)
+	Object onCancelImport() {
+		showImporter = false;
+		gameStats = gameService.findById(gameId).getStats();
+		return gameStatEditZone;
 	}
 
 	@OnEvent(value = GAME_STAT_CANCEL)
-	Object onCancel() {
+	Object onCancelEdit() {
 		showEditor = false;
-		return gameStatEditFieldsZone;
+		return gameStatEditZone;
 	}
 
 	@OnEvent(value = GAME_STAT_DELETE)
-	void onDelete(int index) {
+	Object onDelete(int index) {
 		gameStats.remove(index);
+		return gameStatGridZone;
 	}
 
 	@OnEvent(value = GAME_STAT_EDIT)
@@ -147,16 +220,12 @@ public class GameStatEditor {
 		playerId = gameStat.getPlayer().getId();
 		edit = true;
 		showEditor = true;
-		return gameStatEditFieldsZone;
+		return gameStatEditZone;
 	}
 
 	@SetupRender
 	void setupRender() {
 		playerSelectModel = new PlayerSelectModel(playerService.findAll());
-		if (gameStat == null) {
-			gameStat = new GameStatDTO();
-			gameStat.setPlayer(new PlayerDTO());
-		}
 	}
 
 	public Integer getGameStatIndex() {
@@ -199,6 +268,22 @@ public class GameStatEditor {
 	}
 
 	public void setGameStats(List<GameStatDTO> stats) {
-		this.gameStats=stats;
+		this.gameStats = stats;
+	}
+
+	public boolean isShowImporter() {
+		return showImporter;
+	}
+
+	public void setShowImporter(boolean showImporter) {
+		this.showImporter = showImporter;
+	}
+
+	public Long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(Long gameId) {
+		this.gameId = gameId;
 	}
 }

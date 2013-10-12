@@ -1,9 +1,16 @@
 package at.basketballsalzburg.bbstats.dao;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 import at.basketballsalzburg.bbstats.entities.Team;
 
-import com.googlecode.genericdao.dao.jpa.GenericDAO;
+/**
+ * @author Martin Schneider
+ */
+@Transactional
+public interface TeamDAO extends JpaRepository<Team, Long> {
+	Team findById(final Long id);
 
-public interface TeamDAO extends GenericDAO<Team, Long> {
-
+	Team findByName(String name);
 }

@@ -1,29 +1,54 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 
 	<t:form t:id="playerEditForm">
-		<t:label for="firstName"/>
-		<t:textfield t:id="firstName" /><br/>
-		<t:label for="lastName"/>
-		<t:textfield t:id="lastName" /><br/>
-		<t:label for="adress"/>
-		<t:textfield t:id="adress" /><br/>
-		<t:label for="postalCode"/>
-		<t:textfield t:id="postalCode" /><br/>
-		<t:label for="city"/>
-		<t:textfield t:id="city" /><br/>
-		<t:label for="country"/>
-		<t:textfield t:id="country" /><br/>
-		<t:label for="phone"/>
-		<t:textfield t:id="phone" /><br/>
-		<t:label for="email"/>
-		<t:textfield t:id="email" /><br/>
-		<t:label for="birthday"/>
-		<t:dateselector t:id="birthday" /><br/>
-		<t:label for="nationality"/>
-		<t:textfield t:id="nationality" /><br/>
-		<div class="button-bar">
-			<t:linksubmit t:id="submit" class="button-inline">${message:save}</t:linksubmit>
-			<t:eventlink t:id="cancel" class="button-inline">${message:cancel}</t:eventlink>
+		<ul class="inline-form">
+			<li>
+				<t:label for="firstName" />
+				<t:textfield t:id="firstName" t:validate="required" />
+			</li>
+			<li>
+				<t:label for="lastName" />
+				<t:textfield t:id="lastName" t:validate="required" />
+			</li>
+		</ul>
+		<ul class="inline-form">
+			<li>
+				<t:label for="adress" />
+				<t:textfield t:id="adress" />
+			</li>
+			<li>
+				<t:label for="postalCode" />
+				<t:textfield t:id="postalCode" />
+			</li>
+			<li>
+				<t:label for="city" />
+				<t:textfield t:id="city" />
+			</li>
+			<li>
+				<t:label for="country" />
+				<t:textfield t:id="country" />
+			</li>
+		</ul>
+		<ul class="inline-form">
+			<li>
+				<t:label for="phone" />
+				<t:textfield t:id="phone" />
+			</li>
+			<li>
+				<t:label for="email" />
+				<t:textfield t:id="email" />
+			</li>
+		</ul>
+		<t:label for="birthday" />
+		<t:datetimefield t:id="birthday" />
+		<t:label for="nationality" />
+		<t:textfield t:id="nationality" />
+		<br />
+		<div class="btn-group">
+			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}
+			</t:linksubmit>
+			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}
+			</t:eventlink>
 		</div>
 	</t:form>
 

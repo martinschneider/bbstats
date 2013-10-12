@@ -4,6 +4,9 @@ import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.LeagueDTO;
 
+/**
+ * @author Martin Schneider
+ */
 public interface LeagueService {
 
 	public abstract void save(LeagueDTO league);

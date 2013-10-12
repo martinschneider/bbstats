@@ -15,6 +15,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * @author Martin Schneider
+ */
 @Entity
 @Table(name = "bbstats_practice")
 public class Practice {
@@ -25,8 +28,9 @@ public class Practice {
 	@Column(name = "DATE")
 	private Date dateTime;
 	private Integer duration;
+	private String comment;
 
-	@ManyToOne(cascade = CascadeType.PERSIST)
+	@ManyToOne(cascade = { CascadeType.ALL})
 	@JoinColumn(name = "gymid")
 	private Gym gym;
 
@@ -109,5 +113,13 @@ public class Practice {
 
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 }

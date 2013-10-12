@@ -3,6 +3,9 @@ package at.basketballsalzburg.bbstats.dto;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+/**
+ * @author Martin Schneider
+ */
 public class GameStatDTO implements Comparable<GameStatDTO> {
 	private Long id;
 

@@ -9,6 +9,5 @@
        <class>at.basketballsalzburg.bbstats.entities.Player</class>
        <class>at.basketballsalzburg.bbstats.entities.Practice</class>
        <class>at.basketballsalzburg.bbstats.entities.Team</class>
-       <class>at.basketballsalzburg.bbstats.entities.Transaction</class>
     </persistence-unit>
 </persistence>

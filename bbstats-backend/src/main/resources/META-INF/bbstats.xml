@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+http://www.springframework.org/schema/data/jpa
+      http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+	default-lazy-init="false">
+
+	<bean id="bbstats-PropertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>
+					classpath:META-INF/bbstats.properties
+				</value>
+				<value>
+					file:///${bbstatsPropertiesFile}
+				</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="beanMapper" class="org.dozer.DozerBeanMapper" />
+
+	<jpa:repositories base-package="at.basketballsalzburg.bbstats.dao" />
+
+	<bean id="ageGroupService"
+		class="at.basketballsalzburg.bbstats.services.impl.AgeGroupServiceImpl" />
+	<bean id="coachService"
+		class="at.basketballsalzburg.bbstats.services.impl.CoachServiceImpl" />
+	<bean id="gameService"
+		class="at.basketballsalzburg.bbstats.services.impl.GameServiceImpl" />
+	<bean id="gymService"
+		class="at.basketballsalzburg.bbstats.services.impl.GymServiceImpl" />
+	<bean id="leagueService"
+		class="at.basketballsalzburg.bbstats.services.impl.LeagueServiceImpl" />
+	<bean id="playerService"
+		class="at.basketballsalzburg.bbstats.services.impl.PlayerServiceImpl" />
+	<bean id="practiceService"
+		class="at.basketballsalzburg.bbstats.services.impl.PracticeServiceImpl" />
+	<bean id="teamService"
+		class="at.basketballsalzburg.bbstats.services.impl.TeamServiceImpl" />
+
+	<bean id="xlsGameExporter" class="at.basketballsalzburg.bbstats.export.ExcelGameExporter" />
+	<bean id="iCalGameExporter" class="at.basketballsalzburg.bbstats.export.ICalGameExporter" />
+	<bean id="playerExporter"
+		class="at.basketballsalzburg.bbstats.export.ExcelPlayerExporter" />
+	<bean id="statImporter"
+		class="at.basketballsalzburg.bbstats.dataimport.GameStatCSVImporter" />
+
+</beans>

@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+/**
+ * @author Martin Schneider
+ */
 @Entity
 @Table(name = "bbstats_game")
 public class Game {

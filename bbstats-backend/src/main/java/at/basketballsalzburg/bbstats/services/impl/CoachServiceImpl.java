@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.basketballsalzburg.bbstats.dao.CoachDAO;
@@ -12,8 +14,10 @@ import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.entities.Coach;
 import at.basketballsalzburg.bbstats.services.CoachService;
 
-import com.googlecode.genericdao.search.Search;
-
+/**
+ * @author Martin Schneider
+ */
+@Repository
 @Transactional
 public class CoachServiceImpl implements CoachService {
 	private CoachDAO dao;
@@ -32,20 +36,13 @@ public class CoachServiceImpl implements CoachService {
 
 	/** {@inheritDoc} **/
 	public void save(CoachDTO dto) {
-		Coach coach = mapper.map(dto, Coach.class);
-		if (coach.getId() == null) {
-			dao.persist(coach);
-		} else {
-			dao.merge(coach);
-		}
-		dao.flush();
+		dao.saveAndFlush(mapper.map(dto, Coach.class));
 	}
 
 	/** {@inheritDoc} **/
 	public List<CoachDTO> findAll() {
 		List<CoachDTO> coaches = new ArrayList<CoachDTO>();
-		for (Object coach : dao.search(new Search(Coach.class).addSort(
-				"lastName", false).addSort("firstName", false))) {
+		for (Object coach : dao.findAll(new Sort(Sort.Direction.ASC, "lastName", "firstName"))) {
 			coaches.add(mapper.map(coach, CoachDTO.class));
 		}
 		return coaches;
@@ -53,19 +50,16 @@ public class CoachServiceImpl implements CoachService {
 
 	/** {@inheritDoc} **/
 	public CoachDTO findByName(String firstName, String lastName) {
-		if (firstName == null && lastName == null)
-			return null;
 		return mapper.map(
-				dao.searchUnique(new Search().addFilterEqual("firstName",
-						firstName).addFilterEqual("lastName", lastName)),
+				dao.findByFirstNameAndLastName(firstName,lastName),
 				CoachDTO.class);
 	}
 
 	public CoachDTO findById(Long id) {
-		return mapper.map(dao.find(id), CoachDTO.class);
+		return mapper.map(dao.findOne(id), CoachDTO.class);
 	}
 
 	public void delete(CoachDTO coach) {
-		dao.remove(mapper.map(coach, Coach.class));
+		dao.delete(mapper.map(coach, Coach.class));
 	}
 }

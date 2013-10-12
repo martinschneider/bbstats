@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * @author Martin Schneider
+ */
 @Entity
 @Table(name = "bbstats_player")
 public class Player {

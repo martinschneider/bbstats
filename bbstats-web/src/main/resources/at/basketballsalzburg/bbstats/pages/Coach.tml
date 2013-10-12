@@ -1,0 +1,120 @@
+<html t:type="pageLayout" t:id="pageLayout"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+	<t:box t:id="coachBox">
+		<ul>
+			<li>${message:games}: ${gameList.size()}</li>
+			<li>${message:practices}: ${practiceList.size()}</li>
+		</ul>
+	</t:box>
+
+	<div class="row-fluid">
+		<div class="span6">
+			<t:box t:id="gameGridBox">
+				<t:zone t:id="gameGridZone">
+					<t:grid t:id="gameGrid" class="table-striped table-condensed">
+						<p:dateTimeCell>
+							<t:output format="message:dateTimeFormat" value="game.dateTime" />
+						</p:dateTimeCell>
+						<p:leagueCell>${game.league.shortname}</p:leagueCell>
+						<p:teamACell>${game.teamA.name}</p:teamACell>
+						<p:teamBCell>${game.teamB.name}</p:teamBCell>
+						<p:resultCell>
+							<b>
+								${game.printEndResult()}
+								<t:if test="ot"> ${message:ot}</t:if>
+							</b>
+							${game.printPeriodResults()}
+						</p:resultCell>
+						<p:winLossCell>
+							<t:if test="win">
+								<div class="win" />
+								<p:else>
+									<div class="loss" />
+								</p:else>
+							</t:if>
+						</p:winLossCell>
+						<p:statsCell>
+							<a class="stats-icon" title="${message:statsBoxTitle}"
+								data-toggle="modal" data-target="#stats${game.id}" />
+							<div class="modal hide fade" id="stats${game.id}" tabindex="-1"
+								role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">×</button>
+									<h3 id="myModalLabel">
+										${message:statsBoxTitle}
+										<t:output format="message:dateTimeFormat" value="game.dateTime" />
+									</h3>
+									<h4>
+										${game.teama.name} - ${game.teamb.name}
+										${game.printEndResult()}
+										<t:if test="ot"> ${message:ot}</t:if>
+									</h4>
+								</div>
+								<div class="modal-body">
+									<t:grid t:id="statGrid" class="table-striped table-condensed">
+										<p:nameCell>
+											<t:pagelink page="player" context="${gameStat.player.id}">${gameStat.player.lastName}
+												${gameStat.player.firstName}
+											</t:pagelink>
+										</p:nameCell>
+									</t:grid>
+									<div style="margin-top: 15px; margin-left: 10px;">
+										<b>${message:coaches}</b>
+										<br />
+										<t:loop source="game.coaches" value="coach">
+											<t:pagelink t:id="coachDetail" context="${coach.id}">
+												${coach.lastName} ${coach.firstName}
+											</t:pagelink>
+											<br />
+										</t:loop>
+									</div>
+									<div style="margin-top: 15px; margin-left: 10px;">
+										<b>${message:ageGroups}</b>
+										<br />
+										<t:loop source="game.ageGroups" value="ageGroup">
+											${ageGroup.name}
+											<br />
+										</t:loop>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<div class="btn-group">
+										<a class="btn btn-primary" data-dismiss="modal">${message:close}</a>
+									</div>
+								</div>
+							</div>
+						</p:statsCell>
+					</t:grid>
+				</t:zone>
+			</t:box>
+		</div>
+		<div class="span6">
+			<t:box t:id="practiceGridBox">
+				<t:zone t:id="practiceGridZone">
+					<t:grid t:id="practiceGrid" class="table-striped table-condensed">
+						<p:dateTimeCell>
+							<t:output format="message:dateTimeFormat" value="practice.dateTime" />
+						</p:dateTimeCell>
+						<p:gymCell>${practice.gym.city}, ${practice.gym.name}</p:gymCell>
+						<p:coachesCell>
+							<t:loop source="practice.coaches" value="coach">
+								<t:pagelink page="coach" context="${coach.id}">
+									${coach.lastName} ${coach.firstName}
+								</t:pagelink>
+								<br />
+							</t:loop>
+						</p:coachesCell>
+						<p:ageGroupsCell>
+							<t:loop source="practice.ageGroups" value="ageGroup">
+								${ageGroup.name}
+								<br />
+							</t:loop>
+						</p:ageGroupsCell>
+					</t:grid>
+				</t:zone>
+			</t:box>
+		</div>
+	</div>
+</html>

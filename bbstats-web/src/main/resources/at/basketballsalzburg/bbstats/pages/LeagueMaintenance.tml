@@ -1,32 +1,29 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
-	xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
 
-<t:zone t:id="leagueEditorZone">
-	<t:if test="editorVisible">
-		<t:box t:id="leagueEditorBox">
-			<t:leagueEditor t:id="leagueEditor" leagueParameter="league" />
+	<t:zone t:id="leagueEditorZone">
+		<t:if test="editorVisible">
+			<t:box t:id="leagueEditorBox">
+				<t:leagueEditor t:id="leagueEditor" leagueParameter="league" />
+			</t:box>
+			<p:else>
+				<t:eventlink t:id="newLeague" class="btn btn-primary">${message:newLeague}
+				</t:eventlink>
+			</p:else>
+		</t:if>
+	</t:zone>
+	<t:zone t:id="leagueGridZone">
+		<t:box t:id="leagueGridBox">
+			<t:grid t:id="leagueGrid" class="table-striped table-condensed">
+				<p:editCell>
+					<t:eventlink t:id="editLeague" class="edit-item" title="${message:edit}" />
+				</p:editCell>
+				<p:deleteCell>
+					<t:eventlink t:id="deleteLeague" class="delete-item"
+						title="${message:delete}" />
+				</p:deleteCell>
+			</t:grid>
 		</t:box>
-		<p:else>
-			<div class="button-bar">
-				<t:eventlink t:id="newLeague" class="button-inline">${message:newLeague}</t:eventlink>
-			</div>
-		</p:else>
-	</t:if>
-</t:zone>
-<t:zone t:id="leagueGridZone">
-	<t:box t:id="leagueGridBox">
-		<t:grid t:id="leagueGrid">
-			<p:editCell>
-				<t:eventlink t:id="editLeague" class="edit-item"
-					title="${message:edit}" />
-			</p:editCell>
-			<p:deleteCell>
-				<t:eventlink t:id="deleteLeague" class="delete-item"
-					title="${message:delete}" />
-			</p:deleteCell>
-		</t:grid>
-	</t:box>
-</t:zone>
+	</t:zone>
 
 </html>

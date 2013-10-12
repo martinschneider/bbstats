@@ -1,161 +1,56 @@
 @CHARSET "UTF-8";
 
-/***********************************************************************************************************************
- * Styles for Box
- **********************************************************************************************************************/
-.box {
-   position: static;
-   width: 100%;
-   overflow: hidden;
-   margin-bottom: 10px;
-   border-width: 1px;
-   border-style: solid;
-   border-color: #4F4F4F;
-   background-color: #fff;
-   border-radius: 4px;
-   -webkit-border-radius: 4px;
-/*    box-shadow: inset 1px 1px 4px 2px #9F9F9F; */
-/*    -webkit-box-shadow: inset 1px 1px 4px 2px #9F9F9F; */
-   
-   -moz-box-shadow: inset 0 0 5px #888;
-	-webkit-box-shadow: inset 0 0 5px#888;
-	box-shadow: inner 0 0 5px #888;
+.box
+{
+	margin-bottom: 10px;
 }
 
-/* @Override text.css */
-.box p {
-   margin: 0;
-   padding: 0;
-   padding-bottom: 5px;
+.box-title {
+	position: relative;
+	padding: 3px 7px;
+	font-size: 14px;
+	font-weight: bold;
+	border: 1px solid #DDD;
+	border-bottom: 0;
+	color: #ffffff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #006dcc;
+	*background-color: #0044cc;
+	background-image: -moz-linear-gradient(top, #0088cc, #0044cc);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc),
+		to(#0044cc) );
+	background-image: -webkit-linear-gradient(top, #0088cc, #0044cc);
+	background-image: -o-linear-gradient(top, #0088cc, #0044cc);
+	background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+	background-repeat: repeat-x;
+	border-color: #0044cc #0044cc #002a80;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	filter: progid:  DXImageTransform.Microsoft.gradient( 
+	startColorstr=  '#ff0088cc', endColorstr=  '#ff0044cc', GradientType= 
+	0 );
+	filter: progid:  DXImageTransform.Microsoft.gradient(  enabled= 
+	false );
+	-webkit-border-radius: 4px 4px 0 0;
+	-moz-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
 }
 
-.box .box-title-bar .title-container {
-/*    float: left; */
+.box-body {
+	padding: 10px;
+	border: 1px solid #d4d4d4;
+	-webkit-border-radius: 0 0 4px 4px;
+	-moz-border-radius: 0 0 4px 4px;
+	border-radius: 0 0 4px 4px;
+	background: rgba(255, 255, 255, 0.75);
 }
 
-.box .box-title-bar {
-   background-image: url("../images/box-title-background.png");
-   background-repeat: repeat-x;
-/*    color: #fabb0f; */
-   color: #fff;
-   height: 30px;
-   line-height: 30px;
-   vertical-align: middle;
-   padding-left: 0;
-   padding-right: 0;
-   overflow: hidden;
+.tablebox .box-body {
+	padding: 0px;
 }
 
-.box .panel {
-   position: static;
-   padding-top: 5px;
-   padding-right: 10px;
-   padding-bottom: 5px;
-   padding-left: 10px;
-}
-
-.box .box-body {
-   padding:10px;
-   background-color: transparent;
-   position: static;
-   min-height: 30px;
-}
-
-.box .box-icon {
-   vertical-align: middle;
-   padding-bottom: 1px;
-   padding-left: 10px;
-}
-
-.box .title:first-child {
-   padding-left: 10px;
-   font-weight: bold;
-}
-
-.box .title {
-   padding-left: 3px;
-   font-weight: bold;
-   text-shadow: 1px 1px black;
-}
- 
-/*********************************************************************************************************************** 
- * Styles for SimpleBox "type=inner"
- **********************************************************************************************************************/
-.inner.box {
-   margin-top: 5px;
-   margin-bottom:0;
-}
-
-.inner.box p {
-   font-size: 0.9em;
-}
-
-.inner.box .box-title-bar .ctl { /* corner top left */
-   background-image: none;
-}
-
-.inner.box .box-title-bar .ctr { /* corner top right */
-   background-image: none;
-}
-
-.inner.box .box-title-bar {
-   background-image: none;
-   background-color: #ccc;
-   color: #333;
-   border-radius-topleft: 3px;
-   border-radius-topright: 3px;
-   -webkit-border-radius-topleft: 3px;
-   -webkit-border-radius-topright: 3px;
-   -moz-border-radius-topleft: 3px;
-   -moz-border-radius-topright: 3px;
-   height: 16px;
-   line-height: 16px;
-}
-
-.inner.box .box-body {
-   background-color: #f1f1f1;
-   border: 1px solid #ccc;
-   border-bottom: none;
-}
-
-.inner.box-footer {
-   border: 1px solid #ccc;
-   background-color: #f1f1f1;
-   border-top: none;
-   border-radius-bottomleft: 3px;
-   border-radius-bottomright: 3px;
-   -webkit-border-radius-bottomleft: 3px;
-   -webkit-border-radius-bottomright: 3px;
-   -moz-border-radius-bottomleft: 3px;
-   -moz-border-radius-bottomright: 3px;
-}
-
-/***********************************************************************************************************************
- * subheader inside simplebox
- **********************************************************************************************************************/
-.box .box-body h2 {
-    line-height: 20px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-}
-
-/***********************************************************************************************************************
- * grid styles (grid inside of simple box), NOTE should be moved to grid?
- **********************************************************************************************************************/
-.box-body .t-data-grid {
-   width: 100%;
-}
-
-
-/***********************************************************************************************************************
- * edit mode
- **********************************************************************************************************************/
-
-.title-container span.title {
-    float: left;
-}
-	
-.title-container span.box-edit {
-	float: right;
-    margin-right: 10px;
+.innerbox .box-body {
+	-webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+	background: rgba(255, 255, 255, 0.35);
 }
