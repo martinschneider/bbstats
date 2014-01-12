@@ -1,8 +1,5 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.MixinClasses;
@@ -11,7 +8,6 @@ import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.BeanModel;
-import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.components.PageLink;
@@ -29,10 +25,10 @@ import at.basketballsalzburg.bbstats.dto.GameStatDTO;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.GymService;
-import at.basketballsalzburg.bbstats.utils.LeaguePropertyConduit;
-import at.basketballsalzburg.bbstats.utils.TeamPropertyConduit;
+import at.basketballsalzburg.bbstats.utils.GameDataSource;
+import at.basketballsalzburg.bbstats.utils.GameMode;
 
-public class Games {
+public class Results {
 
 	@Component
 	private PageLayout pageLayout;
@@ -52,7 +48,7 @@ public class Games {
 	// columns depend on user roles. use custom model and exclude instead of
 	// include
 	@Component(parameters = {
-			"source=gameList",
+			"source=gameSource",
 			"empty=message:noGameData",
 			"row=game",
 			"rowsPerPage=20",
@@ -85,7 +81,7 @@ public class Games {
 
 	@Property
 	@Persist
-	private List<GameDTO> gameList;
+	private GameDataSource gameSource;
 
 	@Component(parameters = { "event=edit", "context=game.id",
 			"Permission.allowedPermissions=editGame" })
@@ -93,8 +89,13 @@ public class Games {
 	private EventLink editGame;
 
 	@Component(parameters = { "event=delete", "context=game.id",
-			"zone=gameGridZone", "Permission.allowedPermissions=deleteGame" })
-	@MixinClasses(Permission.class)
+			"zone=gameGridZone" })
+	// @MixinClasses(Permission.class)
+	/*
+	 * The permission mixin leads to a strange bug when deleting the first
+	 * entity in the grid. However, it is not necessary since rendering of the
+	 * delete link is handled by the grid model.
+	 */
 	private EventLink deleteGame;
 
 	@Component(parameters = { "event=new",
@@ -114,7 +115,11 @@ public class Games {
 
 	@SetupRender
 	void setup() {
-		gameList = gameService.findBefore(new Date());
+		gameSource = new GameDataSource(gameService, GameMode.RESULTS);
+		if (gameGrid.getSortModel().getSortConstraints().isEmpty()) {
+			gameGrid.getSortModel().updateSort("dateTime");
+			gameGrid.getSortModel().updateSort("dateTime");
+		}
 	}
 
 	@OnEvent(value = "new")
@@ -129,14 +134,14 @@ public class Games {
 	@OnEvent(value = GameEditor.GAME_EDIT_CANCEL)
 	Object onCancel() {
 		editorVisible = false;
-		gameList = gameService.findBefore(new Date());
+		// gameList = gameService.findBefore(new Date());
 		return gameEditorZone.getBody();
 	}
 
 	@OnEvent(value = GameEditor.GAME_EDIT_SAVE)
 	Object onSave() {
 		editorVisible = false;
-		gameList = gameService.findBefore(new Date());
+		// gameList = gameService.findBefore(new Date());
 		return gameEditorZone.getBody();
 	}
 
@@ -150,7 +155,7 @@ public class Games {
 	@OnEvent(value = "delete")
 	Object onDelete(Long gameId) {
 		gameService.delete(gameService.findById(gameId));
-		gameList = gameService.findBefore(new Date());
+		// gameList = gameService.findBefore(new Date());
 		return gameGridZone;
 	}
 
@@ -163,9 +168,9 @@ public class Games {
 		BeanModel<GameDTO> beanModel = beanModelSource.createDisplayModel(
 				GameDTO.class, componentResources.getMessages());
 		beanModel.add("winloss", null).sortable(false);
-		beanModel.add("teama", new TeamPropertyConduit(1)).sortable(true);
-		beanModel.add("teamb", new TeamPropertyConduit(2)).sortable(true);
-		beanModel.add("league", new LeaguePropertyConduit()).sortable(true);
+		beanModel.add("teamA", null).sortable(true);
+		beanModel.add("teamB", null).sortable(true);
+		beanModel.add("league", null).sortable(true);
 		beanModel.add("result", null).sortable(false);
 		if (pageLayout.isPermitted("viewStats")) {
 			beanModel.add("stats", null).sortable(false);
@@ -180,15 +185,7 @@ public class Games {
 	}
 
 	private GameDTO findGameById(Long gameId) {
-		if (gameList == null) {
-			setup();
-		}
-		for (GameDTO game : gameList) {
-			if (game.getId().equals(gameId)) {
-				return game;
-			}
-		}
-		return null;
+		return gameService.findById(gameId);
 	}
 
 	public boolean isNoResult() {

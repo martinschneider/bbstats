@@ -2,7 +2,6 @@ package at.basketballsalzburg.bbstats.pages;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
@@ -30,10 +29,9 @@ import at.basketballsalzburg.bbstats.export.ICalGameExporter;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.GymService;
+import at.basketballsalzburg.bbstats.utils.GameDataSource;
+import at.basketballsalzburg.bbstats.utils.GameMode;
 import at.basketballsalzburg.bbstats.utils.GenericStreamResponse;
-import at.basketballsalzburg.bbstats.utils.GymGamePropertyConduit;
-import at.basketballsalzburg.bbstats.utils.LeaguePropertyConduit;
-import at.basketballsalzburg.bbstats.utils.TeamPropertyConduit;
 
 public class Schedule {
 
@@ -55,7 +53,7 @@ public class Schedule {
 	// columns depend on user roles. use custom model and exclude instead of
 	// include
 	@Component(parameters = {
-			"source=gameList",
+			"source=gameSource",
 			"empty=message:noGameData",
 			"row=game",
 			"rowsPerPage=20",
@@ -89,7 +87,7 @@ public class Schedule {
 
 	@Property
 	@Persist
-	private List<GameDTO> gameList;
+	private GameDataSource gameSource;
 
 	@Component(parameters = { "event=edit", "context=game.id",
 			"Permission.allowedPermissions=EDIT_GAME" })
@@ -121,7 +119,10 @@ public class Schedule {
 
 	@SetupRender
 	void setup() {
-		gameList = gameService.findAfter(new Date());
+		gameSource = new GameDataSource(gameService, GameMode.SCHEDULE);
+		if (gameGrid.getSortModel().getSortConstraints().isEmpty()) {
+			gameGrid.getSortModel().updateSort("dateTime");
+		}
 	}
 
 	@OnEvent(value = "new")
@@ -136,14 +137,12 @@ public class Schedule {
 	@OnEvent(value = GameEditor.GAME_EDIT_CANCEL)
 	Object onCancel() {
 		editorVisible = false;
-		gameList = gameService.findAfter(new Date());
 		return gameEditorZone.getBody();
 	}
 
 	@OnEvent(value = GameEditor.GAME_EDIT_SAVE)
 	Object onSave() {
 		editorVisible = false;
-		gameList = gameService.findAfter(new Date());
 		return gameEditorZone.getBody();
 	}
 
@@ -157,20 +156,19 @@ public class Schedule {
 	@OnEvent(value = "delete")
 	Object onDelete(Long gameId) {
 		gameService.delete(gameService.findById(gameId));
-		gameList = gameService.findAfter(new Date());
 		return gameGridZone;
 	}
 
 	@OnEvent(value = "downloadXLS")
 	Object onDownloadXLS() throws IOException {
 		return new GenericStreamResponse("application/vnd.ms-excel", ".xls",
-				xlsGameExporter.getFile(gameList), "spiele");
+				xlsGameExporter.getFile(gameService.findAfter(new Date())), "spiele");
 	}
 
 	@OnEvent(value = "downloadICal")
 	Object onDownloadICal() throws IOException {
 		return new GenericStreamResponse("text/calendar", ".ical",
-				iCalGameExporter.getFile(gameList), "spiele");
+				iCalGameExporter.getFile(gameService.findAfter(new Date())), "spiele");
 	}
 
 	@Inject
@@ -181,10 +179,10 @@ public class Schedule {
 	public BeanModel<GameDTO> getGameModel() {
 		BeanModel<GameDTO> beanModel = beanModelSource.createDisplayModel(
 				GameDTO.class, componentResources.getMessages());
-		beanModel.add("gym", new GymGamePropertyConduit()).sortable(true);
-		beanModel.add("teama", new TeamPropertyConduit(1)).sortable(true);
-		beanModel.add("teamb", new TeamPropertyConduit(2)).sortable(true);
-		beanModel.add("league", new LeaguePropertyConduit()).sortable(true);
+		beanModel.add("gym", null).sortable(true);
+		beanModel.add("teamA", null).sortable(true);
+		beanModel.add("teamB", null).sortable(true);
+		beanModel.add("league", null).sortable(true);
 		if (pageLayout.isPermitted("editGame")) {
 			beanModel.add("edit", null).sortable(false);
 		}
@@ -195,15 +193,7 @@ public class Schedule {
 	}
 
 	private GameDTO findGameById(Long gameId) {
-		if (gameList == null) {
-			setup();
-		}
-		for (GameDTO game : gameList) {
-			if (game.getId().equals(gameId)) {
-				return game;
-			}
-		}
-		return null;
+		return gameService.findById(gameId);
 	}
 
 	public boolean isHome() {

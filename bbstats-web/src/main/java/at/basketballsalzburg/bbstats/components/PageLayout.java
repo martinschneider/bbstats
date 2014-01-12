@@ -15,7 +15,7 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import at.basketballsalzburg.bbstats.commons.MenuItem;
 import at.basketballsalzburg.bbstats.pages.AgeGroupMaintenance;
 import at.basketballsalzburg.bbstats.pages.CoachMaintenance;
-import at.basketballsalzburg.bbstats.pages.Games;
+import at.basketballsalzburg.bbstats.pages.Results;
 import at.basketballsalzburg.bbstats.pages.GymMaintenance;
 import at.basketballsalzburg.bbstats.pages.LeagueMaintenance;
 import at.basketballsalzburg.bbstats.pages.PlayerMaintenance;
@@ -52,7 +52,7 @@ public class PageLayout {
 			MenuItem games = new MenuItem(messages.get("games"), null, true);
 			games.addItem(new MenuItem(messages.get("schedule"), Schedule.class
 					.getSimpleName(), false));
-			games.addItem(new MenuItem(messages.get("results"), Games.class
+			games.addItem(new MenuItem(messages.get("results"), Results.class
 					.getSimpleName(), false));
 			MenuItem practices = new MenuItem(messages.get("practices"),
 					Practices.class.getSimpleName(), false);

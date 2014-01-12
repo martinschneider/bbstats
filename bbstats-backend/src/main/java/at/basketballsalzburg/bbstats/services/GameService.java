@@ -3,6 +3,8 @@ package at.basketballsalzburg.bbstats.services;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 
 /**
@@ -10,27 +12,47 @@ import at.basketballsalzburg.bbstats.dto.GameDTO;
  */
 public interface GameService {
 
-	public abstract void save(GameDTO game);
-
-	public abstract List<GameDTO> findAll();
-
-	public abstract GameDTO findById(Long gameId);
-
-	public abstract void delete(GameDTO gameId);
-
-	public abstract List<GameDTO> findBefore(Date dateTo);
+	public long count();
 	
-	public abstract List<GameDTO> findAfter(Date dateFrom);
+	public void save(GameDTO game);
+
+	public List<GameDTO> findAll();
 	
-	public abstract List<GameDTO> findBetween(Date dateFrom, Date dateTo);
+	public List<GameDTO> find(int page, int size, Sort sort);
 
-	public abstract List<GameDTO> findAllGamesForPlayer(Long playerId);
+	public GameDTO findById(Long gameId);
 
-	public abstract List<GameDTO> findAllGamesForCoach(Long coachId);
+	public void delete(GameDTO gameId);
 
-	public abstract boolean isAway(GameDTO game);
+	public List<GameDTO> findBefore(Date dateTo);
+	
+	public List<GameDTO> findAfter(Date dateFrom);
+	
+	public List<GameDTO> findBetween(Date dateFrom, Date dateTo);
 
-	public abstract boolean isHome(GameDTO game);
+	public List<GameDTO> findAllGamesForPlayer(Long playerId);
 
-	public abstract boolean isWin(GameDTO game);
+	public List<GameDTO> findAllGamesForCoach(Long coachId);
+
+	public boolean isAway(GameDTO game);
+
+	public boolean isHome(GameDTO game);
+
+	public boolean isWin(GameDTO game);
+
+	public int countResults();
+
+	public int countSchedule();
+	
+	public int countByPlayer(Long playerId);
+	
+	public int countByCoach(Long coachId);
+
+	public List<GameDTO> findResults(int page, int size, Sort sort);
+
+	public List<GameDTO> findSchedule(int page, int size, Sort sort);
+	
+	public List<GameDTO> findGamesForPlayer(Long playerId, int page, int size, Sort sort);
+	
+	public List<GameDTO> findGamesForCoach(Long coachId, int page, int size, Sort sort);
 }

@@ -8,8 +8,8 @@
 				<t:output format="message:dateFormat" value="player.birthday" />
 			</li>
 			<li>${message:nationality}: ${country}</li>
-			<li>${message:games}: ${gameList.size()}</li>
-			<li>${message:practices}: ${practiceList.size()}</li>
+			<li>${message:games}: ${gameSource.getAvailableRows()}</li>
+			<li>${message:practices}: ${practiceSource.getAvailableRows()}</li>
 		</ul>
 	</t:box>
 

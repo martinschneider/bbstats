@@ -13,6 +13,7 @@ import javax.persistence.PersistenceContext;
 
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -194,5 +195,49 @@ public class PracticeServiceImpl implements PracticeService {
 			results.add(statistic);
 		}
 		return results;
+	}
+
+	@Override
+	public long count() {
+		return practiceDao.count();
+	}
+
+	@Override
+	public List<PracticeDTO> findPractices(int page, int size, Sort sort) {
+		List<PracticeDTO> practices = new ArrayList<PracticeDTO>();
+		for (Practice practice : practiceDao.findAll(new PageRequest(page, size, sort))) {
+			practices.add(mapper.map(practice, PracticeDTO.class));
+		}
+		return practices;
+	}
+
+	@Override
+	public List<PracticeDTO> findPracticesForPlayer(Long playerId, int page, int size,
+			Sort sort) {
+		List<PracticeDTO> practices = new ArrayList<PracticeDTO>();
+		for (Practice practice : practiceDao.findByPlayer(playerId, new PageRequest(page, size, sort))) {
+			practices.add(mapper.map(practice, PracticeDTO.class));
+		}
+		return practices;
+	}
+
+	@Override
+	public List<PracticeDTO> findPracticesForCoach(Long coachId, int page, int size,
+			Sort sort) {
+		List<PracticeDTO> practices = new ArrayList<PracticeDTO>();
+		for (Practice practice : practiceDao.findByCoach(coachId, new PageRequest(page, size, sort))) {
+			practices.add(mapper.map(practice, PracticeDTO.class));
+		}
+		return practices;
+	}
+
+	@Override
+	public int countByPlayer(Long playerId) {
+		return practiceDao.countByPlayer(playerId);
+	}
+
+	@Override
+	public int countByCoach(Long coachId) {
+		return practiceDao.countByCoach(coachId);
 	}
 }

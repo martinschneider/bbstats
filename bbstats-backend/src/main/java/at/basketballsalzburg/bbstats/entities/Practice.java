@@ -30,7 +30,7 @@ public class Practice {
 	private Integer duration;
 	private String comment;
 
-	@ManyToOne(cascade = { CascadeType.ALL})
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinColumn(name = "gymid")
 	private Gym gym;
 

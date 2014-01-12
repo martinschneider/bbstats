@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +31,8 @@ public class GameServiceImpl implements GameService {
 	private GameDAO dao;
 	private DozerBeanMapper mapper;
 	private EntityManager entityManager;
-	
-	@Value("#{'${teamNames}'.split(',')}") 
+
+	@Value("#{'${teamNames}'.split(',')}")
 	private List<String> teamNames;
 
 	@Autowired
@@ -56,6 +57,15 @@ public class GameServiceImpl implements GameService {
 	public List<GameDTO> findAll() {
 		List<GameDTO> games = new ArrayList<GameDTO>();
 		for (Game game : dao.findAll(new Sort(Sort.Direction.DESC, "dateTime"))) {
+			games.add(mapper.map(game, GameDTO.class));
+		}
+		return games;
+	}
+
+	@Override
+	public List<GameDTO> find(int page, int size, Sort sort) {
+		List<GameDTO> games = new ArrayList<GameDTO>();
+		for (Game game : dao.findAll(new PageRequest(page, size, sort))) {
 			games.add(mapper.map(game, GameDTO.class));
 		}
 		return games;
@@ -158,7 +168,7 @@ public class GameServiceImpl implements GameService {
 		}
 		return false;
 	}
-	
+
 	public boolean isWin(GameDTO game) {
 		int sumA = game.getScoreA1().intValue() + game.getScoreA2().intValue()
 				+ game.getScoreA3().intValue() + game.getScoreA4().intValue()
@@ -183,4 +193,69 @@ public class GameServiceImpl implements GameService {
 		this.teamNames = teamNames;
 	}
 
+	@Override
+	public long count() {
+		return dao.count();
+	}
+
+	@Override
+	public int countResults() {
+		return dao.countByDateTimeBefore(new Date());
+	}
+
+	@Override
+	public int countSchedule() {
+		return dao.countByDateTimeAfter(new Date());
+	}
+
+	@Override
+	public List<GameDTO> findResults(int page, int size, Sort sort) {
+		List<GameDTO> games = new ArrayList<GameDTO>();
+		for (Game game : dao.findByDateTimeBefore(new Date(), new PageRequest(
+				page, size, sort))) {
+			games.add(mapper.map(game, GameDTO.class));
+		}
+		return games;
+	}
+
+	@Override
+	public List<GameDTO> findSchedule(int page, int size, Sort sort) {
+		List<GameDTO> games = new ArrayList<GameDTO>();
+		for (Game game : dao.findByDateTimeAfter(new Date(), new PageRequest(
+				page, size, sort))) {
+			games.add(mapper.map(game, GameDTO.class));
+		}
+		return games;
+	}
+
+	@Override
+	public List<GameDTO> findGamesForPlayer(Long playerId, int page, int size,
+			Sort sort) {
+		List<GameDTO> games = new ArrayList<GameDTO>();
+		for (Game game : dao.findByPlayer(playerId, new PageRequest(
+				page, size, sort))) {
+			games.add(mapper.map(game, GameDTO.class));
+		}
+		return games;
+	}
+
+	@Override
+	public List<GameDTO> findGamesForCoach(Long coachId, int page, int size, Sort sort) {
+		List<GameDTO> games = new ArrayList<GameDTO>();
+		for (Game game : dao.findByCoach(coachId, new PageRequest(
+				page, size, sort))) {
+			games.add(mapper.map(game, GameDTO.class));
+		}
+		return games;
+	}
+
+	@Override
+	public int countByPlayer(Long playerId) {
+		return dao.countByPlayer(playerId);
+	}
+
+	@Override
+	public int countByCoach(Long coachId) {
+		return dao.countByCoach(coachId);
+	}
 }

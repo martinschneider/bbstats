@@ -1,11 +1,9 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import java.lang.annotation.Annotation;
-import java.util.List;
+import java.util.Locale;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.PropertyConduit;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -28,8 +26,10 @@ import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 import at.basketballsalzburg.bbstats.services.PracticeService;
-import at.basketballsalzburg.bbstats.utils.GymPracticePropertyConduit;
-import at.basketballsalzburg.bbstats.utils.TeamPropertyConduit;
+import at.basketballsalzburg.bbstats.utils.GameDataSource;
+import at.basketballsalzburg.bbstats.utils.GameMode;
+import at.basketballsalzburg.bbstats.utils.PracticeDataSource;
+import at.basketballsalzburg.bbstats.utils.PracticeMode;
 
 @RequiresPermissions(Permissions.playerPage)
 public class Player {
@@ -56,31 +56,32 @@ public class Player {
 
 	@Property
 	@Persist
-	private List<PracticeDTO> practiceList;
+	private PracticeDataSource practiceSource;
 
 	@Property
 	@Persist
-	private List<GameDTO> gameList;
+	private GameDataSource gameSource;
 
 	@Component(parameters = "title=prop:player.displayName")
 	private Box playerBox;
 
-	@Component(parameters = {"title=message:gameGridBoxTitle", "type=tablebox"})
+	@Component(parameters = { "title=message:gameGridBoxTitle", "type=tablebox" })
 	private Box gameGridBox;
 
-	@Component(parameters = {"title=message:practiceGridBoxTitle", "type=tablebox"})
+	@Component(parameters = { "title=message:practiceGridBoxTitle",
+			"type=tablebox" })
 	private Box practiceGridBox;
 
-	@Component(parameters = { "source=gameList", "empty=message:noGameData",
+	@Component(parameters = { "source=gameSource", "empty=message:noGameData",
 			"model=gameModel",
 			"include=winloss,dateTime,teamA,teamB,result,points,stats",
 			"reorder=winloss,dateTime,teamA,teamB,result,points,stats",
-			"row=game", "rowsPerPage=9999", "inplace=true" })
+			"row=game", "rowsPerPage=20", "inplace=true" })
 	private Grid gameGrid;
 
-	@Component(parameters = { "source=practiceList",
+	@Component(parameters = { "source=practiceSource",
 			"empty=message:noPracticeData", "row=practice",
-			"model=practiceModel", "rowsPerPage=9999",
+			"model=practiceModel", "rowsPerPage=20",
 			"include=dateTime,gym,duration,coaches,agegroups",
 			"reorder=dateTime,gym,duration,coaches,agegroups", "inplace=true" })
 	private Grid practiceGrid;
@@ -110,15 +111,24 @@ public class Player {
 
 	@Component
 	private Zone gameGridZone;
-	
-	@Component(parameters = {"page=coach"})
+
+	@Component(parameters = { "page=coach" })
 	private PageLink coachDetail;
 
 	void onActivate(Long playerId) {
 		this.playerId = playerId;
 		player = playerService.findById(playerId);
-		practiceList = practiceService.findAllPracticesForPlayer(playerId);
-		gameList = gameService.findAllGamesForPlayer(playerId);
+		practiceSource = new PracticeDataSource(practiceService,
+				PracticeMode.PLAYER, playerId);
+		gameSource = new GameDataSource(gameService, GameMode.PLAYER, playerId);
+		if (gameGrid.getSortModel().getSortConstraints().isEmpty()) {
+			gameGrid.getSortModel().updateSort("dateTime");
+			gameGrid.getSortModel().updateSort("dateTime");
+		}
+		if (practiceGrid.getSortModel().getSortConstraints().isEmpty()) {
+			practiceGrid.getSortModel().updateSort("dateTime");
+			practiceGrid.getSortModel().updateSort("dateTime");
+		}
 	}
 
 	public int getPoints(GameDTO game, Long playerId) {
@@ -150,7 +160,7 @@ public class Player {
 	public BeanModel<PracticeDTO> getPracticeModel() {
 		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
 				PracticeDTO.class, componentResources.getMessages());
-		beanModel.add("gym", new GymPracticePropertyConduit()).sortable(true);
+		beanModel.add("gym", null).sortable(true);
 		beanModel.add("ageGroups");
 		beanModel.add("coaches");
 		beanModel.addEmpty("stats");
@@ -160,54 +170,18 @@ public class Player {
 	public BeanModel<GameDTO> getGameModel() {
 		BeanModel<GameDTO> beanModel = beanModelSource.createDisplayModel(
 				GameDTO.class, componentResources.getMessages());
-		beanModel.add("teama", new TeamPropertyConduit(1)).sortable(true);
-		beanModel.add("teamb", new TeamPropertyConduit(2)).sortable(true);
+		beanModel.add("teamA", null).sortable(true);
+		beanModel.add("teamB", null).sortable(true);
 		beanModel.addEmpty("result");
 		beanModel.addEmpty("winloss").sortable(true);
-		beanModel.add("points", new PointPropertyConduit(playerId)).sortable(
-				true);
+		beanModel.add("points", null).sortable(false);
 		beanModel.addEmpty("stats");
 		return beanModel;
 	}
 
-	public class PointPropertyConduit implements PropertyConduit {
-
-		private Long playerId;
-
-		public PointPropertyConduit(Long playerId) {
-			this.playerId = playerId;
-		}
-
-		public <T extends Annotation> T getAnnotation(Class<T> annotationClass) {
-			return null;
-		}
-
-		/**
-		 * @see org.apache.tapestry5.PropertyConduit#get(java.lang.Object)
-		 */
-		public Object get(Object instance) {
-			GameDTO game = (GameDTO) instance;
-			return getPoints(game, playerId);
-		}
-
-		public Class<Integer> getPropertyType() {
-			return Integer.class;
-		}
-
-		public void set(Object instance, Object value) {
-			GameDTO game = (GameDTO) instance;
-			for (GameStatDTO stat : game.getStats()) {
-				if (stat.getPlayer().getId().equals(playerId)) {
-					stat.setPoints((Integer) value);
-					break;
-				}
-			}
-		}
-
-	}
-
 	public String getCountry() {
-		return player.getNationalityDisplayName(request.getLocale());
+		// return player.getNationalityDisplayName(request.getLocale());
+		return player.getNationalityDisplayName(Locale.GERMAN);
 	}
 
 }

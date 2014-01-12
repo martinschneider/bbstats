@@ -1,7 +1,5 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import java.util.List;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
@@ -29,7 +27,7 @@ import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.GymService;
 import at.basketballsalzburg.bbstats.services.PracticeService;
-import at.basketballsalzburg.bbstats.utils.GymPracticePropertyConduit;
+import at.basketballsalzburg.bbstats.utils.PracticeDataSource;
 
 @RequiresPermissions(Permissions.practicesPage)
 public class Practices {
@@ -40,13 +38,14 @@ public class Practices {
 	@Component(parameters = "title=message:practiceEditorBoxTitle")
 	private Box practiceEditorBox;
 
-	@Component(parameters = {"title=message:practiceGridBoxTitle", "type=tablebox"})
+	@Component(parameters = { "title=message:practiceGridBoxTitle",
+			"type=tablebox" })
 	private Box practiceGridBox;
 
 	@Component
 	private PracticeEditor practiceEditor;
 
-	@Component(parameters = { "source=practiceList",
+	@Component(parameters = { "source=practiceSource",
 			"empty=message:noPracticeData", "row=practice",
 			"model=practiceModel", "rowsPerPage=20",
 			"include=dateTime,duration,gym", "inplace=true",
@@ -74,24 +73,27 @@ public class Practices {
 
 	@Property
 	@Persist
-	private List<PracticeDTO> practiceList;
+	private PracticeDataSource practiceSource;
 
-	@Component(parameters = { "event=edit", "context=practice.id", "Permission.allowedPermissions=editPractice" })
+	@Component(parameters = { "event=edit", "context=practice.id",
+			"Permission.allowedPermissions=editPractice" })
 	@MixinClasses(Permission.class)
 	private EventLink editPractice;
-	
-	@Component(parameters = { "event=delete", "context=practice.id", "Permission.allowedPermissions=deletePractice" })
+
+	@Component(parameters = { "event=delete", "context=practice.id",
+			"Permission.allowedPermissions=deletePractice" })
 	@MixinClasses(Permission.class)
 	private EventLink deletePractice;
 
-	@Component(parameters = { "event=new", "Permission.allowedPermissions=newPractice" })
+	@Component(parameters = { "event=new",
+			"Permission.allowedPermissions=newPractice" })
 	@MixinClasses(Permission.class)
 	private EventLink newPractice;
-	
-	@Component(parameters = {"page=player"})
+
+	@Component(parameters = { "page=player" })
 	private PageLink playerDetail;
-	
-	@Component(parameters = {"page=coach"})
+
+	@Component(parameters = { "page=coach" })
 	private PageLink coachDetail;
 
 	@Component
@@ -114,19 +116,13 @@ public class Practices {
 	@OnEvent(value = "delete")
 	Object onDelete(Long practiceId) {
 		practiceService.delete(practiceService.findById(practiceId));
-		practiceList = practiceService.findAll();
 		return practiceGridZone;
 	}
 
 	private PracticeDTO findPracticeById(Long practiceId) {
-		for (PracticeDTO practice : practiceList) {
-			if (practice.getId().equals(practiceId)) {
-				return practice;
-			}
-		}
-		return null;
+		return practiceService.findById(practiceId);
 	}
-	
+
 	@OnEvent(value = "new")
 	Object onNew() {
 		PracticeDTO newPractice = new PracticeDTO();
@@ -137,32 +133,32 @@ public class Practices {
 
 	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_CANCEL)
 	void onCancel() {
-		practiceList = practiceService.findAll();
 		editorVisible = false;
 	}
 
 	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_SAVE)
 	void onSave() {
-		practiceList = practiceService.findAll();
 		editorVisible = false;
 	}
-	
+
 	@Inject
 	private BeanModelSource beanModelSource;
 	@Inject
 	private ComponentResources componentResources;
 
 	public BeanModel<PracticeDTO> getPracticeModel() {
-		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(PracticeDTO.class,
-				componentResources.getMessages());
-		beanModel.add("gym", new GymPracticePropertyConduit()).sortable(true);
+		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
+				PracticeDTO.class, componentResources.getMessages());
+		beanModel.add("gym", null).sortable(true);
 		return beanModel;
 	}
 
 	@SetupRender
 	void setup() {
-		if (practiceList == null) {
-			practiceList = practiceService.findAll();
+		practiceSource = new PracticeDataSource(practiceService);
+		if (practiceGrid.getSortModel().getSortConstraints().isEmpty()) {
+			practiceGrid.getSortModel().updateSort("dateTime");
+			practiceGrid.getSortModel().updateSort("dateTime");
 		}
 	}
 }

@@ -3,6 +3,9 @@ package at.basketballsalzburg.bbstats.services;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
+
+import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
 import at.basketballsalzburg.bbstats.dto.statistics.AgeGroupPracticeStatisticDTO;
 import at.basketballsalzburg.bbstats.dto.statistics.CoachPracticeStatisticDTO;
@@ -14,19 +17,25 @@ import at.basketballsalzburg.bbstats.dto.statistics.SimplePlayerStatisticDTO;
  */
 public interface PracticeService {
 
-	public abstract void save(PracticeDTO practice);
+	public void save(PracticeDTO practice);
 
-	public abstract List<PracticeDTO> findAll();
+	public List<PracticeDTO> findAll();
 
-	public abstract List<PracticeDTO> findBetween(Date dateFrom, Date dateTo);
+	public List<PracticeDTO> findBetween(Date dateFrom, Date dateTo);
 
-	public abstract List<PracticeDTO> findAllPracticesForPlayer(Long playerId);
+	public List<PracticeDTO> findAllPracticesForPlayer(Long playerId);
 	
-	public abstract List<PracticeDTO> findAllPracticesForCoach(Long coachId);
+	public List<PracticeDTO> findAllPracticesForCoach(Long coachId);
 
-	public abstract PracticeDTO findById(Long practiceId);
+	public PracticeDTO findById(Long practiceId);
+	
+	public List<PracticeDTO> findPractices(int page, int size, Sort sort);
+	
+	public List<PracticeDTO> findPracticesForPlayer(Long playerId, int page, int size, Sort sort);
+	
+	public List<PracticeDTO> findPracticesForCoach(Long coachId, int page, int size, Sort sort);
 
-	public abstract void delete(PracticeDTO practice);
+	public void delete(PracticeDTO practice);
 
 	public List<SimplePlayerStatisticDTO> getPlayerStatistics(Date fromDate, Date toDate);
 	
@@ -35,4 +44,10 @@ public interface PracticeService {
 	public List<AgeGroupPracticeStatisticDTO> getAgeGroupStatistics(Date fromDate, Date toDate);
 	
 	public List<GymPracticeStatisticDTO> getGymStatistics(Date fromDate, Date toDate);
+	
+	public long count();
+	
+	public int countByPlayer(Long playerId);
+	
+	public int countByCoach(Long coachId);
 }
