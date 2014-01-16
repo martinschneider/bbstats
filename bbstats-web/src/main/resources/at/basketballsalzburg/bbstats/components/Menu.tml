@@ -1,12 +1,22 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd"
 	xmlns:p="tapestry:parameter">
 
-	<div class="navbar navbar-fixed-top navbar-inverse">
-		<div class="navbar-inner">
-			<ul class="nav">
-			    <li class="main">
-			    	<a href="${homepageUrl}">${homepageName}</a>
-			    </li>
+	<nav class="navbar navbar-default" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="${homepageUrl}">${homepageName}</a>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
 				<t:loop t:source="menuItems" t:value="item">
 					<t:if test="item.group" negate="true">
 						<li>
@@ -14,12 +24,11 @@
 						</li>
 						<p:else>
 							<li class="dropdown">
-								<a href="#" role="button" class="dropdown-toggle"
-									data-toggle="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 									${item.key}
 									<b class="caret"></b>
 								</a>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+								<ul class="dropdown-menu">
 									<t:loop t:source="item.items" t:value="subitem">
 										<li>
 											<t:pagelink page="${subitem.page}">${subitem.key}</t:pagelink>
@@ -31,13 +40,11 @@
 					</t:if>
 				</t:loop>
 			</ul>
-
-			<ul class="nav pull-right">
+			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<t:loginLink t:id="loginLink"/>
+					<t:loginLink t:id="loginLink" />
 				</li>
 			</ul>
-		</div>
-	</div>
-
+		</div><!-- /.navbar-collapse -->
+	</nav>
 </div>

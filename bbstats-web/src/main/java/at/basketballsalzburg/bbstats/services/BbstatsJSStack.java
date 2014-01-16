@@ -32,6 +32,9 @@ public class BbstatsJSStack implements JavaScriptStack {
 		
 		ret.add(assetSource.getClasspathAsset(
 				"at/basketballsalzburg/bbstats/libraries/bootstrap.min.js", null));
+		
+		ret.add(assetSource.getClasspathAsset(
+				"at/basketballsalzburg/bbstats/libraries/prototype-fix.js", null));
 
 		return ret;
 	}

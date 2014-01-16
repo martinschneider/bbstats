@@ -25,7 +25,7 @@ import at.basketballsalzburg.bbstats.pages.Practices;
 import at.basketballsalzburg.bbstats.pages.Schedule;
 import at.basketballsalzburg.bbstats.pages.TeamMaintenance;
 
-@Import(stylesheet = { "../styles/bootstrap.css", "../styles/bbstats.css",
+@Import(stylesheet = { "../styles/bootstrap.min.css", "../styles/bbstats.css",
 		"../styles/jquery.vegas.css" })
 public class PageLayout {
 
