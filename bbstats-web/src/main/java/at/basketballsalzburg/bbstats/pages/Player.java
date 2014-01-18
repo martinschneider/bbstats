@@ -106,10 +106,10 @@ public class Player {
 	@Property
 	private AgeGroupDTO ageGroup;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone practiceGridZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gameGridZone;
 
 	@Component(parameters = { "page=coach" })

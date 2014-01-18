@@ -45,7 +45,7 @@ public class PlayerStatistics {
 	@Component(parameters = { "title=message:playersBoxTitle", "type=tablebox" })
 	private Box playersBox;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone resultsZone;
 	
 	@Component(parameters = { "page=player" })

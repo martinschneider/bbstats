@@ -1,40 +1,34 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-
-	<t:form t:id="gymEditForm">
-		<ul class="inline-form">
-			<li>
-				<t:label for="name" />
-				<t:textfield t:id="name" t:validate="required" />
-			</li>
-			<li>
-				<t:label for="shortName" />
-				<t:textfield t:id="shortName" />
-			</li>
-		</ul>
-		<ul class="inline-form">
-			<li>
-				<t:label for="adress" />
-				<t:textfield t:id="adress" />
-			</li>
-			<li>
-				<t:label for="postalCode" />
-				<t:textfield t:id="postalCode" />
-			</li>
-			<li>
-				<t:label for="city" />
-				<t:textfield t:id="city" />
-			</li>
-			<li>
-				<t:label for="country" />
-				<t:textfield t:id="country" />
-			</li>
-		</ul>
+	
+	<t:form t:id="gymEditForm" role="form" class="form-horizontal">
+		<div class="form-group">
+			<t:label for="name" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="name" t:validate="required" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="shortName" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="shortName" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="adress" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="adress" class="col-xs-8 col-sm-9" />
+		</div>
+		<div class="form-group">
+			<t:label for="postalCode" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="postalCode" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="city" class="col-xs-3 col-sm-2" />
+			<t:textfield t:id="city" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="country" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="country" class="col-xs-8 col-sm-9"/>
+		</div>
 		<div class="btn-group">
-			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}
-			</t:linksubmit>
-			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}
-			</t:eventlink>
+			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
+			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 		</div>
 	</t:form>
-
+	
 </div>

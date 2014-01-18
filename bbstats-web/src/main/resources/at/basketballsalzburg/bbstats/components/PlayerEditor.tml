@@ -1,55 +1,50 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-
-	<t:form t:id="playerEditForm">
-		<ul class="inline-form">
-			<li>
-				<t:label for="firstName" />
-				<t:textfield t:id="firstName" t:validate="required" />
-			</li>
-			<li>
-				<t:label for="lastName" />
-				<t:textfield t:id="lastName" t:validate="required" />
-			</li>
-		</ul>
-		<ul class="inline-form">
-			<li>
-				<t:label for="adress" />
-				<t:textfield t:id="adress" />
-			</li>
-			<li>
-				<t:label for="postalCode" />
-				<t:textfield t:id="postalCode" />
-			</li>
-			<li>
-				<t:label for="city" />
-				<t:textfield t:id="city" />
-			</li>
-			<li>
-				<t:label for="country" />
-				<t:textfield t:id="country" />
-			</li>
-		</ul>
-		<ul class="inline-form">
-			<li>
-				<t:label for="phone" />
-				<t:textfield t:id="phone" />
-			</li>
-			<li>
-				<t:label for="email" />
-				<t:textfield t:id="email" />
-			</li>
-		</ul>
-		<t:label for="birthday" />
-		<t:datetimefield t:id="birthday" />
-		<t:label for="nationality" />
-		<t:textfield t:id="nationality" />
-		<br />
+	
+	<t:form t:id="playerEditForm" class="form-horizontal" role="form">
+		<div class="form-group">
+			<t:label for="firstName" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="firstName" t:validate="required" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="lastName" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="lastName" t:validate="required" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="adress" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="adress" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="postalCode" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="postalCode" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="city" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="city" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="country" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="country" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="phone" class="col-xs-3 col-sm-2" />
+			<t:textfield t:id="phone" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="email" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="email" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="birthday" class="col-xs-3 col-sm-2"/>
+			<t:datetimefield t:id="birthday" class="col-xs-8 col-sm-9"/>
+		</div>
+		<div class="form-group">
+			<t:label for="nationality" class="col-xs-3 col-sm-2"/>
+			<t:textfield t:id="nationality" class="col-xs-8 col-sm-9"/>
+		</div>
 		<div class="btn-group">
-			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}
-			</t:linksubmit>
-			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}
-			</t:eventlink>
+			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
+			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 		</div>
 	</t:form>
-
+	
 </div>

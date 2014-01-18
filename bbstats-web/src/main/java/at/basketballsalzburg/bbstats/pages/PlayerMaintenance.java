@@ -13,6 +13,7 @@ import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.BeanModel;
+import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Grid;
@@ -60,16 +61,19 @@ public class PlayerMaintenance {
 			"inplace=true" })
 	private Grid playersGrid;
 
+	@Component(parameters = { "value=filterInactive" })
+	private Checkbox filterInActive;
+
 	@Component(parameters = { "value=activeSinceDate", "datePattern=dd.MM.yyyy" })
 	private DateTimeField activeSinceField;
-	
-	@Component(parameters = {"title=message:filterBoxTitle"})
+
+	@Component(parameters = { "title=message:filterBoxTitle" })
 	private Box filterBox;
-	
+
 	@Property
 	@Persist
 	private Date activeSinceDate;
-	
+
 	@Component
 	private Form form;
 
@@ -78,7 +82,7 @@ public class PlayerMaintenance {
 
 	@Property
 	@Persist
-	private boolean showInactive;
+	private boolean filterInactive;
 
 	@Inject
 	private PlayerService playerService;
@@ -94,10 +98,10 @@ public class PlayerMaintenance {
 	@Persist
 	private PlayerDTO player;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone playerEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone playerGridZone;
 
 	@Component(parameters = "title=message:playerEditorBoxTitle")
@@ -170,17 +174,6 @@ public class PlayerMaintenance {
 				playerExporter.getFile(playerList), "players");
 	}
 
-	@OnEvent(value = "toggleInactive")
-	Object toggleInactive() {
-		if (showInactive) {
-			playerList = playerService.findAll();
-		} else {
-			playerList = playerService.findAllActiveSince(new DateMidnight()
-					.minusMonths(1).toDate());
-		}
-		return playerGridZone;
-	}
-
 	@Inject
 	private BeanModelSource beanModelSource;
 
@@ -194,11 +187,14 @@ public class PlayerMaintenance {
 
 	@SetupRender
 	void setup() {
-		if (activeSinceDate==null)
-		{
+		if (activeSinceDate == null) {
 			activeSinceDate = new DateMidnight().minusWeeks(2).toDate();
 		}
-		playerList = playerService.findAllActiveSince(activeSinceDate);
+		if (filterInactive) {
+			playerList = playerService.findAllActiveSince(activeSinceDate);
+		} else {
+			playerList = playerService.findAll();
+		}
 		if (playersGrid.getSortModel().getSortConstraints().isEmpty()) {
 			playersGrid.getSortModel().updateSort("displayName");
 		}

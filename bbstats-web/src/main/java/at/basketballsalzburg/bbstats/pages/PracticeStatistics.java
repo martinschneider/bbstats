@@ -57,7 +57,7 @@ public class PracticeStatistics {
 	@Component(parameters = { "title=message:ageGroupsBoxTitle", "type=tablebox" })
 	private Box ageGroupsBox;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone resultsZone;
 
 	@Component(parameters = { "source=playerPracticeList",

@@ -57,6 +57,8 @@ public class Game {
 	private Integer scoreB4;
 	private Integer scoreAV;
 	private Integer scoreBV;
+	
+	private Boolean penalized;
 
 	@OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<GameStat> stats;
@@ -236,5 +238,13 @@ public class Game {
 
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public Boolean getPenalized() {
+		return penalized;
+	}
+
+	public void setPenalized(Boolean penalized) {
+		this.penalized = penalized;
 	}
 }

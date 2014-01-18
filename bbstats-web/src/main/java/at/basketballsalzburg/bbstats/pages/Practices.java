@@ -96,10 +96,10 @@ public class Practices {
 	@Component(parameters = { "page=coach" })
 	private PageLink coachDetail;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone practiceEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone practiceGridZone;
 
 	@Property

@@ -19,6 +19,7 @@ import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.Validate;
+import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
@@ -104,14 +105,14 @@ public class GameEditor {
 	@Property
 	private String zone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone periodsZone;
 
 	@Component
 	// (parameters = { "zone=gameEditZone" })
 	private Form gameEditForm;
 
-	@Component(parameters="type=innerbox")
+	@Component(parameters = "type=innerbox")
 	private Box gameStatBox;
 
 	@Component(parameters = { "value=game.dateTime",
@@ -188,6 +189,9 @@ public class GameEditor {
 	@Component(parameters = { "value=game.scoreBV", "nulls=zero" })
 	@Validate(value = "min=0")
 	private TextField scoreBOvertime;
+
+	@Component(parameters = { "value=game.penalized"})
+	private Checkbox penalized;
 
 	@Component(parameters = { "value=gymId", "model=gymSelectModel" })
 	private Select gymSelect;

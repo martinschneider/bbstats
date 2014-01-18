@@ -39,10 +39,10 @@ public class LeagueMaintenance {
 			"reorder=shortName,name,edit,delete", "inplace=true" })
 	private Grid leagueGrid;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone leagueEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone leagueGridZone;
 
 	@Component(parameters = "title=message:leagueEditorBoxTitle")

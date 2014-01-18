@@ -42,7 +42,7 @@ public class Results {
 	@Component(parameters = { "title=message:gameEditorBoxTitle" })
 	private Box gameEditorBox;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gameEditorZone;
 
 	// columns depend on user roles. use custom model and exclude instead of
@@ -52,7 +52,7 @@ public class Results {
 			"empty=message:noGameData",
 			"row=game",
 			"rowsPerPage=20",
-			"exclude=id,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
+			"exclude=id,penalized,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
 			"reorder=winloss", "model=gameModel", "inplace=true" })
 	private Grid gameGrid;
 
@@ -134,14 +134,12 @@ public class Results {
 	@OnEvent(value = GameEditor.GAME_EDIT_CANCEL)
 	Object onCancel() {
 		editorVisible = false;
-		// gameList = gameService.findBefore(new Date());
 		return gameEditorZone.getBody();
 	}
 
 	@OnEvent(value = GameEditor.GAME_EDIT_SAVE)
 	Object onSave() {
 		editorVisible = false;
-		// gameList = gameService.findBefore(new Date());
 		return gameEditorZone.getBody();
 	}
 
@@ -155,7 +153,6 @@ public class Results {
 	@OnEvent(value = "delete")
 	Object onDelete(Long gameId) {
 		gameService.delete(gameService.findById(gameId));
-		// gameList = gameService.findBefore(new Date());
 		return gameGridZone;
 	}
 
@@ -189,7 +186,8 @@ public class Results {
 	}
 
 	public boolean isNoResult() {
-		return (game.getScoreA() == 0 && game.getScoreB() == 0);
+		return (game.getScoreA() == 0 && game.getScoreB() == 0
+				&& !game.getPenalized());
 	}
 
 	public boolean isOT() {

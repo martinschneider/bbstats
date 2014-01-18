@@ -1,14 +1,17 @@
-$j(document).ready(
-		function() {
-			init();
-			$("periodsZone").observe(Tapestry.ZONE_UPDATED_EVENT,
-					function(event) {
-						init();
-					});
-		});
+$j(document).ready(function() {
+	init();
+	$("periodsZone").observe(Tapestry.ZONE_UPDATED_EVENT, function(event) {
+		init();
+	});
+});
 
 function init() {
 	displayResult();
+	if ($j("input#zero").is(':checked')) {
+		$j("span#results").hide();
+	} else {
+		$j("span#results").show();
+	}
 	$j("input.scoreA,input.scoreB,input.scoreAV,input.scoreBV").keydown(
 			function(event) {
 				if (event.keyCode == 46 || event.keyCode == 8
@@ -24,8 +27,16 @@ function init() {
 				}
 			});
 
-	$j("input.scoreA,input.scoreB,input.scoreAV,input.scoreBV").keyup(function() {
-		displayResult();
+	$j("input.scoreA,input.scoreB,input.scoreAV,input.scoreBV").keyup(
+			function() {
+				displayResult();
+			});
+	$j("input#zero").click(function() {
+		if ($j(this).is(':checked')) {
+			$j("span#results").hide();
+		} else {
+			$j("span#results").show();
+		}
 	});
 }
 

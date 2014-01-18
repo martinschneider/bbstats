@@ -47,7 +47,7 @@ public class Schedule {
 	@Component(parameters = { "title=message:gameEditorBoxTitle" })
 	private Box gameEditorBox;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gameEditorZone;
 
 	// columns depend on user roles. use custom model and exclude instead of
@@ -57,7 +57,7 @@ public class Schedule {
 			"empty=message:noGameData",
 			"row=game",
 			"rowsPerPage=20",
-			"exclude=id,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
+			"exclude=id,penalized,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
 			"model=gameModel", "inplace=true" })
 	private Grid gameGrid;
 
@@ -104,7 +104,7 @@ public class Schedule {
 	@MixinClasses(Permission.class)
 	private EventLink newGame;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gameGridZone;
 
 	@Component(parameters = { "event=downloadXLS" })

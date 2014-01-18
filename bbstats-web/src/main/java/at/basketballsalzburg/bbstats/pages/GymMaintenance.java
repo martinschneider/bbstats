@@ -45,10 +45,10 @@ public class GymMaintenance {
 			"inplace=true" })
 	private Grid gymsGrid;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gymEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gymGridZone;
 
 	@Component(parameters = "title=message:gymEditorBoxTitle")

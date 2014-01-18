@@ -39,10 +39,10 @@ public class TeamMaintenance {
 			"reorder=name,shortName,edit,delete", "inplace=true" })
 	private Grid teamGrid;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone teamEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone teamGridZone;
 
 	@Component(parameters = "title=message:teamEditorBoxTitle")

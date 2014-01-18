@@ -117,10 +117,10 @@ public class GameStatEditor {
 			"zone=gameStatEditZone" })
 	private EventLink cancelImport;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gameStatEditZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone gameStatGridZone;
 
 	@Property
@@ -168,17 +168,14 @@ public class GameStatEditor {
 		showEditor = false;
 	}
 
-	Object onSucessFromStatSubmit()
-	{
+	Object onSucessFromStatSubmit() {
 		return new MultiZoneUpdate(gameStatGridZone).add(gameStatEditZone);
 	}
-	
-	Object onSucessFromImportData()
-	{
+
+	Object onSucessFromImportData() {
 		return new MultiZoneUpdate(gameStatGridZone).add(gameStatEditZone);
 	}
-	
-	
+
 	@OnEvent(value = GAME_STAT_NEW)
 	Object onNew() {
 		gameStat = new GameStatDTO();

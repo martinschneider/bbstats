@@ -40,10 +40,10 @@ public class CoachMaintenance {
 			"reorder=lastName,firstName,edit,delete", "inplace=true" })
 	private Grid coachesGrid;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone coachEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone coachGridZone;
 
 	@Component(parameters = "title=message:coachEditorBoxTitle")

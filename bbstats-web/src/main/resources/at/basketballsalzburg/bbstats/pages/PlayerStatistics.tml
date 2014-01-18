@@ -1,34 +1,28 @@
-<html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
-
+<html t:id="pageLayout"
+	t:type="pageLayout"
+	xmlns:p="tapestry:parameter"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	
 	<t:box t:id="datesBox">
-		<t:form t:id="form">
-			<ul class="inline-form">
-				<li>
-					<div class="control-group">
-						<t:label for="fromDateField" class="control-label" />
-						<t:datetimefield t:id="fromDateField" />
-					</div>
-				</li>
-				<li>
-					<div class="control-group">
-						<t:label for="toDateField" class="control-label" />
-						<t:datetimefield t:id="toDateField" />
-					</div>
-				</li>
-			</ul>
-			<t:linksubmit t:id="submit" class="btn btn-primary">${message:refresh}
-			</t:linksubmit>
+		<t:form t:id="form" class="form-horizontal" role="form">
+			<div class="form-group">
+				<t:label for="fromDateField" class="col-md-2"/>
+				<t:datetimefield t:id="fromDateField" class="form-control" />
+			</div>
+			<div class="form-group">
+				<t:label for="toDateField" class="col-md-2"/>
+				<t:datetimefield t:id="toDateField" class="form-control" />
+			</div>
+			<button t:id="submit" class="btn btn-default">${message:refresh}</button>
 		</t:form>
 	</t:box>
-
+	
 	<t:zone t:id="resultsZone">
 		<t:box t:id="playersBox">
 			<t:grid t:id="playerStatisticsGrid" class="table-striped table-condensed">
 				<p:nameCell>
 					<t:pagelink t:id="playerDetail" context="${playerStatistic.playerId}">${playerStatistic.lastName}
-						${playerStatistic.firstName}
-					</t:pagelink>
+						${playerStatistic.firstName}</t:pagelink>
 				</p:nameCell>
 			</t:grid>
 		</t:box>

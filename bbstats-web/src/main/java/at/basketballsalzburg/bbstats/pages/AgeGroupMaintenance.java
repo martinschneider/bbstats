@@ -40,10 +40,10 @@ public class AgeGroupMaintenance {
 			"inplace=true" })
 	private Grid ageGroupGrid;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone ageGroupEditorZone;
 
-	@Component
+	@Component(parameters = { "update=show" })
 	private Zone ageGroupGridZone;
 
 	@Component(parameters = "title=message:ageGroupEditorBoxTitle")

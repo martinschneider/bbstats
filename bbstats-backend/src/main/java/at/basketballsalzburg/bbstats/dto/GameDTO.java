@@ -30,6 +30,8 @@ public class GameDTO implements Comparable<GameDTO> {
 	private Integer scoreAV;
 	private Integer scoreBV;
 
+	private Boolean penalized;
+
 	private List<GameStatDTO> stats;
 
 	private List<AgeGroupDTO> ageGroups;
@@ -275,6 +277,9 @@ public class GameDTO implements Comparable<GameDTO> {
 	}
 
 	public boolean isOT() {
+		if (getPenalized()) {
+			return false;
+		}
 		int sumA = getScoreA1().intValue() + getScoreA2().intValue()
 				+ getScoreA3().intValue() + getScoreA4().intValue();
 		int sumB = getScoreB1().intValue() + getScoreB2().intValue()
@@ -304,7 +309,7 @@ public class GameDTO implements Comparable<GameDTO> {
 			resultStr += " (" + getScoreA1() + ":" + getScoreB1() + ", "
 					+ getScoreA3() + ":" + getScoreB3();
 		}
-		if (ot) {
+		if (ot && !getPenalized()) {
 			resultStr += ", " + getScoreAV() + ":" + getScoreBV();
 		}
 		if (getPeriods().intValue() > 1) {
@@ -323,5 +328,13 @@ public class GameDTO implements Comparable<GameDTO> {
 
 	public boolean equals(Object rhs) {
 		return EqualsBuilder.reflectionEquals(this, rhs);
+	}
+
+	public Boolean getPenalized() {
+		return (penalized == null) ? Boolean.FALSE : penalized;
+	}
+
+	public void setPenalized(Boolean penalized) {
+		this.penalized = penalized;
 	}
 }
