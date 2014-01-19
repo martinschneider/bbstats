@@ -48,7 +48,7 @@
 					
 				</p:coachesCell>
 				<p:statsCell>
-					<t:if test="noResult" negate="true">
+					<t:if test="showStats">
 						<a class="stats-icon" title="${message:statsBoxTitle}" data-toggle="modal" data-target="#stats${game.id}"
 							/>
 						<div class="modal fade" id="stats${game.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -71,15 +71,23 @@
 									<div class="modal-body">
 										<t:grid t:id="statGrid" class="table-striped table-condensed">
 											<p:nameCell>
-												<t:pagelink t:id="playerDetail" context="${gameStat.player.id}">${gameStat.player.lastName}
+												<t:if test="publicMode" negate="true">
+													<t:pagelink t:id="playerDetail" context="${gameStat.player.id}">${gameStat.player.lastName}
 										${gameStat.player.firstName}</t:pagelink>
+													<p:else>${gameStat.player.lastName}
+										${gameStat.player.firstName}</p:else>
+												</t:if>
+												
 											</p:nameCell>
 										</t:grid>
 										<div style="margin-top: 15px; margin-left: 10px;">
 											<b>${message:coaches}</b>
 											<br />
 											<t:loop source="game.coaches" value="coach">
-												${coach.lastName} ${coach.firstName}
+												<t:if test="publicMode" negate="true">
+													<t:pagelink t:id="coachDetail" context="${coach.id}">${coach.lastName} ${coach.firstName}</t:pagelink>
+													<p:else>${coach.lastName} ${coach.firstName}</p:else>
+												</t:if>
 												<br />
 											</t:loop>
 										</div>

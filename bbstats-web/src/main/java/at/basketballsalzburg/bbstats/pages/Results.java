@@ -105,6 +105,9 @@ public class Results {
 
 	@Component(parameters = { "page=player" })
 	private PageLink playerDetail;
+	
+	@Component(parameters = { "page=coach" })
+	private PageLink coachDetail;
 
 	@Component
 	private Zone gameGridZone;
@@ -169,9 +172,8 @@ public class Results {
 		beanModel.add("teamB", null).sortable(true);
 		beanModel.add("league", null).sortable(true);
 		beanModel.add("result", null).sortable(false);
-		if (pageLayout.isPermitted("viewStats")) {
-			beanModel.add("stats", null).sortable(false);
-		}
+		beanModel.add("stats", null).sortable(false);
+
 		if (pageLayout.isPermitted("editGame")) {
 			beanModel.add("edit", null).sortable(false);
 		}
@@ -186,8 +188,8 @@ public class Results {
 	}
 
 	public boolean isNoResult() {
-		return (game.getScoreA() == 0 && game.getScoreB() == 0
-				&& !game.getPenalized());
+		return (game.getScoreA() == 0 && game.getScoreB() == 0 && !game
+				.getPenalized());
 	}
 
 	public boolean isOT() {
@@ -204,5 +206,15 @@ public class Results {
 
 	public boolean isAway() {
 		return gameService.isAway(game);
+	}
+
+	public boolean isShowStats() {
+		return !isNoResult()
+				&& (pageLayout.isPermitted("viewStats") || gameService
+						.isShowStats(game));
+	}
+
+	public boolean isPublicMode() {
+		return !pageLayout.isPermitted("viewStats");
 	}
 }

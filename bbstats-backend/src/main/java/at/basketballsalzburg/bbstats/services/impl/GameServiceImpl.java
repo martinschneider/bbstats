@@ -35,6 +35,9 @@ public class GameServiceImpl implements GameService {
 	@Value("#{'${teamNames}'.split(',')}")
 	private List<String> teamNames;
 
+	@Value("#{'${showStatistics}'.split(',')}")
+	private List<String> showStatistics;
+
 	@Autowired
 	public void setMapper(DozerBeanMapper mapper) {
 		this.mapper = mapper;
@@ -189,8 +192,8 @@ public class GameServiceImpl implements GameService {
 		return teamNames;
 	}
 
-	public void setTeamNames(List<String> teamNames) {
-		this.teamNames = teamNames;
+	public List<String> getShowStatistics() {
+		return showStatistics;
 	}
 
 	@Override
@@ -232,18 +235,19 @@ public class GameServiceImpl implements GameService {
 	public List<GameDTO> findGamesForPlayer(Long playerId, int page, int size,
 			Sort sort) {
 		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByPlayer(playerId, new PageRequest(
-				page, size, sort))) {
+		for (Game game : dao.findByPlayer(playerId, new PageRequest(page, size,
+				sort))) {
 			games.add(mapper.map(game, GameDTO.class));
 		}
 		return games;
 	}
 
 	@Override
-	public List<GameDTO> findGamesForCoach(Long coachId, int page, int size, Sort sort) {
+	public List<GameDTO> findGamesForCoach(Long coachId, int page, int size,
+			Sort sort) {
 		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByCoach(coachId, new PageRequest(
-				page, size, sort))) {
+		for (Game game : dao.findByCoach(coachId, new PageRequest(page, size,
+				sort))) {
 			games.add(mapper.map(game, GameDTO.class));
 		}
 		return games;
@@ -257,5 +261,16 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public int countByCoach(Long coachId) {
 		return dao.countByCoach(coachId);
+	}
+
+	@Override
+	public boolean isShowStats(GameDTO game) {
+		for (String teamName : showStatistics) {
+			if ((game.getTeamA().getName().contains(teamName))
+					|| (game.getTeamB().getName().contains(teamName))) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

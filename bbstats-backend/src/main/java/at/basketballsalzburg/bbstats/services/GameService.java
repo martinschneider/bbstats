@@ -39,6 +39,8 @@ public interface GameService {
 	public boolean isHome(GameDTO game);
 
 	public boolean isWin(GameDTO game);
+	
+	public boolean isShowStats(GameDTO game);
 
 	public int countResults();
 
