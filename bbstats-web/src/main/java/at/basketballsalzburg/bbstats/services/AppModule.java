@@ -13,6 +13,7 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.Local;
+import org.apache.tapestry5.ioc.annotations.Value;
 import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.Request;
@@ -37,7 +38,7 @@ public class AppModule {
 			MappedConfiguration<String, String> configuration) {
 		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "de");
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "true");
-		configuration.add(SymbolConstants.APPLICATION_VERSION, "14.01.19");
+		configuration.add(SymbolConstants.APPLICATION_VERSION, "14.01.21");
 	}
 
 	/**
@@ -120,6 +121,11 @@ public class AppModule {
 				DateMidnight.class, java.util.Date.class, fromDateMidnight));
 	}
 
+	public void contributeFactoryDefaults(
+			MappedConfiguration<String, String> configuration) {
+		configuration.add("shiro.ini.url", "classpath:shiro.ini");
+	}
+
 	@Contribute(JavaScriptStackSource.class)
 	public static void addJQueryStack(
 			MappedConfiguration<String, JavaScriptStack> configuration) {
@@ -127,8 +133,9 @@ public class AppModule {
 	}
 
 	@Contribute(WebSecurityManager.class)
-	public static void addRealms(Configuration<Realm> configuration) {
-		IniRealm realm = new IniRealm("classpath:shiro.ini");
+	public static void addRealms(Configuration<Realm> configuration,
+			@Value("${shiro.ini.url}") String shiroUrl) {
+		IniRealm realm = new IniRealm(shiroUrl);
 		HashedCredentialsMatcher hcm = new HashedCredentialsMatcher("SHA-256");
 		realm.setCredentialsMatcher(hcm);
 		configuration.add(realm);

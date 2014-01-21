@@ -3,6 +3,11 @@ package at.basketballsalzburg.bbstats.commons;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Menu item
+ * 
+ * @author Martin Schneider
+ */
 public class MenuItem {
 	String key;
 	String page;

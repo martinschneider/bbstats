@@ -12,6 +12,7 @@ import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
+import at.basketballsalzburg.bbstats.commons.MenuHelper;
 import at.basketballsalzburg.bbstats.commons.MenuItem;
 import at.basketballsalzburg.bbstats.pages.AgeGroupMaintenance;
 import at.basketballsalzburg.bbstats.pages.CoachMaintenance;
@@ -49,44 +50,51 @@ public class PageLayout {
 		if (!menu.isInitialized()) {
 			List<MenuItem> items = new ArrayList<MenuItem>();
 
+			// GAMES
 			MenuItem games = new MenuItem(messages.get("games"), null, true);
-			games.addItem(new MenuItem(messages.get("schedule"), Schedule.class
-					.getSimpleName(), false));
-			games.addItem(new MenuItem(messages.get("results"), Results.class
-					.getSimpleName(), false));
-			MenuItem practices = new MenuItem(messages.get("practices"),
-					Practices.class.getSimpleName(), false);
+			games = MenuHelper.addItem(games, messages.get("schedule"), Schedule.class);
+			games = MenuHelper.addItem(games, messages.get("results"), Results.class);
+			if (!games.getItems().isEmpty())
+			{
+				items.add(games);
+			}
+			
+			// PRACTICES
+			items = MenuHelper.addItem(items, messages.get("practices"),
+					Practices.class);
+			
+			// STATISTICS
 			MenuItem statistics = new MenuItem(messages.get("statistics"),
 					null, true);
-			statistics.addItem(new MenuItem(messages.get("playerStatistics"),
-					PlayerStatistics.class.getSimpleName(), false));
-			statistics.addItem(new MenuItem(messages.get("practiceStatistics"),
-					PracticeStatistics.class.getSimpleName(), false));
+			statistics = MenuHelper.addItem(statistics, messages.get("playerStatistics"),
+					PlayerStatistics.class);
+			statistics = MenuHelper.addItem(statistics,messages.get("practiceStatistics"),
+					PracticeStatistics.class);
+			if (!statistics.getItems().isEmpty())
+			{
+				items.add(statistics);
+			}
+			
+			// MAINTENANCE
 			MenuItem maintenance = new MenuItem(messages.get("maintenance"),
 					null, true);
-			maintenance.addItem(new MenuItem(messages.get("agegroups"),
-					AgeGroupMaintenance.class.getSimpleName(), false));
-			maintenance.addItem(new MenuItem(messages.get("coaches"),
-					CoachMaintenance.class.getSimpleName(), false));
-			maintenance.addItem(new MenuItem(messages.get("gyms"),
-					GymMaintenance.class.getSimpleName(), false));
-			maintenance.addItem(new MenuItem(messages.get("players"),
-					PlayerMaintenance.class.getSimpleName(), false));
-			maintenance.addItem(new MenuItem(messages.get("leagues"),
-					LeagueMaintenance.class.getSimpleName(), false));
-			maintenance.addItem(new MenuItem(messages.get("teams"),
-					TeamMaintenance.class.getSimpleName(), false));
-
-			items.add(games);
-			if (SecurityUtils.getSubject().isAuthenticated()) {
-				if (hasRole("coach")) {
-					items.add(practices);
-				}
-				items.add(statistics);
+			maintenance = MenuHelper.addItem(maintenance, messages.get("agegroups"),
+					AgeGroupMaintenance.class);
+			maintenance = MenuHelper.addItem(maintenance, messages.get("coaches"),
+					CoachMaintenance.class);
+			maintenance = MenuHelper.addItem(maintenance, messages.get("gyms"),
+					GymMaintenance.class);
+			maintenance = MenuHelper.addItem(maintenance, messages.get("players"),
+					PlayerMaintenance.class);
+			maintenance = MenuHelper.addItem(maintenance, messages.get("leagues"),
+					LeagueMaintenance.class);
+			maintenance = MenuHelper.addItem(maintenance, messages.get("teams"),
+					TeamMaintenance.class);
+			if (!maintenance.getItems().isEmpty())
+			{
 				items.add(maintenance);
 			}
 			menu.setMenuItems(items);
-
 		}
 	}
 
@@ -101,5 +109,4 @@ public class PageLayout {
 	public boolean isAuthenticated() {
 		return SecurityUtils.getSubject().isAuthenticated();
 	}
-
 }

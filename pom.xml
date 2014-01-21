@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.basketball-salzburg</groupId>
 	<artifactId>bbstats-parent</artifactId>
-	<version>14.01.19</version>
+	<version>14.01.21</version>
 	<packaging>pom</packaging>
 
 	<name>bbstats parent</name>
