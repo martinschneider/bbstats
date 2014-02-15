@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.beans.factory.annotation.Value;
 
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 
@@ -22,6 +23,9 @@ import at.basketballsalzburg.bbstats.dto.GameDTO;
  */
 public class ExcelGameExporter implements GameExporter {
 
+	@Value("${xls.dateFormat}")
+	private String dateFormat = "dd.MM.yyyy, HH:mm";
+	
 	public InputStream getFile(List<GameDTO> games) throws IOException {
 		Workbook wb = new HSSFWorkbook();
 		CreationHelper createHelper = wb.getCreationHelper();
@@ -33,6 +37,10 @@ public class ExcelGameExporter implements GameExporter {
 		font.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		boldStyle.setFont(font);
 		Row row = sheet.createRow(rowIndex);
+		
+		CellStyle dateCellStyle = wb.createCellStyle();
+		dateCellStyle.setDataFormat(
+		    createHelper.createDataFormat().getFormat(dateFormat));
 
 		Cell cell = row.createCell(0);
 		cell.setCellValue("Datum");
@@ -58,16 +66,12 @@ public class ExcelGameExporter implements GameExporter {
 		cell.setCellValue("Ergebnis");
 		cell.setCellStyle(boldStyle);
 
-		CellStyle dateStyle = wb.createCellStyle();
-		dateStyle.setDataFormat(createHelper.createDataFormat().getFormat(
-				"dd.MM.yyyy"));
-
 		for (GameDTO game : games) {
 			rowIndex++;
 			Row playerRow = sheet.createRow(rowIndex);
 			cell = playerRow.createCell(0);
 			cell.setCellValue(game.getDateTime());
-			cell.setCellStyle(dateStyle);
+			cell.setCellStyle(dateCellStyle);
 			playerRow.createCell(1).setCellValue(
 					game.getLeague().getShortName());
 			playerRow.createCell(2)
