@@ -42,7 +42,7 @@
 	width: 30px;
 }
 
-.delete-item,.edit-item,.stats-icon,.route-icon,.win,.loss {
+.delete-item,.edit-item,.stats-icon,.route-icon,.error-icon,.warning-icon,.info-icon,.win,.loss {
 	padding: 0;
 	margin-right: 8px;
 	height: 24px;
@@ -66,6 +66,18 @@
 
 .stats-icon {
 	background-image: url("../images/stats.png");
+}
+
+.error-icon {
+	background-image: url("../images/error.png");
+}
+
+.warning-icon {
+	background-image: url("../images/warning.png");
+}
+
+.info-icon {
+	background-image: url("../images/info.png");
 }
 
 .stats-icon:hover {

@@ -1,4 +1,5 @@
-<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<div xmlns:p="tapestry:parameter"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
 	
 	<t:form t:id="gameEditForm" class="form-horizontal" role="form">
 		
@@ -98,6 +99,9 @@
 						<t:textfield t:id="scoreBOvertime" t:validate="min=0" class="scoreBV" />
 					</span>
 				</div>
+				<t:if test="questionablePeriodStats">
+					<div class="alert alert-info">${message:questionablePeriodStats}</div>
+				</t:if>
 				<div class="well">
 					<label>${message:result}</label>
 					<div class="result">
@@ -110,6 +114,14 @@
 		</span>
 		
 		<label>${message:players}</label>
+		<t:if test="missingPlayerStats">
+				<div class="alert alert-danger">${message:missingPlayerStats}</div>
+				<p:else>
+					<t:if test="invalidPlayerStats">
+						<div class="alert alert-warning">${message:invalidPlayerStats}</div>
+					</t:if>
+				</p:else>
+			</t:if>
 		<t:box t:id="gameStatBox">
 			<t:gameStatEditor t:id="gameStatEditor" />
 		</t:box>

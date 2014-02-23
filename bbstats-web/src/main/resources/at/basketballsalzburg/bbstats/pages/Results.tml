@@ -110,6 +110,19 @@
 						</div>
 					</t:if>
 				</p:statsCell>
+				<p:statsErrorsCell>
+					<t:if test="missingStats">
+						<a class="error-icon" alt="${message:missingStats}" title="${message:missingStats}"/>
+						<p:else>
+							<t:if test="invalidPlayerStats">
+								<a class="warning-icon" alt="${message:invalidPlayerStats}" title="${message:invalidPlayerStats}"/>
+							</t:if>
+						</p:else>
+					</t:if>
+					<t:if test="questionablePeriodStats">
+						<a class="info-icon" alt="${message:questionablePeriodStats}" title="${message:questionablePeriodStats}"/>
+					</t:if>
+				</p:statsErrorsCell>
 				<p:winLossCell>
 					<t:if test="noResult" negate="true">
 						<t:if test="win">

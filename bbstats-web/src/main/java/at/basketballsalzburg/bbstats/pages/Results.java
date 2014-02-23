@@ -105,7 +105,7 @@ public class Results {
 
 	@Component(parameters = { "page=player" })
 	private PageLink playerDetail;
-	
+
 	@Component(parameters = { "page=coach" })
 	private PageLink coachDetail;
 
@@ -175,6 +175,7 @@ public class Results {
 		beanModel.add("stats", null).sortable(false);
 
 		if (pageLayout.isPermitted("editGame")) {
+			beanModel.add("statsErrors", null).sortable(false);
 			beanModel.add("edit", null).sortable(false);
 		}
 		if (pageLayout.isPermitted("deleteGame")) {
@@ -185,11 +186,6 @@ public class Results {
 
 	private GameDTO findGameById(Long gameId) {
 		return gameService.findById(gameId);
-	}
-
-	public boolean isNoResult() {
-		return (game.getScoreA() == 0 && game.getScoreB() == 0 && !game
-				.getPenalized());
 	}
 
 	public boolean isOT() {
@@ -209,12 +205,31 @@ public class Results {
 	}
 
 	public boolean isShowStats() {
-		return !isNoResult()
-				&& (pageLayout.isPermitted("viewStats") || gameService
-						.isShowStats(game));
+		return (pageLayout.isPermitted("viewStats") || gameService
+				.isShowStats(game));
 	}
 
 	public boolean isPublicMode() {
 		return !pageLayout.isPermitted("viewStats");
 	}
+	
+	public boolean isNoResult() {
+		return gameService.isNoResult(game);
+	}
+
+	public boolean isMissingStats() {
+		return gameService.isMissingPlayerStats(game);
+	}
+	
+	public boolean isInvalidPlayerStats()
+	{
+		return gameService.isInvalidPlayerStats(game)
+				|| gameService.isNoResult(game);
+	}
+	
+	public boolean isQuestionablePeriodStats()
+	{
+		return gameService.isQuestionablePeriodStats(game);
+	}
+
 }

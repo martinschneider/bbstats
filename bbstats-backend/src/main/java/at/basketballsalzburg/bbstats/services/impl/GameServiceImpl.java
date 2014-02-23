@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import at.basketballsalzburg.bbstats.dao.GameDAO;
 import at.basketballsalzburg.bbstats.dto.GameDTO;
+import at.basketballsalzburg.bbstats.dto.GameStatDTO;
 import at.basketballsalzburg.bbstats.entities.Game;
 import at.basketballsalzburg.bbstats.services.GameService;
 
@@ -265,11 +266,61 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public boolean isShowStats(GameDTO game) {
+		if (isNoResult(game) || game.getStats().isEmpty())
 		for (String teamName : showStatistics) {
 			if ((game.getTeamA().getName().contains(teamName))
 					|| (game.getTeamB().getName().contains(teamName))) {
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isNoResult(GameDTO game) {
+		return (game.getScoreA() == 0 && game.getScoreB() == 0 && !game
+				.getPenalized());
+	}
+	
+	@Override
+	public boolean isMissingPlayerStats(GameDTO game) {
+		return (game.getScoreA() == 0 && game.getScoreB() == 0 || game
+				.getStats().isEmpty()) && !game.getPenalized();
+	}
+	
+	@Override
+	public boolean isInvalidPlayerStats(GameDTO game) {
+		int points = 0;
+		boolean home = isHome(game);
+		boolean away = isAway(game);
+		for (GameStatDTO stat : game.getStats()) {
+			points += stat.getPoints();
+		}
+		if (game.getPenalized()) {
+			return false;
+		}
+		if ((home && away && game.getScoreA() + game.getScoreB() != points)
+				|| (home && !away && game.getScoreA() != points)
+				|| (!home && away && game.getScoreB() != points)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean isQuestionablePeriodStats(GameDTO game) {
+		if (game.getScoreA() == 0 && game.getScoreB() == 0
+				|| game.getPenalized()) {
+			return false;
+		}
+		if (game.getScoreA1() == 0 && game.getScoreB1() == 0
+				|| game.getPeriods() > 1 && game.getScoreA2() == 0
+				&& game.getScoreB2() == 0 || game.getPeriods() > 2
+				&& game.getScoreA3() == 0 && game.getScoreB3() == 0
+				|| game.getPeriods() > 3 && game.getScoreA4() == 0
+				&& game.getScoreB4() == 0 || game.isOT()
+				&& game.getScoreAV() == 0 && game.getScoreBV() == 0) {
+			return true;
 		}
 		return false;
 	}

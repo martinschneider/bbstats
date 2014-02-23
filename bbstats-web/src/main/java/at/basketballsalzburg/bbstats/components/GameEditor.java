@@ -190,7 +190,7 @@ public class GameEditor {
 	@Validate(value = "min=0")
 	private TextField scoreBOvertime;
 
-	@Component(parameters = { "value=game.penalized"})
+	@Component(parameters = { "value=game.penalized" })
 	private Checkbox penalized;
 
 	@Component(parameters = { "value=gymId", "model=gymSelectModel" })
@@ -386,4 +386,21 @@ public class GameEditor {
 			return null;
 		}
 	}
+
+	public boolean isNoResult() {
+		return gameService.isNoResult(game);
+	}
+
+	public boolean isMissingPlayerStats() {
+		return game.getId() != null && gameService.isMissingPlayerStats(game);
+	}
+
+	public boolean isInvalidPlayerStats() {
+		return game.getId() != null && gameService.isInvalidPlayerStats(game);
+	}
+
+	public boolean isQuestionablePeriodStats() {
+		return gameService.isQuestionablePeriodStats(game);
+	}
+
 }

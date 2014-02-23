@@ -1,9 +1,9 @@
 <configuration debug="true" scan="true">
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<File>${logback.logdirectory}/licensing.log</File>
+		<File>bbstats.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<FileNamePattern>${logback.logdirectory}/licensing.%i.log.zip</FileNamePattern>
+			<FileNamePattern>bbstats.%i.log.zip</FileNamePattern>
 			<MinIndex>1</MinIndex>
 			<MaxIndex>3</MaxIndex>
 		</rollingPolicy>
