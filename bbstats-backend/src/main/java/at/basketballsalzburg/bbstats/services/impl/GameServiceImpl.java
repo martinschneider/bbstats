@@ -267,6 +267,9 @@ public class GameServiceImpl implements GameService {
 	@Override
 	public boolean isShowStats(GameDTO game) {
 		if (isNoResult(game) || game.getStats().isEmpty())
+		{
+			return false;
+		}
 		for (String teamName : showStatistics) {
 			if ((game.getTeamA().getName().contains(teamName))
 					|| (game.getTeamB().getName().contains(teamName))) {
