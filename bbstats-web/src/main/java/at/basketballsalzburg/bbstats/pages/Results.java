@@ -12,6 +12,7 @@ import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
 
@@ -29,6 +30,8 @@ import at.basketballsalzburg.bbstats.utils.GameDataSource;
 import at.basketballsalzburg.bbstats.utils.GameMode;
 
 public class Results {
+
+	private static final String INVALID_PLAYER_STATS = "invalidPlayerStats";
 
 	@Component
 	private PageLayout pageLayout;
@@ -60,6 +63,9 @@ public class Results {
 			"row=gameStat", "include=points,fta,ftm,threes,fouls", "add=name",
 			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true" })
 	private Grid statGrid;
+	
+	@Inject
+	private Messages messages;
 
 	@Inject
 	private GameService gameService;
@@ -231,5 +237,25 @@ public class Results {
 	{
 		return gameService.isQuestionablePeriodStats(game);
 	}
-
+	
+	public String getInvalidPlayerStatsMessage()
+	{
+		int teamScore = 0;
+		int playerScore = 0;
+		if (gameService.isHome(game) && gameService.isAway(game))
+		{
+			teamScore = game.getScoreA() + game.getScoreB();
+		}
+		else if (gameService.isHome(game)){
+			teamScore = game.getScoreA();
+		}
+		else if (gameService.isAway(game)){
+			teamScore = game.getScoreB();
+		}
+		for (GameStatDTO stat : game.getStats())
+		{
+			playerScore+=stat.getPoints();
+		}
+		return messages.format(INVALID_PLAYER_STATS, teamScore, playerScore);
+	}
 }

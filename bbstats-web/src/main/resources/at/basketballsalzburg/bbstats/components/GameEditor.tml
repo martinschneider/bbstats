@@ -118,7 +118,7 @@
 				<div class="alert alert-danger">${message:missingPlayerStats}</div>
 				<p:else>
 					<t:if test="invalidPlayerStats">
-						<div class="alert alert-warning">${message:invalidPlayerStats}</div>
+						<div class="alert alert-warning">${invalidPlayerStatsMessage}</div>
 					</t:if>
 				</p:else>
 			</t:if>

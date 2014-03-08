@@ -38,7 +38,7 @@ public class AppModule {
 			MappedConfiguration<String, String> configuration) {
 		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "de");
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "true");
-		configuration.add(SymbolConstants.APPLICATION_VERSION, "14.03.02");
+		configuration.add(SymbolConstants.APPLICATION_VERSION, "14.03.08");
 	}
 
 	/**

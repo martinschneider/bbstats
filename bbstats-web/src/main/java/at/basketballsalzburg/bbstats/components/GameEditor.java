@@ -27,6 +27,7 @@ import org.apache.tapestry5.corelib.components.Palette;
 import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
@@ -51,6 +52,7 @@ import at.basketballsalzburg.bbstats.utils.TeamSelectModel;
 public class GameEditor {
 	public static final String GAME_EDIT_CANCEL = "gameeditcancel";
 	public static final String GAME_EDIT_SAVE = "gameeditsave";
+	private static final String INVALID_PLAYER_STATS = "invalidPlayerStats";
 
 	@Inject
 	private GameService gameService;
@@ -217,6 +219,9 @@ public class GameEditor {
 			"selectedLabel=message:selectedAgeGroups" })
 	private Palette ageGroupPalette;
 
+	@Inject
+	private Messages messages;
+	
 	@Inject
 	private Block onePeriod, twoPeriods, fourPeriods;
 
@@ -401,6 +406,22 @@ public class GameEditor {
 
 	public boolean isQuestionablePeriodStats() {
 		return gameService.isQuestionablePeriodStats(game);
+	}
+
+	public String getInvalidPlayerStatsMessage() {
+		int teamScore = 0;
+		int playerScore = 0;
+		if (gameService.isHome(game) && gameService.isAway(game)) {
+			teamScore = game.getScoreA() + game.getScoreB();
+		} else if (gameService.isHome(game)) {
+			teamScore = game.getScoreA();
+		} else if (gameService.isAway(game)) {
+			teamScore = game.getScoreB();
+		}
+		for (GameStatDTO stat : game.getStats()) {
+			playerScore += stat.getPoints();
+		}
+		return messages.format(INVALID_PLAYER_STATS, teamScore, playerScore);
 	}
 
 }

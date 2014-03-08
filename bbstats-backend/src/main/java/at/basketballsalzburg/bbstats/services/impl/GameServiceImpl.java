@@ -266,8 +266,7 @@ public class GameServiceImpl implements GameService {
 
 	@Override
 	public boolean isShowStats(GameDTO game) {
-		if (isNoResult(game) || game.getStats().isEmpty())
-		{
+		if (isNoResult(game) || game.getStats().isEmpty()) {
 			return false;
 		}
 		for (String teamName : showStatistics) {
@@ -278,19 +277,19 @@ public class GameServiceImpl implements GameService {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public boolean isNoResult(GameDTO game) {
 		return (game.getScoreA() == 0 && game.getScoreB() == 0 && !game
 				.getPenalized());
 	}
-	
+
 	@Override
 	public boolean isMissingPlayerStats(GameDTO game) {
 		return (game.getScoreA() == 0 && game.getScoreB() == 0 || game
 				.getStats().isEmpty()) && !game.getPenalized();
 	}
-	
+
 	@Override
 	public boolean isInvalidPlayerStats(GameDTO game) {
 		int points = 0;
@@ -317,12 +316,12 @@ public class GameServiceImpl implements GameService {
 			return false;
 		}
 		if (game.getScoreA1() == 0 && game.getScoreB1() == 0
-				|| game.getPeriods() > 1 && game.getScoreA2() == 0
-				&& game.getScoreB2() == 0 || game.getPeriods() > 2
-				&& game.getScoreA3() == 0 && game.getScoreB3() == 0
-				|| game.getPeriods() > 3 && game.getScoreA4() == 0
-				&& game.getScoreB4() == 0 || game.isOT()
-				&& game.getScoreAV() == 0 && game.getScoreBV() == 0) {
+				|| game.getPeriods() > 1 && game.getScoreA3() == 0
+				&& game.getScoreB3() == 0 || game.getPeriods() == 4
+				&& ((game.getScoreA2() == 0 && game.getScoreB2() == 0)
+				|| (game.getScoreA4() == 0 && game.getScoreB4() == 0))
+				|| game.isOT() && game.getScoreAV() == 0
+				&& game.getScoreBV() == 0) {
 			return true;
 		}
 		return false;
