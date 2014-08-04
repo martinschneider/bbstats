@@ -1,5 +1,5 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd" xmlns:p="tapestry:parameter">
 
 	<t:zone t:id="gymEditorZone">
 		<t:if test="editorVisible">
@@ -14,7 +14,7 @@
 	</t:zone>
 	<t:zone t:id="gymGridZone">
 		<t:box t:id="gymGridBox">
-			<t:grid t:id="gymsGrid" class="table-striped table-condensed">
+			<t:grid t:id="gymsGrid">
 				<p:routeCell>
 					<a href="${googleMapsLink}" class="route-icon" title="${message:route}" />
 				</p:routeCell>

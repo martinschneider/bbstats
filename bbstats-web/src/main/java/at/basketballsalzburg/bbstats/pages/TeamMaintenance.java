@@ -36,13 +36,14 @@ public class TeamMaintenance {
 	@Component(parameters = { "source=teamList", "model=teamModel",
 			"empty=message:noData", "row=team", "rowsPerPage=9999",
 			"include=name,shortname", "add=edit,delete",
-			"reorder=name,shortName,edit,delete", "inplace=true" })
+			"reorder=name,shortName,edit,delete", "inplace=true",
+			"class=table table-striped table-condensed" })
 	private Grid teamGrid;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone teamEditorZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone teamGridZone;
 
 	@Component(parameters = "title=message:teamEditorBoxTitle")
@@ -61,7 +62,8 @@ public class TeamMaintenance {
 	@MixinClasses(Permission.class)
 	private EventLink deleteTeam;
 
-	@Component(parameters = { "event=new", "Permission.allowedPermissions=newTeam" })
+	@Component(parameters = { "event=new",
+			"Permission.allowedPermissions=newTeam" })
 	@MixinClasses(Permission.class)
 	private EventLink newTeam;
 

@@ -74,7 +74,8 @@ public class GameStatEditor {
 	@Component(parameters = { "source=gameStats", "empty=message:noStatsData",
 			"row=gameStatForGrid", "include=points,threes,fouls",
 			"add=name,ft,edit,delete",
-			"reorder=name,points,ft,threes,fouls,edit,delete" })
+			"reorder=name,points,ft,threes,fouls,edit,delete",
+			"class=table table-striped table-condensed" })
 	private Grid gameStatGrid;
 
 	@Component(parameters = { "value=playerId", "model=playerSelectModel" })
@@ -117,10 +118,10 @@ public class GameStatEditor {
 			"zone=gameStatEditZone" })
 	private EventLink cancelImport;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gameStatEditZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gameStatGridZone;
 
 	@Property

@@ -1,143 +1,143 @@
-<div xmlns:p="tapestry:parameter"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<div xmlns:p="tapestry:parameter"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
 	
-	<t:form t:id="gameEditForm" class="form-horizontal" role="form">
-		
+	<t:form t:id="gameEditForm">
 		<t:errors />
+		<t:label for="date"/>
+		<t:datetimefield t:id="date" class="form-control"/>
+		<t:label for="gymSelect"/>
+		<t:select t:id="gymSelect" t:validate="required"/>
+		<t:label for="leagueSelect"/>
+		<t:select t:id="leagueSelect" t:validate="required"/>
+		<t:label for="teamASelect"/>
+		<t:textfield t:id="teamASelect" t:validate="required"/>
+		<t:label for="teamBSelect"/>
+		<t:textfield t:id="teamBSelect" t:validate="required"/>
+		<t:label for="penalized" />
+		<t:checkbox t:id="penalized"/>
 		
-		<div class="form-group">
-			<t:label for="date" class="col-sm-3"/>
-			<t:datetimefield t:id="date" />
-		</div>
-		<div class="form-group">
-			<t:label for="gymSelect" class="col-sm-3"/>
-			<t:select t:id="gymSelect" t:validate="required" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<t:label for="leagueSelect" class="col-sm-3"/>
-			<t:select t:id="leagueSelect" t:validate="required" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<t:label for="teamASelect" class="col-sm-3"/>
-			<t:textfield t:id="teamASelect" t:validate="required" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<t:label for="teamBSelect" class="col-sm-3"/>
-			<t:textfield t:id="teamBSelect" t:validate="required" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<t:label for="penalized" class="col-sm-3"/>
-			<t:checkbox t:id="penalized"/>
-		</div>
 		<span id="results">
 			<t:zone t:id="periodsZone">
 				<div class="form-group">
-					<t:label for="periods" class="col-sm-3"/>
-					<t:select t:id="periods" t:validate="required" class="form-control"/>
+					<t:label for="periods"/>
+					<t:select t:id="periods" t:validate="required"/>
 				</div>
-				
-				<t:delegate to="periodResultFields" />
-				
-				<t:block t:id="onePeriod">
-					<div class="form-group">
-						<t:label for="scoreA" class="col-sm-3"/>
-						<t:textfield t:id="scoreA" id="scoreA" t:validate="min=0" class="scoreA" />
-						:
-						<t:textfield t:id="scoreB" t:validate="min=0" class="scoreB" />
-					</div>
-				</t:block>
-				
-				<t:block t:id="twoPeriods">
-					<div class="form-group">
-						<t:label for="scoreAFirstHalf" class="col-sm-3"/>
-						<t:textfield t:id="scoreAFirstHalf" t:validate="min=0" class="scoreA" />
-						:
-						<t:textfield t:id="scoreBFirstHalf" t:validate="min=0" class="scoreB" />
-					</div>
-					<div class="form-group">
-						<t:label for="scoreASecondHalf" class="col-sm-3"/>
-						<t:textfield t:id="scoreASecondHalf" t:validate="min=0" class="scoreA"
+				<div class="row">
+					<div class="col-md-6">
+						<t:trigger event="showResultFields"/>
+						<t:delegate to="periodResultFields" />
+						
+						<t:block t:id="onePeriod">
+							<fieldset class="form-inline">
+								<t:label for="scoreA"/>
+								<t:textfield t:id="scoreA" id="scoreA" t:validate="min=0" class="scoreA" />
+								:
+								<t:textfield t:id="scoreB" t:validate="min=0" class="scoreB" />
+							</fieldset>
+						</t:block>
+						
+						<t:block t:id="twoPeriods">
+							<fieldset class="form-inline">
+								<t:label for="scoreAFirstHalf"/>
+								<t:textfield t:id="scoreAFirstHalf" t:validate="min=0" class="scoreA" />
+								:
+								<t:textfield t:id="scoreBFirstHalf" t:validate="min=0" class="scoreB" />
+							</fieldset>
+							<fieldset class="form-inline">
+								<t:label for="scoreASecondHalf"/>
+								<t:textfield t:id="scoreASecondHalf" t:validate="min=0" class="scoreA"
 						/>
-						:
-						<t:textfield t:id="scoreBSecondHalf" t:validate="min=0" class="scoreB"
+								:
+								<t:textfield t:id="scoreBSecondHalf" t:validate="min=0" class="scoreB"
 						/>
+							</fieldset>
+						</t:block>
+						
+						<t:block t:id="fourPeriods">
+							<fieldset class="form-inline">
+								<t:label for="scoreAFirstQuarter"/>
+								<t:textfield t:id="scoreAFirstQuarter" t:validate="min=0" class="scoreA" />
+								:
+								<t:textfield t:id="scoreBFirstQuarter" t:validate="min=0" class="scoreB" />
+							</fieldset>
+							<fieldset class="form-inline">
+								<t:label for="scoreASecondQuarter"/>
+								<t:textfield t:id="scoreASecondQuarter" t:validate="min=0" class="scoreA" />
+								:
+								<t:textfield t:id="scoreBSecondQuarter" t:validate="min=0" class="scoreB" />
+							</fieldset>
+							<fieldset class="form-inline">
+								<t:label for="scoreAThirdQuarter" />
+								<t:textfield t:id="scoreAThirdQuarter" t:validate="min=0" class="scoreA" />
+								:
+								<t:textfield t:id="scoreBThirdQuarter" t:validate="min=0" class="scoreB" />
+							</fieldset>
+							<fieldset class="form-inline">
+								<t:label for="scoreAFourthQuarter" />
+								<t:textfield t:id="scoreAFourthQuarter" t:validate="min=0" class="scoreA" />
+								:
+								<t:textfield t:id="scoreBFourthQuarter" t:validate="min=0" class="scoreB" />
+							</fieldset>
+						</t:block>
+						<div class="form-group">
+							<span class="overtime">
+								<fieldset class="form-inline">
+									<t:label for="scoreAOvertime" />
+									<t:textfield t:id="scoreAOvertime" t:validate="min=0" class="scoreAV" />
+									:
+									<t:textfield t:id="scoreBOvertime" t:validate="min=0" class="scoreBV" />
+								</fieldset>
+							</span>
+						</div>
 					</div>
-				</t:block>
-				
-				<t:block t:id="fourPeriods">
-					<div class="form-group">
-						<t:label for="scoreAFirstQuarter" class="col-sm-3"/>
-						<t:textfield t:id="scoreAFirstQuarter" t:validate="min=0" class="scoreA" />
-						:
-						<t:textfield t:id="scoreBFirstQuarter" t:validate="min=0" class="scoreB" />
+					<div class="col-md-6">
+						<div class="well">
+							<label>${message:result}</label>
+							<div class="result">
+								<span id="scoreA" class="badge badge-success">${game.scoreA}</span>
+								:
+								<span id="scoreB" class="badge badge-success">${game.scoreB}</span>
+								<span id="winner">
+								</span>
+							</div>
+						</div>
 					</div>
-					<div class="form-group">
-						<t:label for="scoreASecondQuarter" class="col-sm-3"/>
-						<t:textfield t:id="scoreASecondQuarter" t:validate="min=0" class="scoreA" />
-						:
-						<t:textfield t:id="scoreBSecondQuarter" t:validate="min=0" class="scoreB" />
-					</div>
-					<div class="form-group">
-						<t:label for="scoreAThirdQuarter" class="col-sm-3" />
-						<t:textfield t:id="scoreAThirdQuarter" t:validate="min=0" class="scoreA" />
-						:
-						<t:textfield t:id="scoreBThirdQuarter" t:validate="min=0" class="scoreB" />
-					</div>
-					<div class="form-group">
-						<t:label for="scoreAFourthQuarter" class="col-sm-3"/>
-						<t:textfield t:id="scoreAFourthQuarter" t:validate="min=0" class="scoreA" />
-						:
-						<t:textfield t:id="scoreBFourthQuarter" t:validate="min=0" class="scoreB" />
-						<br />
-					</div>
-				</t:block>
-				<div class="form-group">
-					<span class="overtime">
-						<t:label for="scoreAOvertime" class="col-sm-3"/>
-						<t:textfield t:id="scoreAOvertime" t:validate="min=0" class="scoreAV" />
-						:
-						<t:textfield t:id="scoreBOvertime" t:validate="min=0" class="scoreBV" />
-					</span>
-				</div>
-				<t:if test="questionablePeriodStats">
-					<div class="alert alert-info">${message:questionablePeriodStats}</div>
-				</t:if>
-				<div class="well">
-					<label>${message:result}</label>
-					<div class="result">
-						<span id="scoreA" class="badge badge-success">${game.scoreA}</span>
-						:
-						<span id="scoreB" class="badge badge-success">${game.scoreB}</span>
-					</div>
+					
 				</div>
 			</t:zone>
 		</span>
 		
+		<t:if test="questionablePeriodStats">
+			<div class="alert alert-info">${message:questionablePeriodStats}</div>
+		</t:if>
+		
 		<label>${message:players}</label>
 		<t:if test="missingPlayerStats">
-				<div class="alert alert-danger">${message:missingPlayerStats}</div>
-				<p:else>
-					<t:if test="invalidPlayerStats">
-						<div class="alert alert-warning">${invalidPlayerStatsMessage}</div>
-					</t:if>
-				</p:else>
-			</t:if>
+			<div class="alert alert-danger">${message:missingPlayerStats}</div>
+			<p:else>
+				<t:if test="invalidPlayerStats">
+					<div class="alert alert-warning">${invalidPlayerStatsMessage}</div>
+				</t:if>
+			</p:else>
+		</t:if>
 		<t:box t:id="gameStatBox">
 			<t:gameStatEditor t:id="gameStatEditor" />
 		</t:box>
-		<div class="form-group col-md-6">
-			<label class="block">
-				${message:coaches}
-				<span class="badge badge-success" id="coachCount" />
-			</label>
-			<t:select t:id="coachPalette" />
-		</div>
-		<div class="form-group col-md-6">
-			<label class="block">
-				${message:ageGroups}
-				<span class="badge badge-success" id="ageGroupCount" />
-			</label>
-			<t:select t:id="ageGroupPalette" />
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label class="block">
+					${message:coaches}
+					<span class="badge badge-success" id="coachCount" />
+				</label>
+				<t:select t:id="coachPalette" />
+			</div>
+			<div class="form-group col-md-6">
+				<label class="block">
+					${message:ageGroups}
+					<span class="badge badge-success" id="ageGroupCount" />
+				</label>
+				<t:select t:id="ageGroupPalette" />
+			</div>
 		</div>
 		<div class="btn-group">
 			<t:linksubmit t:id="submitButton" class="btn btn-primary">${message:save}</t:linksubmit>

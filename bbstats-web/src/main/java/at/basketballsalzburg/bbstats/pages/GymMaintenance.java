@@ -42,13 +42,13 @@ public class GymMaintenance {
 			"include=name,adress,postalCode,city,country,shortName",
 			"add=edit,delete,route",
 			"reorder=name,adress,postalCode,city,country,shortName,route,edit,delete",
-			"inplace=true" })
+			"inplace=true", "class=table table-striped table-condensed" })
 	private Grid gymsGrid;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gymEditorZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gymGridZone;
 
 	@Component(parameters = "title=message:gymEditorBoxTitle")

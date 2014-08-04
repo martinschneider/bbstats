@@ -73,14 +73,16 @@ public class Coach {
 			"model=gameModel",
 			"include=winloss,dateTime,teamA,teamB,result,stats",
 			"reorder=winloss,dateTime,teamA,teamB,result,stats", "row=game",
-			"rowsPerPage=20", "inplace=true" })
+			"rowsPerPage=20", "inplace=true",
+			"class=table table-striped table-condensed"})
 	private Grid gameGrid;
 
 	@Component(parameters = { "source=practiceSource",
 			"empty=message:noPracticeData", "row=practice",
 			"model=practiceModel", "rowsPerPage=20",
 			"include=dateTime,gym,duration,coaches,agegroups",
-			"reorder=dateTime,gym,duration,coaches,agegroups", "inplace=true" })
+			"reorder=dateTime,gym,duration,coaches,agegroups", "inplace=true",
+			"class=table table-striped table-condensed"})
 	private Grid practiceGrid;
 
 	@Property
@@ -88,7 +90,7 @@ public class Coach {
 
 	@Component(parameters = { "source=game.stats", "empty=message:noStatsData",
 			"row=gameStat", "include=points,fta,ftm,threes,fouls", "add=name",
-			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true" })
+			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid statGrid;
 
 	@Property
@@ -100,10 +102,10 @@ public class Coach {
 	@Property
 	private AgeGroupDTO ageGroup;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone practiceGridZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gameGridZone;
 
 	@Component(parameters = { "page=coach" })

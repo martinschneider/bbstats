@@ -1,5 +1,5 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd" xmlns:p="tapestry:parameter">
 
 	<t:zone t:id="ageGroupEditorZone">
 		<t:if test="editorVisible">
@@ -15,7 +15,7 @@
 	</t:zone>
 	<t:zone t:id="ageGroupGridZone">
 		<t:box t:id="ageGroupGridBox">
-			<t:grid t:id="ageGroupGrid" class="table-striped table-condensed">
+			<t:grid t:id="ageGroupGrid">
 				<p:editCell>
 					<t:eventlink t:id="editAgeGroup" class="edit-item"
 						title="${message:edit}" />

@@ -1,5 +1,5 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd" xmlns:p="tapestry:parameter">
 
 	<t:zone t:id="coachEditorZone">
 		<t:if test="editorVisible">
@@ -14,7 +14,7 @@
 	</t:zone>
 	<t:zone t:id="coachGridZone">
 		<t:box t:id="coachGridBox">
-			<t:grid t:id="coachesGrid" class="table-striped table-condensed">
+			<t:grid t:id="coachesGrid">
 				<p:editCell>
 					<t:eventlink t:id="editCoach" class="edit-item" title="${message:edit}" />
 				</p:editCell>

@@ -1,18 +1,12 @@
-<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
 	
-	<t:form t:id="leagueEditForm" class="form-horizontal" role="form">
-		<div class="form-group">
-			<t:label for="name" class="col-xs-3 col-sm-2"/>
-			<t:textfield t:id="name" t:validate="required" class="col-xs-8 col-sm-9"/>
-		</div>
-		<div class="form-group">
-			<t:label for="shortName" class="col-xs-3 col-sm-2"/>
-			<t:textfield t:id="shortName" class="col-xs-8 col-sm-9"/>
-		</div>
-		<div class="btn-group">
-			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
-			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
-		</div>
+	<t:form t:id="leagueEditForm">
+		<t:label for="name"/>
+		<t:textfield t:id="name" t:validate="required"/>
+		<t:label for="shortName"/>
+		<t:textfield t:id="shortName"/>
+		<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
+		<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 	</t:form>
 	
 </div>

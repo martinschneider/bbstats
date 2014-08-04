@@ -2,19 +2,15 @@ package at.basketballsalzburg.bbstats.components;
 
 import java.util.ArrayList;
 
-import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.Block;
 import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.SelectModel;
-import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Parameter;
-import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
@@ -48,7 +44,6 @@ import at.basketballsalzburg.bbstats.utils.LeagueSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
 import at.basketballsalzburg.bbstats.utils.TeamSelectModel;
 
-@Import(library = { "GameEditor.js" })
 public class GameEditor {
 	public static final String GAME_EDIT_CANCEL = "gameeditcancel";
 	public static final String GAME_EDIT_SAVE = "gameeditsave";
@@ -86,11 +81,6 @@ public class GameEditor {
 
 	@Inject
 	@Property
-	@Path("GameEditor.js")
-	private Asset gameEditorJs;
-
-	@Inject
-	@Property
 	private CoachValueEncoder coachValueEncoder;
 
 	@Inject
@@ -107,7 +97,7 @@ public class GameEditor {
 	@Property
 	private String zone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone periodsZone;
 
 	@Component
@@ -282,11 +272,6 @@ public class GameEditor {
 		this.game = game;
 	}
 
-	@AfterRender
-	void afterRender() {
-		javaScriptSupport.importJavaScriptLibrary(gameEditorJs);
-	}
-
 	@OnEvent(value = "selected", component = "submitButton")
 	void onSubmitButton() {
 		gameStatEditor.setModified(false);
@@ -309,6 +294,11 @@ public class GameEditor {
 		}
 		return periodsZone;
 	}
+	
+	public void onShowResultFields()
+    {
+		javaScriptSupport.require("game-editor");
+    }
 
 	Object onSuccessFromGameEditForm() {
 		if (gameStatEditor.isModified()) {

@@ -1,48 +1,40 @@
-<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
-	
-	<t:form t:id="practiceEditForm" role="form" class="form-horizontal">
-		<div class="form-group">
-			<t:label for="date" class="col-sm-3"/>
-			<t:datetimefield t:id="date"/>
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
+	<t:form t:id="practiceEditForm">
+		<t:label for="date" />
+		<t:datetimefield t:id="date" class="form-control"/>
+		<t:label for="gymSelect"/>
+		<t:select t:id="gymSelect" t:validate="required"/>
+		<t:label for="duration" />
+		<t:textfield t:id="duration" t:validate="required, min=15" />
+		<t:label for="guests" />
+		<t:textfield t:id="guests" t:validate="min=0" />
+		<label for="comment">${message:comment}</label>
+		<t:textfield t:id="comment" />
+		<div class="row">
+			<div class="form-group col-md-6">
+				<label class="block">
+					${message:players}
+					<span class="badge badge-success" id="playerCount" />
+				</label>
+				<t:select t:id="playerPalette" />
+			</div>
+			<div class="form-group col-md-6">
+				<label class="block">
+					${message:coaches}
+					<span class="badge badge-success" id="coachCount" />
+				</label>
+				<t:select t:id="coachPalette" />
+			</div>
+			<div class="form-group col-md-6">
+				<label class="block">
+					${message:ageGroups}
+					<span class="badge badge-success" id="ageGroupCount" />
+				</label>
+				<t:select t:id="ageGroupPalette" />
+			</div>
+			
 		</div>
-		<div class="form-group">
-			<t:label for="gymSelect" class="col-sm-3"/>
-			<t:select t:id="gymSelect" t:validate="required" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<t:label for="duration" class="col-sm-3" />
-			<t:textfield t:id="duration" t:validate="required, min=15" />
-		</div>
-		<div class="form-group">
-			<t:label for="guests" class="col-sm-3" />
-			<t:textfield t:id="guests" t:validate="min=0" />
-		</div>
-		<div class="form-group">
-			<label for="comment" class="col-sm-3">${message:comment}</label>
-			<t:textfield t:id="comment" />
-		</div>
-		<div class="form-group col-md-6">
-			<label class="block">
-				${message:players}
-				<span class="badge badge-success" id="playerCount" />
-			</label>
-			<t:select t:id="playerPalette" />
-		</div>
-		<div class="form-group col-md-6">
-			<label class="block">
-				${message:coaches}
-				<span class="badge badge-success" id="coachCount" />
-			</label>
-			<t:select t:id="coachPalette" />
-		</div>
-		<div class="form-group col-md-6">
-			<label class="block">
-				${message:ageGroups}
-				<span class="badge badge-success" id="ageGroupCount" />
-			</label>
-			<t:select t:id="ageGroupPalette" />
-		</div>
-		<div class="btn-group col-md-12">
+		<div class="btn-group">
 			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
 			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 		</div>

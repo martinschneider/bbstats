@@ -37,13 +37,13 @@ public class AgeGroupMaintenance {
 	@Component(parameters = { "source=ageGroupsList", "model=ageGroupModel",
 			"empty=message:noData", "row=ageGroup", "rowsPerPage=20",
 			"include=name", "add=edit,delete", "reorder=name,edit,delete",
-			"inplace=true" })
+			"inplace=true","class=table table-striped table-condensed" })
 	private Grid ageGroupGrid;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone ageGroupEditorZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone ageGroupGridZone;
 
 	@Component(parameters = "title=message:ageGroupEditorBoxTitle")

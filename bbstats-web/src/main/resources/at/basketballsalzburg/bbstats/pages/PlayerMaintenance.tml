@@ -1,7 +1,7 @@
 <html t:id="pageLayout"
 	t:type="pageLayout"
 	xmlns:p="tapestry:parameter"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
 	
 	<t:zone t:id="playerEditorZone">
 		<t:if test="editorVisible">
@@ -17,20 +17,16 @@
 		</t:if>
 	</t:zone>
 	<t:box t:id="filterBox">
-		<t:form t:id="form" class="form-horizontal" role="form">
-			<div class="form-group">
-				<div class="col-md-3">
-					<t:checkbox t:id="filterInactive" class="control-label" />
-					<t:label for="activeSinceField" class="control-label" />
-				</div>
-				<t:datetimefield t:id="activeSinceField" class="col-md-8"/>
-			</div>
+		<t:form t:id="form">
+			<t:checkbox t:id="filterInactive" class="control-label" />
+			<t:label for="activeSinceField" class="control-label" />
+			<t:datetimefield t:id="activeSinceField" class="form-control"/>
 			<t:linksubmit t:id="submit" class="btn btn-primary">${message:refresh}</t:linksubmit>
 		</t:form>
 	</t:box>
 	<t:zone t:id="playerGridZone">
 		<t:box t:id="playerGridBox">
-			<t:grid t:id="playersGrid" class="table-striped table-condensed">
+			<t:grid t:id="playersGrid">
 				<p:displayNameCell>
 					<t:pagelink t:id="playerDetail" context="${player.id}">${player.displayName}</t:pagelink>
 				</p:displayNameCell>

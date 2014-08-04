@@ -1,5 +1,7 @@
 package at.basketballsalzburg.bbstats.pages;
 
+import java.util.ArrayList;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
@@ -50,7 +52,8 @@ public class Practices {
 			"model=practiceModel", "rowsPerPage=20",
 			"include=dateTime,duration,gym", "inplace=true",
 			"add=players,coaches,ageGroups,edit,delete",
-			"reorder=dateTime,gym,duration,players,coaches,ageGroups,edit,delete" })
+			"reorder=dateTime,gym,duration,players,coaches,ageGroups,edit,delete",
+			"class=table table-striped table-condensed"})
 	private Grid practiceGrid;
 
 	@Inject
@@ -96,10 +99,10 @@ public class Practices {
 	@Component(parameters = { "page=coach" })
 	private PageLink coachDetail;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone practiceEditorZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone practiceGridZone;
 
 	@Property
@@ -126,6 +129,9 @@ public class Practices {
 	@OnEvent(value = "new")
 	Object onNew() {
 		PracticeDTO newPractice = new PracticeDTO();
+		newPractice.setAgeGroups(new ArrayList<AgeGroupDTO>());
+		newPractice.setPlayers(new ArrayList<PlayerDTO>());
+		newPractice.setCoaches(new ArrayList<CoachDTO>());
 		practiceEditor.setPractice(newPractice);
 		editorVisible = true;
 		return practiceEditorZone;

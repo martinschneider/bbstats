@@ -49,12 +49,12 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
  *
  * @version $Id: DateTimeField.java 729 2010-11-03 19:51:08Z homburgs $
  */
-@Import(stylesheet = "Datepicker.css",
+@Import(stylesheet = "css/Datepicker.css",
 		library = {
-				"../libraries/datepicker.js",
-				"../libraries/datepicker_lang.js",
-				"../libraries/prototype-base-extensions.js",
-				"../libraries/prototype-date-extensions.js"
+				"js/datepicker.js",
+				"js/datepicker_lang.js",
+				"js/prototype-base-extensions.js",
+				"js/prototype-date-extensions.js"
 		})
 public class DateTimeField extends AbstractField
 {
@@ -69,10 +69,9 @@ public class DateTimeField extends AbstractField
 	 * generally used to provide this object in a declarative fashion.
 	 */
 	@Parameter(defaultPrefix = BindingConstants.VALIDATE)
-	@SuppressWarnings("unchecked")
 	private FieldValidator<Object> validate;
 
-	@Parameter(defaultPrefix = BindingConstants.ASSET, value = "../images/calendar.png")
+	@Parameter(defaultPrefix = BindingConstants.ASSET, value = "images/calendar.png")
 	private Asset icon;
 
 	/**
@@ -149,7 +148,7 @@ public class DateTimeField extends AbstractField
 	private ComponentDefaultProvider defaultProvider;
 
 	@Inject
-	@Path("../images/clock.png")
+	@Path("images/clock.png")
 	private Asset clockAsset;
 
 	/**

@@ -1,5 +1,5 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
 <head>
 <title>${message:error}</title>
 </head>

@@ -113,6 +113,7 @@ public class PracticeEditor {
 	private Player player;
 
 	@Property
+	@Persist
 	private SelectModel gymSelectModel;
 
 	@Property
@@ -134,6 +135,7 @@ public class PracticeEditor {
 	private PracticeDTO practice;
 
 	@Property
+	@Persist
 	private Long gymId;
 
 	public PracticeDTO getPractice() {

@@ -37,13 +37,13 @@ public class CoachMaintenance {
 	@Component(parameters = { "source=coachesList", "model=coachModel",
 			"empty=message:noData", "row=coach", "rowsPerPage=20",
 			"include=firstName,lastName", "add=edit,delete",
-			"reorder=lastName,firstName,edit,delete", "inplace=true" })
+			"reorder=lastName,firstName,edit,delete", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid coachesGrid;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone coachEditorZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone coachGridZone;
 
 	@Component(parameters = "title=message:coachEditorBoxTitle")

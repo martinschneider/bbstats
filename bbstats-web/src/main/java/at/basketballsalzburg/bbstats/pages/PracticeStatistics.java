@@ -57,12 +57,12 @@ public class PracticeStatistics {
 	@Component(parameters = { "title=message:ageGroupsBoxTitle", "type=tablebox" })
 	private Box ageGroupsBox;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone resultsZone;
 
 	@Component(parameters = { "source=playerPracticeList",
 			"empty=message:noData", "row=playerPractice", "rowsPerPage=10",
-			"include=count", "add=name", "reorder=name,count", "inplace=true" })
+			"include=count", "add=name", "reorder=name,count", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid playerPracticeGrid;
 
 	@Property
@@ -70,7 +70,7 @@ public class PracticeStatistics {
 
 	@Component(parameters = { "source=coachPracticeList",
 			"empty=message:noData", "row=coachPractice", "rowsPerPage=10",
-			"include=count", "add=name", "reorder=name,count", "inplace=true" })
+			"include=count", "add=name", "reorder=name,count", "inplace=true","class=table table-striped table-condensed" })
 	private Grid coachPracticeGrid;
 
 	@Property
@@ -78,7 +78,7 @@ public class PracticeStatistics {
 
 	@Component(parameters = { "source=ageGroupPracticeList",
 			"empty=message:noData", "row=ageGroupPractice", "rowsPerPage=10",
-			"include=name, count", "reorder=name,count", "inplace=true" })
+			"include=name, count", "reorder=name,count", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid ageGroupPracticeGrid;
 
 	@Property
@@ -86,7 +86,7 @@ public class PracticeStatistics {
 
 	@Component(parameters = { "source=gymPracticeList", "empty=message:noData",
 			"row=gymPractice", "rowsPerPage=10", "include=count",
-			"add=fullname", "reorder=fullname,count", "inplace=true" })
+			"add=fullname", "reorder=fullname,count", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid gymPracticeGrid;
 
 	@Property

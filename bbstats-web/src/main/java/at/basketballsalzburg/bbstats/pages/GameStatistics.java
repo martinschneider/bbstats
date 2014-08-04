@@ -22,8 +22,8 @@ import at.basketballsalzburg.bbstats.dto.statistics.CompletePlayerStatisticDTO;
 import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 
-@RequiresPermissions(Permissions.playerStatisticsPage)
-public class PlayerStatistics {
+@RequiresPermissions(Permissions.gameStatisticsPage)
+public class GameStatistics {
 	@Component
 	private PageLayout pageLayout;
 
@@ -45,7 +45,7 @@ public class PlayerStatistics {
 	@Component(parameters = { "title=message:playersBoxTitle", "type=tablebox" })
 	private Box playersBox;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone resultsZone;
 	
 	@Component(parameters = { "page=player" })

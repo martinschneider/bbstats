@@ -58,7 +58,8 @@ public class PlayerMaintenance {
 			"include=displayName,adress,postalCode,city,country,phone,email,birthday,nationality",
 			"add=edit,delete",
 			"reorder=displayName,adress,postalCode,city,country,phone,email,birthday,nationality,edit,delete",
-			"inplace=true" })
+			"inplace=true",
+			"class=table table-striped table-condensed"})
 	private Grid playersGrid;
 
 	@Component(parameters = { "value=filterInactive" })
@@ -98,10 +99,10 @@ public class PlayerMaintenance {
 	@Persist
 	private PlayerDTO player;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone playerEditorZone;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone playerGridZone;
 
 	@Component(parameters = "title=message:playerEditorBoxTitle")

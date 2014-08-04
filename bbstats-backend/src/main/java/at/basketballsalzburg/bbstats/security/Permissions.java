@@ -10,7 +10,7 @@ public final class Permissions {
 	public static final String leagueMaintenancePage = "leagueMaintenancePage";
 	public static final String playerPage = "playerStatisticsPage";
 	public static final String playerMaintenancePage = "playerMaintenancePage";
-	public static final String playerStatisticsPage = "playerStatisticsPage";
+	public static final String gameStatisticsPage = "gameStatisticsPage";
 	public static final String practicesPage = "practicePage";
 	public static final String teamMaintenancePage = "teamMaintenancePage";
 

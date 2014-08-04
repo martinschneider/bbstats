@@ -1,5 +1,7 @@
 package at.basketballsalzburg.bbstats.pages;
 
+import java.util.ArrayList;
+
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.MixinClasses;
@@ -23,6 +25,7 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
+import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.GymService;
@@ -45,7 +48,7 @@ public class Results {
 	@Component(parameters = { "title=message:gameEditorBoxTitle" })
 	private Box gameEditorBox;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gameEditorZone;
 
 	// columns depend on user roles. use custom model and exclude instead of
@@ -56,12 +59,12 @@ public class Results {
 			"row=game",
 			"rowsPerPage=20",
 			"exclude=id,penalized,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
-			"reorder=winloss", "model=gameModel", "inplace=true" })
+			"reorder=winloss", "model=gameModel", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid gameGrid;
 
 	@Component(parameters = { "source=game.stats", "empty=message:noStatsData",
 			"row=gameStat", "include=points,fta,ftm,threes,fouls", "add=name",
-			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true" })
+			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid statGrid;
 	
 	@Inject
@@ -135,6 +138,8 @@ public class Results {
 	Object onNew() {
 		editorVisible = true;
 		GameDTO newGame = new GameDTO();
+		newGame.setAgeGroups(new ArrayList<AgeGroupDTO>());
+		newGame.setCoaches(new ArrayList<CoachDTO>());
 		gameEditor.setGame(newGame);
 		gameEditor.getGame().setPeriods(4);
 		return this;

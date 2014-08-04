@@ -22,21 +22,15 @@ public class BbstatsJSStack implements JavaScriptStack {
 	}
 
 	public List<Asset> getJavaScriptLibraries() {
-		List<Asset> ret = new ArrayList<Asset>();
+		List<Asset> assets = new ArrayList<Asset>();
 
-		ret.add(assetSource.getClasspathAsset(
-				"at/basketballsalzburg/bbstats/libraries/jquery.js", null));
+		assets.add(assetSource.getClasspathAsset(
+				"META-INF/assets/js/jquery.vegas.js", null));
 		
-		ret.add(assetSource.getClasspathAsset(
-				"at/basketballsalzburg/bbstats/libraries/jquery.vegas.js", null));
-		
-		ret.add(assetSource.getClasspathAsset(
-				"at/basketballsalzburg/bbstats/libraries/bootstrap.min.js", null));
-		
-		ret.add(assetSource.getClasspathAsset(
-				"at/basketballsalzburg/bbstats/libraries/prototype-fix.js", null));
+		assets.add(assetSource.getClasspathAsset(
+				"META-INF/assets/js/bootstrap.min.js", null));
 
-		return ret;
+		return assets;
 	}
 
 	public List<StylesheetLink> getStylesheets() {
@@ -45,6 +39,11 @@ public class BbstatsJSStack implements JavaScriptStack {
 	}
 
 	public List<String> getStacks() {
+		return Collections.emptyList();
+	}
+
+	@Override
+	public List<String> getModules() {
 		return Collections.emptyList();
 	}
 

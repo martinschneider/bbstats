@@ -1,6 +1,7 @@
 package at.basketballsalzburg.bbstats.pages;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.tapestry5.ComponentResources;
@@ -47,7 +48,7 @@ public class Schedule {
 	@Component(parameters = { "title=message:gameEditorBoxTitle" })
 	private Box gameEditorBox;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gameEditorZone;
 
 	// columns depend on user roles. use custom model and exclude instead of
@@ -58,7 +59,7 @@ public class Schedule {
 			"row=game",
 			"rowsPerPage=20",
 			"exclude=id,penalized,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
-			"model=gameModel", "inplace=true" })
+			"model=gameModel", "inplace=true", "class=table table-striped table-condensed" })
 	private Grid gameGrid;
 
 	@Inject
@@ -104,7 +105,7 @@ public class Schedule {
 	@MixinClasses(Permission.class)
 	private EventLink newGame;
 
-	@Component(parameters = { "update=show" })
+	@Component
 	private Zone gameGridZone;
 
 	@Component(parameters = { "event=downloadXLS" })
@@ -129,6 +130,8 @@ public class Schedule {
 	Object onNew() {
 		editorVisible = true;
 		GameDTO newGame = new GameDTO();
+		newGame.setAgeGroups(new ArrayList<AgeGroupDTO>());
+		newGame.setCoaches(new ArrayList<CoachDTO>());
 		gameEditor.setGame(newGame);
 		gameEditor.getGame().setPeriods(4);
 		return this;
