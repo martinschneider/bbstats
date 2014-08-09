@@ -59,7 +59,8 @@ public class GameStatistics {
 			"include=games,fouls,fpg,fta,ftm,ftPercentage,ftapg,ftmpg,threes,threespg,points,ppg",
 			"add=name",
 			"reorder=name,games,points,ppg,fta,ftm,ftapg,ftmpg,ftPercentage,fouls,fpg",
-			"inplace=true" })
+			"inplace=true", 
+			"class=table table-striped table-condensed" })
 	private Grid playerStatisticsGrid;
 
 	@Property

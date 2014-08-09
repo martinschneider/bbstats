@@ -2,8 +2,8 @@ package at.basketballsalzburg.bbstats.components;
 
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.annotations.AfterRender;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
@@ -16,6 +16,7 @@ import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
 import at.basketballsalzburg.bbstats.entities.Coach;
@@ -30,7 +31,6 @@ import at.basketballsalzburg.bbstats.utils.CoachValueEncoder;
 import at.basketballsalzburg.bbstats.utils.GymSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
 
-@Import(library = "PracticeEditor.js")
 public class PracticeEditor {
 	public static final String PRACTICE_EDIT_CANCEL = "practiceeditcancel";
 	public static final String PRACTICE_EDIT_SAVE = "practiceeditsave";
@@ -55,6 +55,9 @@ public class PracticeEditor {
 
 	@Inject
 	private SelectModelFactory selectModelFactory;
+
+	@Inject
+	private JavaScriptSupport javaScriptSupport;
 
 	@Inject
 	@Property
@@ -157,6 +160,12 @@ public class PracticeEditor {
 		componentResources.triggerEvent(PRACTICE_EDIT_CANCEL, null, null);
 	}
 
+	@AfterRender
+	void afterRender()
+	{
+		javaScriptSupport.require("practice-editor");
+	}
+	
 	@SetupRender
 	void setupRender() {
 		if (practice.getGym() != null && practice.getGym().getId() != null) {

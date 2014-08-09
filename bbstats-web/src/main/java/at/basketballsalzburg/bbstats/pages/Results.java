@@ -227,9 +227,44 @@ public class Results {
 	public boolean isNoResult() {
 		return gameService.isNoResult(game);
 	}
-
-	public boolean isMissingStats() {
-		return gameService.isMissingPlayerStats(game);
+	
+	public boolean isError()
+	{
+		return !getErrorList().isEmpty();
+	}
+	
+	public String getErrorList()
+	{
+		StringBuilder errors = new StringBuilder();
+		int count = 0;
+		if (gameService.isNoResult(game) && !game.getPenalized())
+		{
+			errors.append(messages.get("missingStats"));
+			count++;
+		}
+		else if (gameService.isInvalidPlayerStats(game))
+		{
+			errors.append(getInvalidPlayerStatsMessage());
+			count++;
+		}
+		if (isQuestionablePeriodStats())
+		{
+			if (count > 0)
+			{
+				errors.append(" ");
+			}
+			errors.append(messages.get("questionablePeriodStats"));
+			count++;
+		}
+		if (count == 1)
+		{
+			errors.insert(0, count + " " + messages.get("error")+ ": ");
+		}
+		else if (count > 1)
+		{
+			errors.insert(0, count + " " + messages.get("errors")+ ": ");
+		}
+		return errors.toString();
 	}
 	
 	public boolean isInvalidPlayerStats()
