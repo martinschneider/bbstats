@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.basketball-salzburg</groupId>
 	<artifactId>bbstats-parent</artifactId>
-	<version>14.08.09</version>
+	<version>14.09.17</version>
 	<packaging>pom</packaging>
 
 	<name>bbstats parent</name>
@@ -205,5 +205,16 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
+	<repositories>
+		<repository>
+			<id>tapestry</id>
+			<url>https://repository.apache.org/content/repositories/orgapachetapestry-1031/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
 </project>
