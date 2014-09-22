@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,8 +20,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import at.basketballsalzburg.bbstats.dao.PlayerDAO;
+import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.dto.statistics.CompletePlayerStatisticDTO;
+import at.basketballsalzburg.bbstats.entities.AgeGroup;
 import at.basketballsalzburg.bbstats.entities.Player;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 
@@ -51,20 +55,20 @@ public class PlayerServiceImpl implements PlayerService {
 	}
 
 	public void save(PlayerDTO dto) {
-		dao.saveAndFlush(mapper.map(dto, Player.class));
+		entityManager.merge(mapper.map(dto, Player.class));
 	}
 
-	public List<PlayerDTO> findAll() {
-		List<PlayerDTO> players = new ArrayList<PlayerDTO>();
+	public SortedSet<PlayerDTO> findAll() {
+		SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
 		for (Object player : dao.findAll(new Sort(Sort.Direction.ASC,
 				"lastName", "firstName"))) {
 			players.add(mapper.map(player, PlayerDTO.class));
 		}
 		return players;
 	}
-	
-	public List<PlayerDTO> findAllActiveSince(Date date) {
-		List<PlayerDTO> players = new ArrayList<PlayerDTO>();
+
+	public SortedSet<PlayerDTO> findAllActiveSince(Date date) {
+		SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
 		for (Object player : dao.findPlayersActiveSince(date)) {
 			players.add(mapper.map(player, PlayerDTO.class));
 		}
@@ -121,10 +125,39 @@ public class PlayerServiceImpl implements PlayerService {
 			statistic.setFpg(new BigDecimal((((Double) ((Object[]) o)[12])))
 					.setScale(2, BigDecimal.ROUND_HALF_UP));
 			statistic.setThrees((((BigInteger) ((Object[]) o)[13])).intValue());
-			statistic.setThreesPg(new BigDecimal((((Double) ((Object[]) o)[14])))
-					.setScale(2, BigDecimal.ROUND_HALF_UP));
+			statistic.setThreesPg(new BigDecimal(
+					(((Double) ((Object[]) o)[14]))).setScale(2,
+					BigDecimal.ROUND_HALF_UP));
 			results.add(statistic);
 		}
 		return results;
+	}
+
+	@Override
+	public SortedSet<PlayerDTO> findAllForAgegroup(AgeGroupDTO agegroup) {
+		SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
+		for (Object player : dao.findByAgeGroupOrderByName(mapper.map(agegroup,
+				AgeGroup.class))) {
+			players.add(mapper.map(player, PlayerDTO.class));
+		}
+		return players;
+	}
+
+	@Override
+	public SortedSet<PlayerDTO> findAllWithoutAgeGroup() {
+		SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
+		for (Object player : dao.findWithoutAgeGroup()) {
+			players.add(mapper.map(player, PlayerDTO.class));
+		}
+		return players;
+	}
+
+	@Override
+	public SortedSet<PlayerDTO> findAllWithAgeGroup() {
+		SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
+		for (Object player : dao.findWithAgeGroup()) {
+			players.add(mapper.map(player, PlayerDTO.class));
+		}
+		return players;
 	}
 }

@@ -1,5 +1,7 @@
 package at.basketballsalzburg.bbstats.dto;
 
+import java.util.List;
+
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -11,6 +13,8 @@ public class CoachDTO implements Comparable<CoachDTO> {
 	private Long id;
 
 	private String lastName;
+
+	private List<AgeGroupDTO> ageGroups;
 
 	public String getLastName() {
 		return lastName;
@@ -40,6 +44,14 @@ public class CoachDTO implements Comparable<CoachDTO> {
 
 	public String getDisplayName() {
 		return lastName + " " + firstName;
+	}
+
+	public List<AgeGroupDTO> getAgeGroups() {
+		return ageGroups;
+	}
+
+	public void setAgeGroups(List<AgeGroupDTO> ageGroups) {
+		this.ageGroups = ageGroups;
 	}
 
 	public int compareTo(CoachDTO rhs) {

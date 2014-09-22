@@ -1,11 +1,16 @@
 package at.basketballsalzburg.bbstats.entities;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -17,6 +22,11 @@ public class Player {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
+	@ManyToMany(targetEntity = AgeGroup.class, cascade = { CascadeType.PERSIST,
+		CascadeType.MERGE })
+	@JoinTable(name = "bbstats_player_agegroup", joinColumns = @JoinColumn(name = "playerid"), inverseJoinColumns = @JoinColumn(name = "agegroupid"))
+	private List<AgeGroup> ageGroups;
 
 	private String firstName;
 	private String lastName;
@@ -119,5 +129,13 @@ public class Player {
 
 	public String getDisplayName() {
 		return lastName + " " + firstName;
+	}
+
+	public List<AgeGroup> getAgeGroups() {
+		return ageGroups;
+	}
+
+	public void setAgeGroups(List<AgeGroup> ageGroups) {
+		this.ageGroups = ageGroups;
 	}
 }

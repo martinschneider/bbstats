@@ -35,7 +35,7 @@ public class AppModule {
 			MappedConfiguration<String, String> configuration) {
 		configuration.add(SymbolConstants.SUPPORTED_LOCALES, "de");
 		configuration.add(SymbolConstants.PRODUCTION_MODE, "true");
-		configuration.add(SymbolConstants.APPLICATION_VERSION, "14.09.17");
+		configuration.add(SymbolConstants.APPLICATION_VERSION, "14.10.01");
 		configuration.add(SecuritySymbols.LOGIN_URL, "/signin");
 		configuration.add(SymbolConstants.HMAC_PASSPHRASE,
 				"&Uq-\"(#rRM5qoTB'~VL");

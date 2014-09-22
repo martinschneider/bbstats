@@ -1,5 +1,7 @@
 package at.basketballsalzburg.bbstats.components;
 
+import java.util.ArrayList;
+
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.AfterRender;
@@ -18,6 +20,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
+import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
 import at.basketballsalzburg.bbstats.entities.Coach;
 import at.basketballsalzburg.bbstats.entities.Player;
@@ -106,7 +109,7 @@ public class PracticeEditor {
 	@Component(parameters = { "selected=practice.ageGroups",
 			"model=ageGroupSelectModel", "encoder=ageGroupValueEncoder",
 			"availableLabel=message:availableAgeGroups",
-			"selectedLabel=message:selectedAgeGroups" })
+			"selectedLabel=message:selectedAgeGroups"})
 	private Palette ageGroupPalette;
 
 	@Property
@@ -161,19 +164,18 @@ public class PracticeEditor {
 	}
 
 	@AfterRender
-	void afterRender()
-	{
+	void afterRender() {
 		javaScriptSupport.require("practice-editor");
 	}
-	
+
 	@SetupRender
 	void setupRender() {
 		if (practice.getGym() != null && practice.getGym().getId() != null) {
 			gymId = practice.getGym().getId();
 		}
 		gymSelectModel = new GymSelectModel(gymService.findAll());
-		playerSelectModel = selectModelFactory.create(playerService.findAll(),
-				"displayName");
+		playerSelectModel = selectModelFactory.create(new ArrayList<PlayerDTO>(
+				playerService.findAllWithAgeGroup()), "displayName");
 		coachSelectModel = selectModelFactory.create(coachService.findAll(),
 				"displayName");
 		ageGroupSelectModel = selectModelFactory.create(

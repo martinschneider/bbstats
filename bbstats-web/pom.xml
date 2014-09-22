@@ -3,11 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>bbstats-web</artifactId>
-	<packaging>jar</packaging>
 	<parent>
 		<artifactId>bbstats-parent</artifactId>
 		<groupId>at.basketball-salzburg</groupId>
-		<version>14.09.17</version>
+		<version>14.10.01</version>
 	</parent>
 
 	<name>bbstats-web</name>

@@ -30,6 +30,7 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
+import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.services.AgeGroupService;
 import at.basketballsalzburg.bbstats.services.CoachService;
 import at.basketballsalzburg.bbstats.services.GameService;
@@ -211,7 +212,7 @@ public class GameEditor {
 
 	@Inject
 	private Messages messages;
-	
+
 	@Inject
 	private Block onePeriod, twoPeriods, fourPeriods;
 
@@ -223,9 +224,6 @@ public class GameEditor {
 
 	@Property
 	private SelectModel leagueSelectModel;
-
-	@Property
-	private SelectModel playerSelectModel;
 
 	@Property
 	private SelectModel coachSelectModel;
@@ -294,11 +292,10 @@ public class GameEditor {
 		}
 		return periodsZone;
 	}
-	
-	public void onShowResultFields()
-    {
+
+	public void onShowResultFields() {
 		javaScriptSupport.require("game-editor");
-    }
+	}
 
 	Object onSuccessFromGameEditForm() {
 		if (gameStatEditor.isModified()) {
@@ -355,8 +352,6 @@ public class GameEditor {
 		gymSelectModel = new GymSelectModel(gymService.findAll());
 		leagueSelectModel = new LeagueSelectModel(leagueService.findAll());
 		teamSelectModel = new TeamSelectModel(teamService.findAll());
-		playerSelectModel = selectModelFactory.create(playerService.findAll(),
-				"displayName");
 		coachSelectModel = selectModelFactory.create(coachService.findAll(),
 				"displayName");
 		ageGroupSelectModel = selectModelFactory.create(

@@ -1,5 +1,6 @@
 package at.basketballsalzburg.bbstats.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -26,7 +27,13 @@ public class PlayerDTO implements Comparable<PlayerDTO> {
 	private String nationality;
 
 	private List<PracticeDTO> practices;
+	private List<AgeGroupDTO> ageGroups;
 
+	public PlayerDTO()
+	{
+		ageGroups = new ArrayList<AgeGroupDTO>(); 
+	}
+	
 	public Long getId() {
 		return id;
 	}
@@ -133,6 +140,14 @@ public class PlayerDTO implements Comparable<PlayerDTO> {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public List<AgeGroupDTO> getAgeGroups() {
+		return ageGroups;
+	}
+
+	public void setAgeGroups(List<AgeGroupDTO> ageGroups) {
+		this.ageGroups = ageGroups;
 	}
 
 	public int compareTo(PlayerDTO rhs) {

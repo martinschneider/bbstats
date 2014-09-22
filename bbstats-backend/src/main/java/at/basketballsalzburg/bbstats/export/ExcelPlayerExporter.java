@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Set;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -22,7 +22,7 @@ import at.basketballsalzburg.bbstats.dto.PlayerDTO;
  */
 public class ExcelPlayerExporter implements PlayerExporter {
 
-	public InputStream getFile(List<PlayerDTO> players) throws IOException {
+	public InputStream getFile(Set<PlayerDTO> playerList) throws IOException {
 		Workbook wb = new HSSFWorkbook();
 		CreationHelper createHelper = wb.getCreationHelper();
 		Sheet sheet = wb.createSheet("Adressen");
@@ -78,7 +78,7 @@ public class ExcelPlayerExporter implements PlayerExporter {
 		dateStyle.setDataFormat(createHelper.createDataFormat().getFormat(
 				"dd.MM.yyyy"));
 
-		for (PlayerDTO player : players) {
+		for (PlayerDTO player : playerList) {
 			rowIndex++;
 			Row playerRow = sheet.createRow(rowIndex);
 			playerRow.createCell(0).setCellValue(player.getLastName());

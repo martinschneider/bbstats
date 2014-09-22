@@ -1,5 +1,6 @@
 package at.basketballsalzburg.bbstats.components;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tapestry5.ComponentResources;
@@ -22,6 +23,7 @@ import org.apache.tapestry5.services.SelectModelFactory;
 
 import at.basketballsalzburg.bbstats.dataimport.GameStatCSVImporter;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
+import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 import at.basketballsalzburg.bbstats.utils.PlayerSelectModel;
@@ -223,7 +225,8 @@ public class GameStatEditor {
 
 	@SetupRender
 	void setupRender() {
-		playerSelectModel = new PlayerSelectModel(playerService.findAll());
+		playerSelectModel = new PlayerSelectModel(new ArrayList<PlayerDTO>(
+				playerService.findAllWithAgeGroup()));
 	}
 
 	public Integer getGameStatIndex() {

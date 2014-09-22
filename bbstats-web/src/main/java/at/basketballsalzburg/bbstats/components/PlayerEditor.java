@@ -3,17 +3,24 @@ package at.basketballsalzburg.bbstats.components;
 import java.util.Calendar;
 
 import org.apache.tapestry5.ComponentResources;
+import org.apache.tapestry5.SelectModel;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
+import org.apache.tapestry5.corelib.components.Palette;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.services.SelectModelFactory;
 
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
+import at.basketballsalzburg.bbstats.services.AgeGroupService;
 import at.basketballsalzburg.bbstats.services.PlayerService;
+import at.basketballsalzburg.bbstats.utils.AgeGroupValueEncoder;
 
 public class PlayerEditor {
 	public static final String PLAYER_EDIT_CANCEL = "playereditcancel";
@@ -21,9 +28,15 @@ public class PlayerEditor {
 
 	@Inject
 	private PlayerService playerService;
+	
+	@Inject
+	private AgeGroupService ageGroupService;
 
 	@Inject
 	private ComponentResources componentResources;
+	
+	@Inject
+	private SelectModelFactory selectModelFactory;
 
 	@Component
 	private Form playerEditForm;
@@ -63,7 +76,20 @@ public class PlayerEditor {
 
 	@Component(parameters = "event=cancel")
 	private EventLink cancel;
+	
+	@Component(parameters = { "selected=player.ageGroups",
+			"model=ageGroupSelectModel", "encoder=ageGroupValueEncoder",
+			"availableLabel=message:availableAgeGroups",
+			"selectedLabel=message:selectedAgeGroups" })
+	private Palette ageGroupPalette;
 
+	@Property
+	private SelectModel ageGroupSelectModel;
+	
+	@Inject
+	@Property
+	private AgeGroupValueEncoder ageGroupValueEncoder;
+	
 	@Persist
 	private PlayerDTO player;
 
@@ -87,5 +113,11 @@ public class PlayerEditor {
 
 	public int getCurrentYear() {
 		return Calendar.getInstance().get(Calendar.YEAR);
+	}
+	
+	@SetupRender
+	void setupRender() {
+		ageGroupSelectModel = selectModelFactory.create(
+				ageGroupService.findAll(), "name");
 	}
 }
