@@ -19,43 +19,52 @@ import at.basketballsalzburg.bbstats.services.LeagueService;
  */
 @Repository
 @Transactional
-public class LeagueServiceImpl implements LeagueService {
+public class LeagueServiceImpl implements LeagueService
+{
 
-	private DozerBeanMapper mapper;
-	private LeagueDAO dao;
+    private DozerBeanMapper mapper;
+    private LeagueDAO dao;
 
-	@Autowired
-	public void setMapper(DozerBeanMapper mapper) {
-		this.mapper = mapper;
-	}
+    @Autowired
+    public void setMapper(DozerBeanMapper mapper)
+    {
+        this.mapper = mapper;
+    }
 
-	@Autowired
-	public void setDao(LeagueDAO dao) {
-		this.dao = dao;
-	}
+    @Autowired
+    public void setDao(LeagueDAO dao)
+    {
+        this.dao = dao;
+    }
 
-	public void save(LeagueDTO LeagueDTO) {
-		dao.saveAndFlush(mapper.map(LeagueDTO, League.class));
-	}
+    public void save(LeagueDTO LeagueDTO)
+    {
+        dao.saveAndFlush(mapper.map(LeagueDTO, League.class));
+    }
 
-	public List<LeagueDTO> findAll() {
-		List<LeagueDTO> leagues = new ArrayList<LeagueDTO>();
-		for (Object league : dao.findAll(new Sort(Sort.Direction.ASC, "name"))) {
-			leagues.add(mapper.map(league, LeagueDTO.class));
-		}
-		return leagues;
-	}
+    public List<LeagueDTO> findAll()
+    {
+        List<LeagueDTO> leagues = new ArrayList<LeagueDTO>();
+        for (Object league : dao.findAll(new Sort(Sort.Direction.ASC, "name")))
+        {
+            leagues.add(mapper.map(league, LeagueDTO.class));
+        }
+        return leagues;
+    }
 
-	public LeagueDTO findByName(String name) {
-		return mapper.map(dao.findByName(name), LeagueDTO.class);
-	}
+    public LeagueDTO findByName(String name)
+    {
+        return mapper.map(dao.findByName(name), LeagueDTO.class);
+    }
 
-	public void delete(LeagueDTO league) {
-		dao.delete(mapper.map(league, League.class));
-	}
+    public void delete(LeagueDTO league)
+    {
+        dao.delete(mapper.map(league, League.class));
+    }
 
-	public LeagueDTO findById(Long leagueId) {
-		return mapper.map(dao.findOne(leagueId), LeagueDTO.class);
-	}
+    public LeagueDTO findById(Long leagueId)
+    {
+        return mapper.map(dao.findOne(leagueId), LeagueDTO.class);
+    }
 
 }

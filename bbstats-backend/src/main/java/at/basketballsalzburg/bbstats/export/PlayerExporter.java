@@ -9,7 +9,8 @@ import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 /**
  * @author Martin Schneider
  */
-public interface PlayerExporter {
+public interface PlayerExporter
+{
 
-	public InputStream getFile(Set<PlayerDTO> players) throws IOException;
+    public InputStream getFile(Set<PlayerDTO> players) throws IOException;
 }

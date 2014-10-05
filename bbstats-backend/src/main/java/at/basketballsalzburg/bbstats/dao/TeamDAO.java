@@ -9,8 +9,9 @@ import at.basketballsalzburg.bbstats.entities.Team;
  * @author Martin Schneider
  */
 @Transactional
-public interface TeamDAO extends JpaRepository<Team, Long> {
-	Team findById(final Long id);
+public interface TeamDAO extends JpaRepository<Team, Long>
+{
+    Team findById(final Long id);
 
-	Team findByName(String name);
+    Team findByName(String name);
 }

@@ -30,6 +30,8 @@
 		/>
 	<bean id="coachService" class="at.basketballsalzburg.bbstats.services.impl.CoachServiceImpl"
 		/>
+	<bean id="countryService" class="at.basketballsalzburg.bbstats.services.impl.CountryServiceImpl"
+		/>
 	<bean id="gameService" class="at.basketballsalzburg.bbstats.services.impl.GameServiceImpl"
 		/>
 	<bean id="gymService" class="at.basketballsalzburg.bbstats.services.impl.GymServiceImpl"

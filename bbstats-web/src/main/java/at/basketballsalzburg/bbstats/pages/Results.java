@@ -25,277 +25,298 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
-import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.services.GameService;
 import at.basketballsalzburg.bbstats.services.GymService;
 import at.basketballsalzburg.bbstats.utils.GameDataSource;
 import at.basketballsalzburg.bbstats.utils.GameMode;
 
-public class Results {
+public class Results
+{
 
-	private static final String INVALID_PLAYER_STATS = "invalidPlayerStats";
+    private static final String INVALID_PLAYER_STATS = "invalidPlayerStats";
 
-	@Component
-	private PageLayout pageLayout;
+    @Component
+    private PageLayout pageLayout;
 
-	@Component(parameters = { "title=message:gameGridBoxTitle", "type=tablebox" })
-	private Box gameGridBox;
+    @Component(parameters = {"title=message:gameGridBoxTitle", "type=tablebox"})
+    private Box gameGridBox;
 
-	@Component(parameters = { "zone=gameEditorZone" })
-	private GameEditor gameEditor;
+    @Component(parameters = {"zone=gameEditorZone"})
+    private GameEditor gameEditor;
 
-	@Component(parameters = { "title=message:gameEditorBoxTitle" })
-	private Box gameEditorBox;
+    @Component(parameters = {"title=message:gameEditorBoxTitle"})
+    private Box gameEditorBox;
 
-	@Component
-	private Zone gameEditorZone;
+    @Component
+    private Zone gameEditorZone;
 
-	// columns depend on user roles. use custom model and exclude instead of
-	// include
-	@Component(parameters = {
-			"source=gameSource",
-			"empty=message:noGameData",
-			"row=game",
-			"rowsPerPage=20",
-			"exclude=id,penalized,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
-			"reorder=winloss", "model=gameModel", "inplace=true", "class=table table-striped table-condensed" })
-	private Grid gameGrid;
+    // columns depend on user roles. use custom model and exclude instead of
+    // include
+    @Component(
+        parameters = {
+            "source=gameSource",
+            "empty=message:noGameData",
+            "row=game",
+            "rowsPerPage=20",
+            "exclude=id,penalized,periods,scorea1,scorea2,scorea3,scorea4,scoreav,scoreb1,scoreb2,scoreb3,scoreb4,scorebv,scorea,scoreb,ot",
+            "reorder=winloss", "model=gameModel", "inplace=true", "class=table table-striped table-condensed"})
+    private Grid gameGrid;
 
-	@Component(parameters = { "source=game.stats", "empty=message:noStatsData",
-			"row=gameStat", "include=points,fta,ftm,threes,fouls", "add=name",
-			"reorder=name,points,fta,ftm,threes,fouls", "inplace=true", "class=table table-striped table-condensed" })
-	private Grid statGrid;
-	
-	@Inject
-	private Messages messages;
+    @Component(parameters = {"source=game.stats", "empty=message:noStatsData",
+        "row=gameStat", "include=points,fta,ftm,threes,fouls", "add=name",
+        "reorder=name,points,fta,ftm,threes,fouls", "inplace=true", "class=table table-striped table-condensed"})
+    private Grid statGrid;
 
-	@Inject
-	private GameService gameService;
+    @Inject
+    private Messages messages;
 
-	@Inject
-	private GymService gymService;
+    @Inject
+    private GameService gameService;
 
-	@Property
-	private GameDTO game;
+    @Inject
+    private GymService gymService;
 
-	@Property
-	private GameStatDTO gameStat;
+    @Property
+    private GameDTO game;
 
-	@Property
-	private CoachDTO coach;
+    @Property
+    private GameStatDTO gameStat;
 
-	@Property
-	private AgeGroupDTO ageGroup;
+    @Property
+    private CoachDTO coach;
 
-	@Property
-	@Persist
-	private GameDataSource gameSource;
+    @Property
+    private AgeGroupDTO ageGroup;
 
-	@Component(parameters = { "event=edit", "context=game.id",
-			"Permission.allowedPermissions=editGame" })
-	@MixinClasses(Permission.class)
-	private EventLink editGame;
+    @Property
+    @Persist
+    private GameDataSource gameSource;
 
-	@Component(parameters = { "event=delete", "context=game.id",
-			"zone=gameGridZone" })
-	// @MixinClasses(Permission.class)
-	/*
-	 * The permission mixin leads to a strange bug when deleting the first
-	 * entity in the grid. However, it is not necessary since rendering of the
-	 * delete link is handled by the grid model.
-	 */
-	private EventLink deleteGame;
+    @Component(parameters = {"event=edit", "context=game.id",
+        "Permission.allowedPermissions=editGame"})
+    @MixinClasses(Permission.class)
+    private EventLink editGame;
 
-	@Component(parameters = { "event=new",
-			"Permission.allowedPermissions=newGame" })
-	@MixinClasses(Permission.class)
-	private EventLink newGame;
+    @Component(parameters = {"event=delete", "context=game.id",
+        "zone=gameGridZone"})
+    // @MixinClasses(Permission.class)
+    /*
+     * The permission mixin leads to a strange bug when deleting the first
+     * entity in the grid. However, it is not necessary since rendering of the
+     * delete link is handled by the grid model.
+     */
+    private EventLink deleteGame;
 
-	@Component(parameters = { "page=player" })
-	private PageLink playerDetail;
+    @Component(parameters = {"event=new",
+        "Permission.allowedPermissions=newGame"})
+    @MixinClasses(Permission.class)
+    private EventLink newGame;
 
-	@Component(parameters = { "page=coach" })
-	private PageLink coachDetail;
+    @Component(parameters = {"page=player"})
+    private PageLink playerDetail;
 
-	@Component
-	private Zone gameGridZone;
+    @Component(parameters = {"page=coach"})
+    private PageLink coachDetail;
 
-	@Property
-	@Persist
-	private boolean editorVisible;
+    @Component
+    private Zone gameGridZone;
 
-	@SetupRender
-	void setup() {
-		gameSource = new GameDataSource(gameService, GameMode.RESULTS);
-		if (gameGrid.getSortModel().getSortConstraints().isEmpty()) {
-			gameGrid.getSortModel().updateSort("dateTime");
-			gameGrid.getSortModel().updateSort("dateTime");
-		}
-	}
+    @Property
+    @Persist
+    private boolean editorVisible;
 
-	@OnEvent(value = "new")
-	Object onNew() {
-		editorVisible = true;
-		GameDTO newGame = new GameDTO();
-		newGame.setAgeGroups(new ArrayList<AgeGroupDTO>());
-		newGame.setCoaches(new ArrayList<CoachDTO>());
-		gameEditor.setGame(newGame);
-		gameEditor.getGame().setPeriods(4);
-		return this;
-	}
+    @SetupRender
+    void setup()
+    {
+        gameSource = new GameDataSource(gameService, GameMode.RESULTS);
+        if (gameGrid.getSortModel().getSortConstraints().isEmpty())
+        {
+            gameGrid.getSortModel().updateSort("dateTime");
+            gameGrid.getSortModel().updateSort("dateTime");
+        }
+    }
 
-	@OnEvent(value = GameEditor.GAME_EDIT_CANCEL)
-	Object onCancel() {
-		editorVisible = false;
-		return gameEditorZone.getBody();
-	}
+    @OnEvent(value = "new")
+    Object onNew()
+    {
+        editorVisible = true;
+        GameDTO newGame = new GameDTO();
+        newGame.setAgeGroups(new ArrayList<AgeGroupDTO>());
+        newGame.setCoaches(new ArrayList<CoachDTO>());
+        gameEditor.setGame(newGame);
+        gameEditor.getGame().setPeriods(4);
+        return this;
+    }
 
-	@OnEvent(value = GameEditor.GAME_EDIT_SAVE)
-	Object onSave() {
-		editorVisible = false;
-		return gameEditorZone.getBody();
-	}
+    @OnEvent(value = GameEditor.GAME_EDIT_CANCEL)
+    Object onCancel()
+    {
+        editorVisible = false;
+        return gameEditorZone.getBody();
+    }
 
-	@OnEvent(value = "edit")
-	Object onEdit(Long gameId) {
-		editorVisible = true;
-		gameEditor.setGame(findGameById(gameId));
-		return this;
-	}
+    @OnEvent(value = GameEditor.GAME_EDIT_SAVE)
+    Object onSave()
+    {
+        editorVisible = false;
+        return gameEditorZone.getBody();
+    }
 
-	@OnEvent(value = "delete")
-	Object onDelete(Long gameId) {
-		gameService.delete(gameService.findById(gameId));
-		return gameGridZone;
-	}
+    @OnEvent(value = "edit")
+    Object onEdit(Long gameId)
+    {
+        editorVisible = true;
+        gameEditor.setGame(findGameById(gameId));
+        return this;
+    }
 
-	@Inject
-	private BeanModelSource beanModelSource;
-	@Inject
-	private ComponentResources componentResources;
+    @OnEvent(value = "delete")
+    Object onDelete(Long gameId)
+    {
+        gameService.delete(gameService.findById(gameId));
+        return gameGridZone;
+    }
 
-	public BeanModel<GameDTO> getGameModel() {
-		BeanModel<GameDTO> beanModel = beanModelSource.createDisplayModel(
-				GameDTO.class, componentResources.getMessages());
-		beanModel.add("winloss", null).sortable(false);
-		beanModel.add("teamA", null).sortable(true);
-		beanModel.add("teamB", null).sortable(true);
-		beanModel.add("league", null).sortable(true);
-		beanModel.add("result", null).sortable(false);
-		beanModel.add("stats", null).sortable(false);
+    @Inject
+    private BeanModelSource beanModelSource;
+    @Inject
+    private ComponentResources componentResources;
 
-		if (pageLayout.isPermitted("editGame")) {
-			beanModel.add("statsErrors", null).sortable(false);
-			beanModel.add("edit", null).sortable(false);
-		}
-		if (pageLayout.isPermitted("deleteGame")) {
-			beanModel.add("delete", null).sortable(false);
-		}
-		return beanModel;
-	}
+    public BeanModel<GameDTO> getGameModel()
+    {
+        BeanModel<GameDTO> beanModel = beanModelSource.createDisplayModel(
+            GameDTO.class, componentResources.getMessages());
+        beanModel.add("winloss", null).sortable(false);
+        beanModel.add("teamA", null).sortable(true);
+        beanModel.add("teamB", null).sortable(true);
+        beanModel.add("league", null).sortable(true);
+        beanModel.add("result", null).sortable(false);
+        beanModel.add("stats", null).sortable(false);
 
-	private GameDTO findGameById(Long gameId) {
-		return gameService.findById(gameId);
-	}
+        if (pageLayout.isPermitted("editGame"))
+        {
+            beanModel.add("statsErrors", null).sortable(false);
+            beanModel.add("edit", null).sortable(false);
+        }
+        if (pageLayout.isPermitted("deleteGame"))
+        {
+            beanModel.add("delete", null).sortable(false);
+        }
+        return beanModel;
+    }
 
-	public boolean isOT() {
-		return game.isOT();
-	}
+    private GameDTO findGameById(Long gameId)
+    {
+        return gameService.findById(gameId);
+    }
 
-	public boolean isWin() {
-		return gameService.isWin(game);
-	}
+    public boolean isOT()
+    {
+        return game.isOT();
+    }
 
-	public boolean isHome() {
-		return gameService.isHome(game);
-	}
+    public boolean isWin()
+    {
+        return gameService.isWin(game);
+    }
 
-	public boolean isAway() {
-		return gameService.isAway(game);
-	}
+    public boolean isHome()
+    {
+        return gameService.isHome(game);
+    }
 
-	public boolean isShowStats() {
-		return (pageLayout.isPermitted("viewStats") || gameService
-				.isShowStats(game));
-	}
+    public boolean isAway()
+    {
+        return gameService.isAway(game);
+    }
 
-	public boolean isPublicMode() {
-		return !pageLayout.isPermitted("viewStats");
-	}
-	
-	public boolean isNoResult() {
-		return gameService.isNoResult(game);
-	}
-	
-	public boolean isError()
-	{
-		return !getErrorList().isEmpty();
-	}
-	
-	public String getErrorList()
-	{
-		StringBuilder errors = new StringBuilder();
-		int count = 0;
-		if (gameService.isNoResult(game) && !game.getPenalized())
-		{
-			errors.append(messages.get("missingStats"));
-			count++;
-		}
-		else if (gameService.isInvalidPlayerStats(game))
-		{
-			errors.append(getInvalidPlayerStatsMessage());
-			count++;
-		}
-		if (isQuestionablePeriodStats())
-		{
-			if (count > 0)
-			{
-				errors.append(" ");
-			}
-			errors.append(messages.get("questionablePeriodStats"));
-			count++;
-		}
-		if (count == 1)
-		{
-			errors.insert(0, count + " " + messages.get("error")+ ": ");
-		}
-		else if (count > 1)
-		{
-			errors.insert(0, count + " " + messages.get("errors")+ ": ");
-		}
-		return errors.toString();
-	}
-	
-	public boolean isInvalidPlayerStats()
-	{
-		return gameService.isInvalidPlayerStats(game)
-				|| gameService.isNoResult(game);
-	}
-	
-	public boolean isQuestionablePeriodStats()
-	{
-		return gameService.isQuestionablePeriodStats(game);
-	}
-	
-	public String getInvalidPlayerStatsMessage()
-	{
-		int teamScore = 0;
-		int playerScore = 0;
-		if (gameService.isHome(game) && gameService.isAway(game))
-		{
-			teamScore = game.getScoreA() + game.getScoreB();
-		}
-		else if (gameService.isHome(game)){
-			teamScore = game.getScoreA();
-		}
-		else if (gameService.isAway(game)){
-			teamScore = game.getScoreB();
-		}
-		for (GameStatDTO stat : game.getStats())
-		{
-			playerScore+=stat.getPoints();
-		}
-		return messages.format(INVALID_PLAYER_STATS, teamScore, playerScore);
-	}
+    public boolean isShowStats()
+    {
+        return (pageLayout.isPermitted("viewStats") || gameService
+            .isShowStats(game));
+    }
+
+    public boolean isPublicMode()
+    {
+        return !pageLayout.isPermitted("viewStats");
+    }
+
+    public boolean isNoResult()
+    {
+        return gameService.isNoResult(game);
+    }
+
+    public boolean isError()
+    {
+        return !getErrorList().isEmpty();
+    }
+
+    public String getErrorList()
+    {
+        StringBuilder errors = new StringBuilder();
+        int count = 0;
+        if (gameService.isNoResult(game) && !game.getPenalized())
+        {
+            errors.append(messages.get("missingStats"));
+            count++;
+        }
+        else if (gameService.isInvalidPlayerStats(game))
+        {
+            errors.append(getInvalidPlayerStatsMessage());
+            count++;
+        }
+        if (isQuestionablePeriodStats())
+        {
+            if (count > 0)
+            {
+                errors.append(" ");
+            }
+            errors.append(messages.get("questionablePeriodStats"));
+            count++;
+        }
+        if (count == 1)
+        {
+            errors.insert(0, count + " " + messages.get("error") + ": ");
+        }
+        else if (count > 1)
+        {
+            errors.insert(0, count + " " + messages.get("errors") + ": ");
+        }
+        return errors.toString();
+    }
+
+    public boolean isInvalidPlayerStats()
+    {
+        return gameService.isInvalidPlayerStats(game)
+            || gameService.isNoResult(game);
+    }
+
+    public boolean isQuestionablePeriodStats()
+    {
+        return gameService.isQuestionablePeriodStats(game);
+    }
+
+    public String getInvalidPlayerStatsMessage()
+    {
+        int teamScore = 0;
+        int playerScore = 0;
+        if (gameService.isHome(game) && gameService.isAway(game))
+        {
+            teamScore = game.getScoreA() + game.getScoreB();
+        }
+        else if (gameService.isHome(game))
+        {
+            teamScore = game.getScoreA();
+        }
+        else if (gameService.isAway(game))
+        {
+            teamScore = game.getScoreB();
+        }
+        for (GameStatDTO stat : game.getStats())
+        {
+            playerScore += stat.getPoints();
+        }
+        return messages.format(INVALID_PLAYER_STATS, teamScore, playerScore);
+    }
 }

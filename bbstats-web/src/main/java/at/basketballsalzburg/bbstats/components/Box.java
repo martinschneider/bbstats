@@ -13,83 +13,92 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 @SupportsInformalParameters
-@Import(stylesheet = { "css/Box.css" })
-public class Box {
-	private static final String CSS_BASE_CLASS = "box";
+@Import(stylesheet = {"css/Box.css"})
+public class Box
+{
+    private static final String CSS_BASE_CLASS = "box";
 
-	@Parameter(name = "class", defaultPrefix = BindingConstants.LITERAL)
-	private String cssClass;
+    @Parameter(name = "class", defaultPrefix = BindingConstants.LITERAL)
+    private String cssClass;
 
-	@Parameter(name = "type", defaultPrefix = BindingConstants.LITERAL)
-	private String type;
+    @Parameter(name = "type", defaultPrefix = BindingConstants.LITERAL)
+    private String type;
 
-	@Property(write = false)
-	@Parameter(required = false, name = "title", defaultPrefix = BindingConstants.LITERAL)
-	private String boxTitle;
+    @Property(write = false)
+    @Parameter(required = false, name = "title", defaultPrefix = BindingConstants.LITERAL)
+    private String boxTitle;
 
-	@Property(write = false)
-	@Parameter(required = false, name = "icon", defaultPrefix = BindingConstants.LITERAL)
-	private String boxIcon;
+    @Property(write = false)
+    @Parameter(required = false, name = "icon", defaultPrefix = BindingConstants.LITERAL)
+    private String boxIcon;
 
-	@Parameter(required = false, name = "alt", defaultPrefix = BindingConstants.LITERAL)
-	private String boxIconAltText;
+    @Parameter(required = false, name = "alt", defaultPrefix = BindingConstants.LITERAL)
+    private String boxIconAltText;
 
-	@Parameter(allowNull = true, required = false, name = "header")
-	@Property
-	private Block headerBlock;
+    @Parameter(allowNull = true, required = false, name = "header")
+    @Property
+    private Block headerBlock;
 
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private ComponentResources componentResources;
 
-	@Environmental
-	private JavaScriptSupport javascriptSupport;
+    @Environmental
+    private JavaScriptSupport javascriptSupport;
 
-	@Property
-	private String clientId;
+    @Property
+    private String clientId;
 
-	void beginRender(final MarkupWriter writer) {
-		clientId = javascriptSupport.allocateClientId(componentResources);
-		writer.element("div", "class", getCssClass(), "id", clientId);
-		componentResources.renderInformalParameters(writer);
-	}
+    void beginRender(final MarkupWriter writer)
+    {
+        clientId = javascriptSupport.allocateClientId(componentResources);
+        writer.element("div", "class", getCssClass(), "id", clientId);
+        componentResources.renderInformalParameters(writer);
+    }
 
-	void afterRender(final MarkupWriter writer) {
-		writer.end();
-	}
-	
-	/**
-	 * @return CSS base class + optional additional class(es).
-	 */
-	public String getCssClass() {
-		if (cssClass != null) {
-			return CSS_BASE_CLASS + " " + cssClass;
-		} else {
-			if (!getType().isEmpty())
-			{
-				return getType() + " " + CSS_BASE_CLASS;
-			}
-			return CSS_BASE_CLASS;
-		}
-	}
+    void afterRender(final MarkupWriter writer)
+    {
+        writer.end();
+    }
 
-	/**
-	 * if the optional boxIconAltText is not set, write empty alt="" title=""
-	 * attributes to markup, to keep html valid.
-	 * 
-	 * @return alt-text for box icon
-	 */
-	public String getBoxIconAltText() {
-		return (boxIconAltText == null) ? "" : boxIconAltText;
-	}
+    /**
+     * @return CSS base class + optional additional class(es).
+     */
+    public String getCssClass()
+    {
+        if (cssClass != null)
+        {
+            return CSS_BASE_CLASS + " " + cssClass;
+        }
+        else
+        {
+            if (!getType().isEmpty())
+            {
+                return getType() + " " + CSS_BASE_CLASS;
+            }
+            return CSS_BASE_CLASS;
+        }
+    }
 
-	/**
-	 * @return type
-	 */
-	public String getType() {
-		if (type == null) {
-			return "";
-		}
-		return type + " ";
-	}
+    /**
+     * if the optional boxIconAltText is not set, write empty alt="" title="" attributes to markup, to keep html valid.
+     * 
+     * @return alt-text for box icon
+     */
+    public String getBoxIconAltText()
+    {
+        return (boxIconAltText == null) ? "" : boxIconAltText;
+    }
+
+    /**
+     * @return type
+     */
+    public String getType()
+    {
+        if (type == null)
+        {
+            return "";
+        }
+        return type + " ";
+    }
 
 }

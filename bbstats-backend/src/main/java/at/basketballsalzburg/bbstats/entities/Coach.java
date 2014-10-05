@@ -17,53 +17,64 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "bbstats_coach")
-public class Coach {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@ManyToMany(targetEntity = AgeGroup.class, cascade = { CascadeType.PERSIST,
-		CascadeType.MERGE })
-	@JoinTable(name = "bbstats_coach_agegroup", joinColumns = @JoinColumn(name = "coachid"), inverseJoinColumns = @JoinColumn(name = "agegroupid"))
-	private List<AgeGroup> ageGroups;
+public class Coach
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String lastName;
+    @ManyToMany(targetEntity = AgeGroup.class, cascade = {CascadeType.PERSIST,
+        CascadeType.MERGE})
+    @JoinTable(name = "bbstats_coach_agegroup", joinColumns = @JoinColumn(name = "coachid"),
+        inverseJoinColumns = @JoinColumn(name = "agegroupid"))
+    private List<AgeGroup> ageGroups;
 
-	public String getLastName() {
-		return lastName;
-	}
+    private String lastName;
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName()
+    {
+        return lastName;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName()
+    {
+        return firstName;
+    }
 
-	private String firstName;
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    private String firstName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public String getDisplayName() {
-		return lastName + " " + firstName;
-	}
-	
-	public List<AgeGroup> getAgeGroups() {
-		return ageGroups;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public void setAgeGroups(List<AgeGroup> ageGroups) {
-		this.ageGroups = ageGroups;
-	}
+    public String getDisplayName()
+    {
+        return lastName + " " + firstName;
+    }
+
+    public List<AgeGroup> getAgeGroups()
+    {
+        return ageGroups;
+    }
+
+    public void setAgeGroups(List<AgeGroup> ageGroups)
+    {
+        this.ageGroups = ageGroups;
+    }
 }

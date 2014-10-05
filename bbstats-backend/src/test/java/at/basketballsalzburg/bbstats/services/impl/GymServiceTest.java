@@ -16,19 +16,21 @@ import at.basketballsalzburg.bbstats.services.GymService;
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class GymServiceTest extends
-		AbstractTransactionalTestNGSpringContextTests {
+    AbstractTransactionalTestNGSpringContextTests
+{
 
-	@Autowired
-	private GymService gymService;
+    @Autowired
+    private GymService gymService;
 
-	@Test
-	public void addGym() {
-		int size = gymService.findAll().size();
-		GymDTO gym = new GymDTO();
-		gym.setName("my private gym");
-		gym.setShortName("MPG");
-		gym.setCity("los angeles");
-		gymService.save(gym);
-		assertEquals(size + 1, gymService.findAll().size());
-	}
+    @Test
+    public void addGym()
+    {
+        int size = gymService.findAll().size();
+        GymDTO gym = new GymDTO();
+        gym.setName("my private gym");
+        gym.setShortName("MPG");
+        gym.setCity("los angeles");
+        gymService.save(gym);
+        assertEquals(size + 1, gymService.findAll().size());
+    }
 }

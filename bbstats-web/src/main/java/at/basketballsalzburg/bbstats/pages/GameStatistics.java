@@ -13,7 +13,7 @@ import org.apache.tapestry5.corelib.components.LinkSubmit;
 import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
 
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.DateTimeField;
@@ -23,76 +23,82 @@ import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 
 @RequiresPermissions(Permissions.gameStatisticsPage)
-public class GameStatistics {
-	@Component
-	private PageLayout pageLayout;
+public class GameStatistics
+{
+    @Component
+    private PageLayout pageLayout;
 
-	@Component(parameters = { "value=fromDate", "datePattern=dd.MM.yyyy" })
-	private DateTimeField fromDateField;
+    @Component(parameters = {"value=fromDate", "datePattern=dd.MM.yyyy"})
+    private DateTimeField fromDateField;
 
-	@Component(parameters = { "value=toDate", "datePattern=dd.MM.yyyy" })
-	private DateTimeField toDateField;
+    @Component(parameters = {"value=toDate", "datePattern=dd.MM.yyyy"})
+    private DateTimeField toDateField;
 
-	@Component
-	private LinkSubmit submit;
+    @Component
+    private LinkSubmit submit;
 
-	@Component
-	private Form form;
+    @Component
+    private Form form;
 
-	@Component(parameters = { "title=message:datesBoxTitle" })
-	private Box datesBox;
+    @Component(parameters = {"title=message:datesBoxTitle"})
+    private Box datesBox;
 
-	@Component(parameters = { "title=message:playersBoxTitle", "type=tablebox" })
-	private Box playersBox;
+    @Component(parameters = {"title=message:playersBoxTitle", "type=tablebox"})
+    private Box playersBox;
 
-	@Component
-	private Zone resultsZone;
-	
-	@Component(parameters = { "page=player" })
-	private PageLink playerDetail;
+    @Component
+    private Zone resultsZone;
 
-	@Component(parameters = {
-			"source=playerStatisticList",
-			"empty=message:noData",
-			"row=playerStatistic",
-			"rowsPerPage=10",
-			"include=games,fouls,fpg,fta,ftm,ftPercentage,ftapg,ftmpg,threes,threespg,points,ppg",
-			"add=name",
-			"reorder=name,games,points,ppg,fta,ftm,ftapg,ftmpg,ftPercentage,fouls,fpg",
-			"inplace=true", 
-			"class=table table-striped table-condensed" })
-	private Grid playerStatisticsGrid;
+    @Component(parameters = {"page=player"})
+    private PageLink playerDetail;
 
-	@Property
-	private CompletePlayerStatisticDTO playerStatistic;
+    @Component(parameters = {
+        "source=playerStatisticList",
+        "empty=message:noData",
+        "row=playerStatistic",
+        "rowsPerPage=10",
+        "include=games,fouls,fpg,fta,ftm,ftPercentage,ftapg,ftmpg,threes,threespg,points,ppg",
+        "add=name",
+        "reorder=name,games,points,ppg,fta,ftm,ftapg,ftmpg,ftPercentage,fouls,fpg",
+        "inplace=true",
+        "class=table table-striped table-condensed"})
+    private Grid playerStatisticsGrid;
 
-	@Property
-	@Persist
-	private DateMidnight fromDate;
+    @Property
+    private CompletePlayerStatisticDTO playerStatistic;
 
-	@Property
-	@Persist
-	private DateMidnight toDate;
+    @Property
+    @Persist
+    private DateTime fromDate;
 
-	@Inject
-	private PlayerService playerService;
+    @Property
+    @Persist
+    private DateTime toDate;
 
-	@SetupRender
-	void onSetup() {
-		if (toDate == null) {
-			toDate = new DateMidnight();
-		}
-		if (fromDate == null) {
-			fromDate = toDate.minusMonths(3);
-		}
-	}
+    @Inject
+    private PlayerService playerService;
 
-	Object onSuccess() {
-		return resultsZone;
-	}
+    @SetupRender
+    void onSetup()
+    {
+        if (toDate == null)
+        {
+            toDate = new DateTime();
+        }
+        if (fromDate == null)
+        {
+            fromDate = toDate.minusMonths(3);
+        }
+    }
 
-	public List<CompletePlayerStatisticDTO> getPlayerStatisticList() {
-		return playerService.getCompleteStatistics(fromDate.toDate(),
-				toDate.toDate());
-	}
+    Object onSuccess()
+    {
+        return resultsZone;
+    }
+
+    public List<CompletePlayerStatisticDTO> getPlayerStatisticList()
+    {
+        return playerService.getCompleteStatistics(fromDate.toDate(),
+            toDate.toDate());
+    }
 }

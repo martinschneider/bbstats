@@ -13,50 +13,55 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import at.basketballsalzburg.bbstats.dto.LeagueDTO;
 import at.basketballsalzburg.bbstats.services.LeagueService;
 
-public class LeagueEditor {
-	public static final String LEAGUE_EDIT_CANCEL = "leagueeditcancel";
-	public static final String LEAGUE_EDIT_SAVE = "leagueeditsave";
+public class LeagueEditor
+{
+    public static final String LEAGUE_EDIT_CANCEL = "leagueeditcancel";
+    public static final String LEAGUE_EDIT_SAVE = "leagueeditsave";
 
-	@Inject
-	private LeagueService leagueService;
+    @Inject
+    private LeagueService leagueService;
 
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private ComponentResources componentResources;
 
-	@Component
-	private Form leagueEditForm;
+    @Component
+    private Form leagueEditForm;
 
-	@Component(parameters = { "value=league.name" })
-	private TextField name;
+    @Component(parameters = {"value=league.name"})
+    private TextField name;
 
-	@Component(parameters = { "value=league.shortname" })
-	private TextField shortname;
+    @Component(parameters = {"value=league.shortname"})
+    private TextField shortname;
 
-	@Component
-	private LinkSubmit submit;
+    @Component
+    private LinkSubmit submit;
 
-	@Component(parameters = "event=cancel")
-	private EventLink cancel;
+    @Component(parameters = "event=cancel")
+    private EventLink cancel;
 
-	@Persist
-	private LeagueDTO league;
+    @Persist
+    private LeagueDTO league;
 
-	void onSuccess() {
-		leagueService.save(league);
-		componentResources.triggerEvent(LEAGUE_EDIT_SAVE, null, null);
-	}
+    void onSuccess()
+    {
+        leagueService.save(league);
+        componentResources.triggerEvent(LEAGUE_EDIT_SAVE, null, null);
+    }
 
-	public LeagueDTO getLeague() {
-		return league;
-	}
+    public LeagueDTO getLeague()
+    {
+        return league;
+    }
 
-	public void setLeague(LeagueDTO league) {
-		this.league = league;
-	}
+    public void setLeague(LeagueDTO league)
+    {
+        this.league = league;
+    }
 
-	@OnEvent(value = "cancel")
-	void onEventFromCancel() {
-		componentResources.triggerEvent(LEAGUE_EDIT_CANCEL, null, null);
-	}
+    @OnEvent(value = "cancel")
+    void onEventFromCancel()
+    {
+        componentResources.triggerEvent(LEAGUE_EDIT_CANCEL, null, null);
+    }
 
 }

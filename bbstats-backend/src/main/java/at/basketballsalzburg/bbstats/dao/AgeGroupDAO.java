@@ -9,6 +9,7 @@ import at.basketballsalzburg.bbstats.entities.AgeGroup;
  * @author Martin Schneider
  */
 @Transactional
-public interface AgeGroupDAO extends JpaRepository<AgeGroup, Long> {	
-	AgeGroup findByName(final String name);
+public interface AgeGroupDAO extends JpaRepository<AgeGroup, Long>
+{
+    AgeGroup findByName(final String name);
 }

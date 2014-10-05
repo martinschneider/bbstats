@@ -27,303 +27,360 @@ import at.basketballsalzburg.bbstats.services.GameService;
  */
 @Repository
 @Transactional
-public class GameServiceImpl implements GameService {
+public class GameServiceImpl implements GameService
+{
 
-	private GameDAO dao;
-	private DozerBeanMapper mapper;
-	private EntityManager entityManager;
+    private GameDAO dao;
+    private DozerBeanMapper mapper;
+    private EntityManager entityManager;
 
-	@Value("#{'${teamNames}'.split(',')}")
-	private List<String> teamNames;
+    @Value("#{'${teamNames}'.split(',')}")
+    private List<String> teamNames;
 
-	@Value("#{'${showStatistics}'.split(',')}")
-	private List<String> showStatistics;
+    @Value("#{'${showStatistics}'.split(',')}")
+    private List<String> showStatistics;
 
-	@Autowired
-	public void setMapper(DozerBeanMapper mapper) {
-		this.mapper = mapper;
-	}
+    @Autowired
+    public void setMapper(DozerBeanMapper mapper)
+    {
+        this.mapper = mapper;
+    }
 
-	@Autowired
-	public void setGameDao(GameDAO gameDao) {
-		this.dao = gameDao;
-	}
+    @Autowired
+    public void setGameDao(GameDAO gameDao)
+    {
+        this.dao = gameDao;
+    }
 
-	@PersistenceContext
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
-	}
+    @PersistenceContext
+    public void setEntityManager(EntityManager entityManager)
+    {
+        this.entityManager = entityManager;
+    }
 
-	public void save(GameDTO dto) {
-		entityManager.merge(mapper.map(dto, Game.class));
-	}
+    public void save(GameDTO dto)
+    {
+        entityManager.merge(mapper.map(dto, Game.class));
+    }
 
-	public List<GameDTO> findAll() {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findAll(new Sort(Sort.Direction.DESC, "dateTime"))) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    public List<GameDTO> findAll()
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findAll(new Sort(Sort.Direction.DESC, "dateTime")))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	@Override
-	public List<GameDTO> find(int page, int size, Sort sort) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findAll(new PageRequest(page, size, sort))) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    @Override
+    public List<GameDTO> find(int page, int size, Sort sort)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findAll(new PageRequest(page, size, sort)))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	public List<GameDTO> findBetween(Date dateFrom, Date dateTo) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dateFrom);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		dateFrom = cal.getTime();
-		cal.setTime(dateTo);
-		cal.set(Calendar.HOUR_OF_DAY, 23);
-		cal.set(Calendar.MINUTE, 59);
-		cal.set(Calendar.SECOND, 59);
-		cal.set(Calendar.MILLISECOND, 999);
-		dateTo = cal.getTime();
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		List<Game> entities = dao
-				.findByDateTimeAfterAndDateTimeBeforeOrderByDateTimeDesc(
-						dateFrom, dateTo);
-		for (Game game : entities) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    public List<GameDTO> findBetween(Date dateFrom, Date dateTo)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateFrom);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        dateFrom = cal.getTime();
+        cal.setTime(dateTo);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        dateTo = cal.getTime();
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        List<Game> entities = dao
+            .findByDateTimeAfterAndDateTimeBeforeOrderByDateTimeDesc(
+                dateFrom, dateTo);
+        for (Game game : entities)
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	public List<GameDTO> findAfter(Date dateFrom) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dateFrom);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		dateFrom = cal.getTime();
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		List<Game> entities = dao
-				.findByDateTimeAfterOrderByDateTimeAsc(dateFrom);
-		for (Game game : entities) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    public List<GameDTO> findAfter(Date dateFrom)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateFrom);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        dateFrom = cal.getTime();
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        List<Game> entities = dao
+            .findByDateTimeAfterOrderByDateTimeAsc(dateFrom);
+        for (Game game : entities)
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	public List<GameDTO> findBefore(Date dateTo) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(dateTo);
-		cal.set(Calendar.HOUR_OF_DAY, 23);
-		cal.set(Calendar.MINUTE, 59);
-		cal.set(Calendar.SECOND, 59);
-		cal.set(Calendar.MILLISECOND, 999);
-		dateTo = cal.getTime();
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByDateTimeBeforeOrderByDateTimeDesc(dateTo)) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    public List<GameDTO> findBefore(Date dateTo)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(dateTo);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
+        cal.set(Calendar.MILLISECOND, 999);
+        dateTo = cal.getTime();
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByDateTimeBeforeOrderByDateTimeDesc(dateTo))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	public GameDTO findById(Long gameId) {
-		return mapper.map(dao.findOne(gameId), GameDTO.class);
-	}
+    public GameDTO findById(Long gameId)
+    {
+        return mapper.map(dao.findOne(gameId), GameDTO.class);
+    }
 
-	public void delete(GameDTO gym) {
-		dao.delete(mapper.map(gym, Game.class));
-	}
+    public void delete(GameDTO gym)
+    {
+        dao.delete(mapper.map(gym, Game.class));
+    }
 
-	public List<GameDTO> findAllGamesForPlayer(Long playerId) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByPlayerOrderByDateTimeDesc(playerId)) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    public List<GameDTO> findAllGamesForPlayer(Long playerId)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByPlayerOrderByDateTimeDesc(playerId))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	public List<GameDTO> findAllGamesForCoach(Long coachId) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByCoachOrderByDateTimeDesc(coachId)) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    public List<GameDTO> findAllGamesForCoach(Long coachId)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByCoachOrderByDateTimeDesc(coachId))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	public boolean isHome(GameDTO game) {
-		for (String teamName : teamNames) {
-			if ((game.getTeamA().getName().contains(teamName))) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean isHome(GameDTO game)
+    {
+        for (String teamName : teamNames)
+        {
+            if ((game.getTeamA().getName().contains(teamName)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public boolean isAway(GameDTO game) {
-		for (String teamName : teamNames) {
-			if ((game.getTeamB().getName().contains(teamName))) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean isAway(GameDTO game)
+    {
+        for (String teamName : teamNames)
+        {
+            if ((game.getTeamB().getName().contains(teamName)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public boolean isWin(GameDTO game) {
-		int sumA = game.getScoreA1().intValue() + game.getScoreA2().intValue()
-				+ game.getScoreA3().intValue() + game.getScoreA4().intValue()
-				+ game.getScoreAV().intValue();
-		int sumB = game.getScoreB1().intValue() + game.getScoreB2().intValue()
-				+ game.getScoreB3().intValue() + game.getScoreB4().intValue()
-				+ game.getScoreBV().intValue();
-		for (String teamName : teamNames) {
-			if ((game.getTeamA().getName().contains(teamName) && sumA >= sumB)
-					|| (game.getTeamB().getName().contains(teamName) && sumB >= sumA)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public boolean isWin(GameDTO game)
+    {
+        int sumA = game.getScoreA1().intValue() + game.getScoreA2().intValue()
+            + game.getScoreA3().intValue() + game.getScoreA4().intValue()
+            + game.getScoreAV().intValue();
+        int sumB = game.getScoreB1().intValue() + game.getScoreB2().intValue()
+            + game.getScoreB3().intValue() + game.getScoreB4().intValue()
+            + game.getScoreBV().intValue();
+        for (String teamName : teamNames)
+        {
+            if ((game.getTeamA().getName().contains(teamName) && sumA >= sumB)
+                || (game.getTeamB().getName().contains(teamName) && sumB >= sumA))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public List<String> getTeamNames() {
-		return teamNames;
-	}
+    public List<String> getTeamNames()
+    {
+        return teamNames;
+    }
 
-	public List<String> getShowStatistics() {
-		return showStatistics;
-	}
+    public List<String> getShowStatistics()
+    {
+        return showStatistics;
+    }
 
-	@Override
-	public long count() {
-		return dao.count();
-	}
+    @Override
+    public long count()
+    {
+        return dao.count();
+    }
 
-	@Override
-	public int countResults() {
-		return dao.countByDateTimeBefore(new Date());
-	}
+    @Override
+    public int countResults()
+    {
+        return dao.countByDateTimeBefore(new Date());
+    }
 
-	@Override
-	public int countSchedule() {
-		return dao.countByDateTimeAfter(new Date());
-	}
+    @Override
+    public int countSchedule()
+    {
+        return dao.countByDateTimeAfter(new Date());
+    }
 
-	@Override
-	public List<GameDTO> findResults(int page, int size, Sort sort) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByDateTimeBefore(new Date(), new PageRequest(
-				page, size, sort))) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    @Override
+    public List<GameDTO> findResults(int page, int size, Sort sort)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByDateTimeBefore(new Date(), new PageRequest(
+            page, size, sort)))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	@Override
-	public List<GameDTO> findSchedule(int page, int size, Sort sort) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByDateTimeAfter(new Date(), new PageRequest(
-				page, size, sort))) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    @Override
+    public List<GameDTO> findSchedule(int page, int size, Sort sort)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByDateTimeAfter(new Date(), new PageRequest(
+            page, size, sort)))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	@Override
-	public List<GameDTO> findGamesForPlayer(Long playerId, int page, int size,
-			Sort sort) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByPlayer(playerId, new PageRequest(page, size,
-				sort))) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    @Override
+    public List<GameDTO> findGamesForPlayer(Long playerId, int page, int size,
+        Sort sort)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByPlayer(playerId, new PageRequest(page, size,
+            sort)))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	@Override
-	public List<GameDTO> findGamesForCoach(Long coachId, int page, int size,
-			Sort sort) {
-		List<GameDTO> games = new ArrayList<GameDTO>();
-		for (Game game : dao.findByCoach(coachId, new PageRequest(page, size,
-				sort))) {
-			games.add(mapper.map(game, GameDTO.class));
-		}
-		return games;
-	}
+    @Override
+    public List<GameDTO> findGamesForCoach(Long coachId, int page, int size,
+        Sort sort)
+    {
+        List<GameDTO> games = new ArrayList<GameDTO>();
+        for (Game game : dao.findByCoach(coachId, new PageRequest(page, size,
+            sort)))
+        {
+            games.add(mapper.map(game, GameDTO.class));
+        }
+        return games;
+    }
 
-	@Override
-	public int countByPlayer(Long playerId) {
-		return dao.countByPlayer(playerId);
-	}
+    @Override
+    public int countByPlayer(Long playerId)
+    {
+        return dao.countByPlayer(playerId);
+    }
 
-	@Override
-	public int countByCoach(Long coachId) {
-		return dao.countByCoach(coachId);
-	}
+    @Override
+    public int countByCoach(Long coachId)
+    {
+        return dao.countByCoach(coachId);
+    }
 
-	@Override
-	public boolean isShowStats(GameDTO game) {
-		if (isNoResult(game) || game.getStats().isEmpty()) {
-			return false;
-		}
-		for (String teamName : showStatistics) {
-			if ((game.getTeamA().getName().contains(teamName))
-					|| (game.getTeamB().getName().contains(teamName))) {
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean isShowStats(GameDTO game)
+    {
+        if (isNoResult(game) || game.getStats().isEmpty())
+        {
+            return false;
+        }
+        for (String teamName : showStatistics)
+        {
+            if ((game.getTeamA().getName().contains(teamName))
+                || (game.getTeamB().getName().contains(teamName)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public boolean isNoResult(GameDTO game) {
-		return (game.getScoreA() == 0 && game.getScoreB() == 0 && !game
-				.getPenalized());
-	}
+    @Override
+    public boolean isNoResult(GameDTO game)
+    {
+        return (game.getScoreA() == 0 && game.getScoreB() == 0 && !game
+            .getPenalized());
+    }
 
-	@Override
-	public boolean isMissingPlayerStats(GameDTO game) {
-		return (game.getScoreA() == 0 && game.getScoreB() == 0 || game
-				.getStats().isEmpty()) && !game.getPenalized();
-	}
+    @Override
+    public boolean isMissingPlayerStats(GameDTO game)
+    {
+        return (game.getStats().isEmpty()) && !game.getPenalized();
+    }
 
-	@Override
-	public boolean isInvalidPlayerStats(GameDTO game) {
-		int points = 0;
-		boolean home = isHome(game);
-		boolean away = isAway(game);
-		for (GameStatDTO stat : game.getStats()) {
-			points += stat.getPoints();
-		}
-		if (game.getPenalized()) {
-			return false;
-		}
-		if ((home && away && game.getScoreA() + game.getScoreB() != points)
-				|| (home && !away && game.getScoreA() != points)
-				|| (!home && away && game.getScoreB() != points)) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean isInvalidPlayerStats(GameDTO game)
+    {
+        int points = 0;
+        boolean home = isHome(game);
+        boolean away = isAway(game);
+        for (GameStatDTO stat : game.getStats())
+        {
+            points += stat.getPoints();
+        }
+        if (game.getPenalized())
+        {
+            return false;
+        }
+        if ((home && away && game.getScoreA() + game.getScoreB() != points)
+            || (home && !away && game.getScoreA() != points)
+            || (!home && away && game.getScoreB() != points))
+        {
+            return true;
+        }
+        return false;
+    }
 
-	@Override
-	public boolean isQuestionablePeriodStats(GameDTO game) {
-		if (game.getScoreA() == 0 && game.getScoreB() == 0
-				|| game.getPenalized()) {
-			return false;
-		}
-		if (game.getScoreA1() == 0 && game.getScoreB1() == 0
-				|| game.getPeriods() > 1 && game.getScoreA3() == 0
-				&& game.getScoreB3() == 0 || game.getPeriods() == 4
-				&& ((game.getScoreA2() == 0 && game.getScoreB2() == 0)
-				|| (game.getScoreA4() == 0 && game.getScoreB4() == 0))
-				|| game.isOT() && game.getScoreAV() == 0
-				&& game.getScoreBV() == 0) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean isQuestionablePeriodStats(GameDTO game)
+    {
+        if (game.getScoreA() == 0 && game.getScoreB() == 0
+            || game.getPenalized())
+        {
+            return false;
+        }
+        if (game.getScoreA1() == 0 && game.getScoreB1() == 0
+            || game.getPeriods() > 1 && game.getScoreA3() == 0
+            && game.getScoreB3() == 0 || game.getPeriods() == 4
+            && ((game.getScoreA2() == 0 && game.getScoreB2() == 0)
+            || (game.getScoreA4() == 0 && game.getScoreB4() == 0))
+            || game.isOT() && game.getScoreAV() == 0
+            && game.getScoreBV() == 0)
+        {
+            return true;
+        }
+        return false;
+    }
 }

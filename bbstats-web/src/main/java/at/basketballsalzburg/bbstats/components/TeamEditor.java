@@ -13,49 +13,54 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import at.basketballsalzburg.bbstats.dto.TeamDTO;
 import at.basketballsalzburg.bbstats.services.TeamService;
 
-public class TeamEditor {
-	public static final String TEAM_EDIT_CANCEL = "teameditcancel";
-	public static final String TEAM_EDIT_SAVE = "teameditsave";
+public class TeamEditor
+{
+    public static final String TEAM_EDIT_CANCEL = "teameditcancel";
+    public static final String TEAM_EDIT_SAVE = "teameditsave";
 
-	@Inject
-	private TeamService teamService;
+    @Inject
+    private TeamService teamService;
 
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private ComponentResources componentResources;
 
-	@Component
-	private Form teamEditForm;
+    @Component
+    private Form teamEditForm;
 
-	@Component(parameters = { "value=team.name" })
-	private TextField name;
+    @Component(parameters = {"value=team.name"})
+    private TextField name;
 
-	@Component(parameters = { "value=team.shortname" })
-	private TextField shortname;
-	@Component
-	private LinkSubmit submit;
+    @Component(parameters = {"value=team.shortname"})
+    private TextField shortname;
+    @Component
+    private LinkSubmit submit;
 
-	@Component(parameters = "event=cancel")
-	private EventLink cancel;
+    @Component(parameters = "event=cancel")
+    private EventLink cancel;
 
-	@Persist
-	private TeamDTO team;
+    @Persist
+    private TeamDTO team;
 
-	void onSuccess() {
-		teamService.save(team);
-		componentResources.triggerEvent(TEAM_EDIT_SAVE, null, null);
-	}
+    void onSuccess()
+    {
+        teamService.save(team);
+        componentResources.triggerEvent(TEAM_EDIT_SAVE, null, null);
+    }
 
-	public TeamDTO getTeam() {
-		return team;
-	}
+    public TeamDTO getTeam()
+    {
+        return team;
+    }
 
-	public void setTeam(TeamDTO team) {
-		this.team = team;
-	}
+    public void setTeam(TeamDTO team)
+    {
+        this.team = team;
+    }
 
-	@OnEvent(value = "cancel")
-	void onEventFromCancel() {
-		componentResources.triggerEvent(TEAM_EDIT_CANCEL, null, null);
-	}
+    @OnEvent(value = "cancel")
+    void onEventFromCancel()
+    {
+        componentResources.triggerEvent(TEAM_EDIT_CANCEL, null, null);
+    }
 
 }

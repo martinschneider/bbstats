@@ -11,38 +11,45 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "bbstats_league")
-public class League {
+public class League
+{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String name;
+    private String name;
 
-	private String shortname;
+    private String shortName;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
-	public String getShortname() {
-		return shortname;
-	}
+    public String getShortName()
+    {
+        return shortName;
+    }
 
-	public void setShortname(String shortname) {
-		this.shortname = shortname;
-	}
+    public void setShortname(String shortName)
+    {
+        this.shortName = shortName;
+    }
 
 }

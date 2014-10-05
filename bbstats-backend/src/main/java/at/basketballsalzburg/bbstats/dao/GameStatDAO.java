@@ -9,5 +9,6 @@ import at.basketballsalzburg.bbstats.entities.GameStat;
  * @author Martin Schneider
  */
 @Transactional
-public interface GameStatDAO extends JpaRepository<GameStat, Long> {
+public interface GameStatDAO extends JpaRepository<GameStat, Long>
+{
 }

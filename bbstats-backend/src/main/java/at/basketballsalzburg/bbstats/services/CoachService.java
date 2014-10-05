@@ -7,16 +7,17 @@ import at.basketballsalzburg.bbstats.dto.CoachDTO;
 /**
  * @author Martin Schneider
  */
-public interface CoachService {
+public interface CoachService
+{
 
-	public abstract void save(CoachDTO coach);
+    public abstract void save(CoachDTO coach);
 
-	public abstract void delete(CoachDTO coach);
+    public abstract void delete(CoachDTO coach);
 
-	public abstract List<CoachDTO> findAll();
+    public abstract List<CoachDTO> findAll();
 
-	public abstract CoachDTO findByName(String firstName, String lastName);
+    public abstract CoachDTO findByName(String firstName, String lastName);
 
-	public abstract CoachDTO findById(Long coachId);
+    public abstract CoachDTO findById(Long coachId);
 
 }

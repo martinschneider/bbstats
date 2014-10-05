@@ -9,42 +9,49 @@ import org.apache.tapestry5.services.AssetSource;
 import org.apache.tapestry5.services.javascript.JavaScriptStack;
 import org.apache.tapestry5.services.javascript.StylesheetLink;
 
-public class BbstatsJSStack implements JavaScriptStack {
+public class BbstatsJSStack implements JavaScriptStack
+{
 
-	private final AssetSource assetSource;
+    private final AssetSource assetSource;
 
-	public BbstatsJSStack(final AssetSource assetSource) {
-		this.assetSource = assetSource;
-	}
+    public BbstatsJSStack(final AssetSource assetSource)
+    {
+        this.assetSource = assetSource;
+    }
 
-	public String getInitialization() {
-		return null;
-	}
+    public String getInitialization()
+    {
+        return null;
+    }
 
-	public List<Asset> getJavaScriptLibraries() {
-		List<Asset> assets = new ArrayList<Asset>();
+    public List<Asset> getJavaScriptLibraries()
+    {
+        List<Asset> assets = new ArrayList<Asset>();
 
-		assets.add(assetSource.getClasspathAsset(
-				"META-INF/assets/js/jquery.vegas.js", null));
-		
-		assets.add(assetSource.getClasspathAsset(
-				"META-INF/assets/js/bootstrap.min.js", null));
+        assets.add(assetSource.getClasspathAsset(
+            "META-INF/assets/js/jquery.vegas.js", null));
 
-		return assets;
-	}
+        assets.add(assetSource.getClasspathAsset(
+            "META-INF/assets/js/bootstrap.min.js", null));
 
-	public List<StylesheetLink> getStylesheets() {
+        return assets;
+    }
 
-		return Collections.emptyList();
-	}
+    public List<StylesheetLink> getStylesheets()
+    {
 
-	public List<String> getStacks() {
-		return Collections.emptyList();
-	}
+        return Collections.emptyList();
+    }
 
-	@Override
-	public List<String> getModules() {
-		return Collections.emptyList();
-	}
+    public List<String> getStacks()
+    {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<String> getModules()
+    {
+        return Collections.emptyList();
+    }
 
 }

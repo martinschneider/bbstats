@@ -26,136 +26,150 @@ import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.GymService;
 
 @RequiresPermissions(Permissions.gymMaintenancePage)
-public class GymMaintenance {
-	@Component
-	private PageLayout pageLayout;
+public class GymMaintenance
+{
+    @Component
+    private PageLayout pageLayout;
 
-	@Component
-	private GymEditor gymEditor;
+    @Component
+    private GymEditor gymEditor;
 
-	@Component(parameters = {
-			"source=gymsList",
-			"model=gymModel",
-			"empty=message:noData",
-			"row=gym",
-			"rowsPerPage=20",
-			"include=name,adress,postalCode,city,country,shortName",
-			"add=edit,delete,route",
-			"reorder=name,adress,postalCode,city,country,shortName,route,edit,delete",
-			"inplace=true", "class=table table-striped table-condensed" })
-	private Grid gymsGrid;
+    @Component(parameters = {
+        "source=gymsList",
+        "model=gymModel",
+        "empty=message:noData",
+        "row=gym",
+        "rowsPerPage=20",
+        "include=name,adress,postalCode,city,country,shortName",
+        "add=edit,delete,route",
+        "reorder=name,adress,postalCode,city,country,shortName,route,edit,delete",
+        "inplace=true", "class=table table-striped table-condensed"})
+    private Grid gymsGrid;
 
-	@Component
-	private Zone gymEditorZone;
+    @Component
+    private Zone gymEditorZone;
 
-	@Component
-	private Zone gymGridZone;
+    @Component
+    private Zone gymGridZone;
 
-	@Component(parameters = "title=message:gymEditorBoxTitle")
-	private Box gymEditorBox;
+    @Component(parameters = "title=message:gymEditorBoxTitle")
+    private Box gymEditorBox;
 
-	@Component(parameters = {"title=message:gymGridBoxTitle", "type=tablebox"})
-	private Box gymGridBox;
+    @Component(parameters = {"title=message:gymGridBoxTitle", "type=tablebox"})
+    private Box gymGridBox;
 
-	@Component(parameters = { "event=edit", "context=gym.id",
-			"Permission.allowedPermissions=editGym" })
-	@MixinClasses(Permission.class)
-	private EventLink editGym;
+    @Component(parameters = {"event=edit", "context=gym.id",
+        "Permission.allowedPermissions=editGym"})
+    @MixinClasses(Permission.class)
+    private EventLink editGym;
 
-	@Component(parameters = { "event=delete", "context=gym.id",
-			"Permission.allowedPermissions=deleteGym" })
-	@MixinClasses(Permission.class)
-	private EventLink deleteGym;
+    @Component(parameters = {"event=delete", "context=gym.id",
+        "Permission.allowedPermissions=deleteGym"})
+    @MixinClasses(Permission.class)
+    private EventLink deleteGym;
 
-	@Component(parameters = { "event=new", "Permission.allowedPermissions=newGym" })
-	@MixinClasses(Permission.class)
-	private EventLink newGym;
+    @Component(parameters = {"event=new", "Permission.allowedPermissions=newGym"})
+    @MixinClasses(Permission.class)
+    private EventLink newGym;
 
-	@Inject
-	private GymService gymService;
+    @Inject
+    private GymService gymService;
 
-	@Property
-	private List<GymDTO> gymsList;
+    @Property
+    private List<GymDTO> gymsList;
 
-	@Property
-	@Persist
-	private GymDTO gym;
+    @Property
+    @Persist
+    private GymDTO gym;
 
-	@Property
-	@Persist
-	private boolean editorVisible;
+    @Property
+    @Persist
+    private boolean editorVisible;
 
-	@OnEvent(value = "edit")
-	Object onEdit(Long gymId) {
-		gymEditor.setGym(gymService.findById(gymId));
-		editorVisible = true;
-		return gymEditorZone;
-	}
+    @OnEvent(value = "edit")
+    Object onEdit(Long gymId)
+    {
+        gymEditor.setGym(gymService.findById(gymId));
+        editorVisible = true;
+        return gymEditorZone;
+    }
 
-	@OnEvent(value = "delete")
-	Object onDelete(Long gymId) {
-		gymService.delete(gymService.findById(gymId));
-		return gymGridZone;
-	}
+    @OnEvent(value = "delete")
+    Object onDelete(Long gymId)
+    {
+        gymService.delete(gymService.findById(gymId));
+        return gymGridZone;
+    }
 
-	@OnEvent(value = "new")
-	Object onNew() {
-		gymEditor.setGym(new GymDTO());
-		editorVisible = true;
-		return gymEditorZone;
-	}
+    @OnEvent(value = "new")
+    Object onNew()
+    {
+        gymEditor.setGym(new GymDTO());
+        editorVisible = true;
+        return gymEditorZone;
+    }
 
-	@OnEvent(value = GymEditor.GYM_EDIT_CANCEL)
-	void onCancel() {
-		editorVisible = false;
-	}
+    @OnEvent(value = GymEditor.GYM_EDIT_CANCEL)
+    void onCancel()
+    {
+        editorVisible = false;
+    }
 
-	@OnEvent(value = GymEditor.GYM_EDIT_SAVE)
-	void onSave() {
-		editorVisible = false;
-	}
+    @OnEvent(value = GymEditor.GYM_EDIT_SAVE)
+    void onSave()
+    {
+        editorVisible = false;
+    }
 
-	@Inject
-	private BeanModelSource beanModelSource;
+    @Inject
+    private BeanModelSource beanModelSource;
 
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private ComponentResources componentResources;
 
-	public BeanModel<GymDTO> getGymModel() {
-		return beanModelSource.createDisplayModel(GymDTO.class,
-				componentResources.getMessages());
-	}
+    public BeanModel<GymDTO> getGymModel()
+    {
+        return beanModelSource.createDisplayModel(GymDTO.class,
+            componentResources.getMessages());
+    }
 
-	@SetupRender
-	void setup() {
-		gymsList = gymService.findAll();
-		if (gymsGrid.getSortModel().getSortConstraints().isEmpty()) {
-			gymsGrid.getSortModel().updateSort("city");
-		}
-	}
+    @SetupRender
+    void setup()
+    {
+        gymsList = gymService.findAll();
+        if (gymsGrid.getSortModel().getSortConstraints().isEmpty())
+        {
+            gymsGrid.getSortModel().updateSort("city");
+        }
+    }
 
-	public String getGoogleMapsLink() {
-		if (gym.getCity() != null) {
+    public String getGoogleMapsLink()
+    {
+        if (gym.getCity() != null)
+        {
 
-			StringBuilder link = new StringBuilder(
-					"http://maps.google.de/maps?daddr=");
-			link.append(gym.getName().replaceAll(" ", "+").trim());
-			if (gym.getAdress() != null && !gym.getAdress().isEmpty()) {
-				link.append("+");
-				link.append(gym.getAdress().replaceAll(" ", "+").trim());
-			}
-			if (gym.getPostalCode() != null && !gym.getPostalCode().isEmpty()) {
-				link.append("+");
-				link.append(gym.getPostalCode().trim());
-			}
-			link.append("+");
-			link.append(gym.getCity().replaceAll(" ", "+").trim());
-			if (gym.getCountry() != null && !gym.getCountry().isEmpty()) {
-				link.append("+");
-				link.append(gym.getCountry().replaceAll(" ", "+").trim());
-			}
-			return link.toString();
-		}
-		return "#";
-	}
+            StringBuilder link = new StringBuilder(
+                "http://maps.google.de/maps?daddr=");
+            link.append(gym.getName().replaceAll(" ", "+").trim());
+            if (gym.getAdress() != null && !gym.getAdress().isEmpty())
+            {
+                link.append("+");
+                link.append(gym.getAdress().replaceAll(" ", "+").trim());
+            }
+            if (gym.getPostalCode() != null && !gym.getPostalCode().isEmpty())
+            {
+                link.append("+");
+                link.append(gym.getPostalCode().trim());
+            }
+            link.append("+");
+            link.append(gym.getCity().replaceAll(" ", "+").trim());
+            if (gym.getCountry() != null && !gym.getCountry().isEmpty())
+            {
+                link.append("+");
+                link.append(gym.getCountry().replaceAll(" ", "+").trim());
+            }
+            return link.toString();
+        }
+        return "#";
+    }
 }

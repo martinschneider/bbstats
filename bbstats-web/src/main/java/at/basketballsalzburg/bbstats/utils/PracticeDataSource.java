@@ -18,98 +18,108 @@ import at.basketballsalzburg.bbstats.services.PracticeService;
  * 
  * @author Martin Schneider
  */
-public class PracticeDataSource implements GridDataSource {
+public class PracticeDataSource implements GridDataSource
+{
 
-	private int startIndex;
-	private int size = 20;
-	private PracticeMode mode = PracticeMode.ALL;
-	private Long playerId;
-	private Long coachId;
-	private PracticeService practiceService;
-	private List<PracticeDTO> preparedResults;
+    private int startIndex;
+    private int size = 20;
+    private PracticeMode mode = PracticeMode.ALL;
+    private Long playerId;
+    private Long coachId;
+    private PracticeService practiceService;
+    private List<PracticeDTO> preparedResults;
 
-	public PracticeDataSource(final PracticeService practiceService) {
-		this.practiceService = practiceService;
-	}
-	
-	public PracticeDataSource(final PracticeService practiceService, final PracticeMode mode, final Long id) {
-		this.practiceService = practiceService;
-		this.mode = mode;
-		if (mode.equals(PracticeMode.COACH))
-		{
-			coachId = id;
-		}
-		else if (mode.equals(PracticeMode.PLAYER))
-		{
-			playerId = id;
-		}
-	}
+    public PracticeDataSource(final PracticeService practiceService)
+    {
+        this.practiceService = practiceService;
+    }
 
-	@Override
-	public int getAvailableRows() {
-		if (mode.equals(PracticeMode.COACH))
-		{
-			return practiceService.countByCoach(coachId);
-		}
-		else if (mode.equals(PracticeMode.PLAYER))
-		{
-			return practiceService.countByPlayer(playerId);
-		}
-		return (int) practiceService.count();
-	}
+    public PracticeDataSource(final PracticeService practiceService, final PracticeMode mode, final Long id)
+    {
+        this.practiceService = practiceService;
+        this.mode = mode;
+        if (mode.equals(PracticeMode.COACH))
+        {
+            coachId = id;
+        }
+        else if (mode.equals(PracticeMode.PLAYER))
+        {
+            playerId = id;
+        }
+    }
 
-	@Override
-	public void prepare(int startIndex, int endIndex,
-			List<SortConstraint> sortConstraints) {
+    @Override
+    public int getAvailableRows()
+    {
+        if (mode.equals(PracticeMode.COACH))
+        {
+            return practiceService.countByCoach(coachId);
+        }
+        else if (mode.equals(PracticeMode.PLAYER))
+        {
+            return practiceService.countByPlayer(playerId);
+        }
+        return (int) practiceService.count();
+    }
 
-		List<Order> orders = new ArrayList<Order>();
+    @Override
+    public void prepare(int startIndex, int endIndex,
+        List<SortConstraint> sortConstraints)
+    {
 
-		for (SortConstraint sortConstraint : sortConstraints) {
-			String propertyName = sortConstraint.getPropertyModel()
-					.getPropertyName();
-			if (propertyName.equals("gym")) {
-				propertyName = propertyName + ".name";
-			}
-			Direction sortDirection = null;
+        List<Order> orders = new ArrayList<Order>();
 
-			switch (sortConstraint.getColumnSort()) {
-			case ASCENDING:
-				sortDirection = Direction.ASC;
-				break;
-			case DESCENDING:
-				sortDirection = Direction.DESC;
-				break;
-			default:
-			}
-			orders.add(new Order(sortDirection, propertyName));
-		}
+        for (SortConstraint sortConstraint : sortConstraints)
+        {
+            String propertyName = sortConstraint.getPropertyModel()
+                .getPropertyName();
+            if (propertyName.equals("gym"))
+            {
+                propertyName = propertyName + ".name";
+            }
+            Direction sortDirection = null;
 
-		if (mode.equals(PracticeMode.COACH))
-		{
-			preparedResults = practiceService.findPracticesForCoach(coachId, startIndex / size, size,
-					new Sort(orders));
-		}
-		else if (mode.equals(PracticeMode.PLAYER))
-		{
-			preparedResults = practiceService.findPracticesForPlayer(playerId, startIndex / size, size,
-					new Sort(orders));
-		}
-		else
-		{
-			preparedResults = practiceService.findPractices(startIndex / size, size,
-				new Sort(orders));
-		}
-		this.startIndex = startIndex;
-	}
+            switch (sortConstraint.getColumnSort())
+            {
+                case ASCENDING:
+                    sortDirection = Direction.ASC;
+                    break;
+                case DESCENDING:
+                    sortDirection = Direction.DESC;
+                    break;
+                default:
+            }
+            orders.add(new Order(sortDirection, propertyName));
+        }
 
-	@Override
-	public Object getRowValue(int index) {
-		return preparedResults.get(index - startIndex);
-	}
+        if (mode.equals(PracticeMode.COACH))
+        {
+            preparedResults = practiceService.findPracticesForCoach(coachId, startIndex / size, size,
+                new Sort(orders));
+        }
+        else if (mode.equals(PracticeMode.PLAYER))
+        {
+            preparedResults = practiceService.findPracticesForPlayer(playerId, startIndex / size, size,
+                new Sort(orders));
+        }
+        else
+        {
+            preparedResults = practiceService.findPractices(startIndex / size, size,
+                new Sort(orders));
+        }
+        this.startIndex = startIndex;
+    }
 
-	@Override
-	public Class<GameDTO> getRowType() {
-		return GameDTO.class;
-	}
+    @Override
+    public Object getRowValue(int index)
+    {
+        return preparedResults.get(index - startIndex);
+    }
+
+    @Override
+    public Class<GameDTO> getRowType()
+    {
+        return GameDTO.class;
+    }
 
 }

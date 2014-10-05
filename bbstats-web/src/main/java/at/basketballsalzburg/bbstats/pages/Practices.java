@@ -32,139 +32,149 @@ import at.basketballsalzburg.bbstats.services.PracticeService;
 import at.basketballsalzburg.bbstats.utils.PracticeDataSource;
 
 @RequiresPermissions(Permissions.practicesPage)
-public class Practices {
+public class Practices
+{
 
-	@Component
-	private PageLayout pageLayout;
+    @Component
+    private PageLayout pageLayout;
 
-	@Component(parameters = "title=message:practiceEditorBoxTitle")
-	private Box practiceEditorBox;
+    @Component(parameters = "title=message:practiceEditorBoxTitle")
+    private Box practiceEditorBox;
 
-	@Component(parameters = { "title=message:practiceGridBoxTitle",
-			"type=tablebox" })
-	private Box practiceGridBox;
+    @Component(parameters = {"title=message:practiceGridBoxTitle",
+        "type=tablebox"})
+    private Box practiceGridBox;
 
-	@Component
-	private PracticeEditor practiceEditor;
+    @Component
+    private PracticeEditor practiceEditor;
 
-	@Component(parameters = { "source=practiceSource",
-			"empty=message:noPracticeData", "row=practice",
-			"model=practiceModel", "rowsPerPage=20",
-			"include=dateTime,duration,gym", "inplace=true",
-			"add=players,coaches,ageGroups,edit,delete",
-			"reorder=dateTime,gym,duration,players,coaches,ageGroups,edit,delete",
-			"class=table table-striped table-condensed"})
-	private Grid practiceGrid;
+    @Component(parameters = {"source=practiceSource",
+        "empty=message:noPracticeData", "row=practice",
+        "model=practiceModel", "rowsPerPage=20",
+        "include=dateTime,duration,gym", "inplace=true",
+        "add=players,coaches,ageGroups,edit,delete",
+        "reorder=dateTime,gym,duration,players,coaches,ageGroups,edit,delete",
+        "class=table table-striped table-condensed"})
+    private Grid practiceGrid;
 
-	@Inject
-	private PracticeService practiceService;
+    @Inject
+    private PracticeService practiceService;
 
-	@Inject
-	private GymService gymService;
+    @Inject
+    private GymService gymService;
 
-	@Property
-	private PracticeDTO practice;
+    @Property
+    private PracticeDTO practice;
 
-	@Property
-	private PlayerDTO player;
+    @Property
+    private PlayerDTO player;
 
-	@Property
-	private CoachDTO coach;
+    @Property
+    private CoachDTO coach;
 
-	@Property
-	private AgeGroupDTO ageGroup;
+    @Property
+    private AgeGroupDTO ageGroup;
 
-	@Property
-	@Persist
-	private PracticeDataSource practiceSource;
+    @Property
+    @Persist
+    private PracticeDataSource practiceSource;
 
-	@Component(parameters = { "event=edit", "context=practice.id",
-			"Permission.allowedPermissions=editPractice" })
-	@MixinClasses(Permission.class)
-	private EventLink editPractice;
+    @Component(parameters = {"event=edit", "context=practice.id",
+        "Permission.allowedPermissions=editPractice"})
+    @MixinClasses(Permission.class)
+    private EventLink editPractice;
 
-	@Component(parameters = { "event=delete", "context=practice.id",
-			"Permission.allowedPermissions=deletePractice" })
-	@MixinClasses(Permission.class)
-	private EventLink deletePractice;
+    @Component(parameters = {"event=delete", "context=practice.id",
+        "Permission.allowedPermissions=deletePractice"})
+    @MixinClasses(Permission.class)
+    private EventLink deletePractice;
 
-	@Component(parameters = { "event=new",
-			"Permission.allowedPermissions=newPractice" })
-	@MixinClasses(Permission.class)
-	private EventLink newPractice;
+    @Component(parameters = {"event=new",
+        "Permission.allowedPermissions=newPractice"})
+    @MixinClasses(Permission.class)
+    private EventLink newPractice;
 
-	@Component(parameters = { "page=player" })
-	private PageLink playerDetail;
+    @Component(parameters = {"page=player"})
+    private PageLink playerDetail;
 
-	@Component(parameters = { "page=coach" })
-	private PageLink coachDetail;
+    @Component(parameters = {"page=coach"})
+    private PageLink coachDetail;
 
-	@Component
-	private Zone practiceEditorZone;
+    @Component
+    private Zone practiceEditorZone;
 
-	@Component
-	private Zone practiceGridZone;
+    @Component
+    private Zone practiceGridZone;
 
-	@Property
-	@Persist
-	private boolean editorVisible;
+    @Property
+    @Persist
+    private boolean editorVisible;
 
-	@OnEvent(value = "edit")
-	Object onEdit(Long practiceId) {
-		practiceEditor.setPractice(findPracticeById(practiceId));
-		editorVisible = true;
-		return practiceEditorZone;
-	}
+    @OnEvent(value = "edit")
+    Object onEdit(Long practiceId)
+    {
+        practiceEditor.setPractice(findPracticeById(practiceId));
+        editorVisible = true;
+        return practiceEditorZone;
+    }
 
-	@OnEvent(value = "delete")
-	Object onDelete(Long practiceId) {
-		practiceService.delete(practiceService.findById(practiceId));
-		return practiceGridZone;
-	}
+    @OnEvent(value = "delete")
+    Object onDelete(Long practiceId)
+    {
+        practiceService.delete(practiceService.findById(practiceId));
+        return practiceGridZone;
+    }
 
-	private PracticeDTO findPracticeById(Long practiceId) {
-		return practiceService.findById(practiceId);
-	}
+    private PracticeDTO findPracticeById(Long practiceId)
+    {
+        return practiceService.findById(practiceId);
+    }
 
-	@OnEvent(value = "new")
-	Object onNew() {
-		PracticeDTO newPractice = new PracticeDTO();
-		newPractice.setAgeGroups(new ArrayList<AgeGroupDTO>());
-		newPractice.setPlayers(new ArrayList<PlayerDTO>());
-		newPractice.setCoaches(new ArrayList<CoachDTO>());
-		practiceEditor.setPractice(newPractice);
-		editorVisible = true;
-		return practiceEditorZone;
-	}
+    @OnEvent(value = "new")
+    Object onNew()
+    {
+        PracticeDTO newPractice = new PracticeDTO();
+        newPractice.setAgeGroups(new ArrayList<AgeGroupDTO>());
+        newPractice.setPlayers(new ArrayList<PlayerDTO>());
+        newPractice.setCoaches(new ArrayList<CoachDTO>());
+        practiceEditor.setPractice(newPractice);
+        editorVisible = true;
+        return practiceEditorZone;
+    }
 
-	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_CANCEL)
-	void onCancel() {
-		editorVisible = false;
-	}
+    @OnEvent(value = PracticeEditor.PRACTICE_EDIT_CANCEL)
+    void onCancel()
+    {
+        editorVisible = false;
+    }
 
-	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_SAVE)
-	void onSave() {
-		editorVisible = false;
-	}
+    @OnEvent(value = PracticeEditor.PRACTICE_EDIT_SAVE)
+    void onSave()
+    {
+        editorVisible = false;
+    }
 
-	@Inject
-	private BeanModelSource beanModelSource;
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private BeanModelSource beanModelSource;
+    @Inject
+    private ComponentResources componentResources;
 
-	public BeanModel<PracticeDTO> getPracticeModel() {
-		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
-				PracticeDTO.class, componentResources.getMessages());
-		beanModel.add("gym", null).sortable(true);
-		return beanModel;
-	}
+    public BeanModel<PracticeDTO> getPracticeModel()
+    {
+        BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
+            PracticeDTO.class, componentResources.getMessages());
+        beanModel.add("gym", null).sortable(true);
+        return beanModel;
+    }
 
-	@SetupRender
-	void setup() {
-		practiceSource = new PracticeDataSource(practiceService);
-		if (practiceGrid.getSortModel().getSortConstraints().isEmpty()) {
-			practiceGrid.getSortModel().updateSort("dateTime");
-			practiceGrid.getSortModel().updateSort("dateTime");
-		}
-	}
+    @SetupRender
+    void setup()
+    {
+        practiceSource = new PracticeDataSource(practiceService);
+        if (practiceGrid.getSortModel().getSortConstraints().isEmpty())
+        {
+            practiceGrid.getSortModel().updateSort("dateTime");
+            practiceGrid.getSortModel().updateSort("dateTime");
+        }
+    }
 }

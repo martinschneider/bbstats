@@ -11,21 +11,26 @@ import org.apache.tapestry5.util.AbstractSelectModel;
 
 import at.basketballsalzburg.bbstats.dto.TeamDTO;
 
-public class TeamSelectModel extends AbstractSelectModel {
-	private final List<OptionModel> options = CollectionFactory.newList();
+public class TeamSelectModel extends AbstractSelectModel
+{
+    private final List<OptionModel> options = CollectionFactory.newList();
 
-	public TeamSelectModel(final List<TeamDTO> dtos) {
-		Validate.notNull(dtos);
-		for (TeamDTO dto : dtos) {
-			options.add(new OptionModelImpl(dto.getName(), dto.getId()));
-		}
-	}
+    public TeamSelectModel(final List<TeamDTO> dtos)
+    {
+        Validate.notNull(dtos);
+        for (TeamDTO dto : dtos)
+        {
+            options.add(new OptionModelImpl(dto.getName(), dto.getId()));
+        }
+    }
 
-	public List<OptionGroupModel> getOptionGroups() {
-		return null;
-	}
+    public List<OptionGroupModel> getOptionGroups()
+    {
+        return null;
+    }
 
-	public List<OptionModel> getOptions() {
-		return options;
-	}
+    public List<OptionModel> getOptions()
+    {
+        return options;
+    }
 }

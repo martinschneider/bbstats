@@ -19,45 +19,54 @@ import at.basketballsalzburg.bbstats.services.AgeGroupService;
  */
 @Repository
 @Transactional
-public class AgeGroupServiceImpl implements AgeGroupService {
+public class AgeGroupServiceImpl implements AgeGroupService
+{
 
-	private DozerBeanMapper mapper;
+    private DozerBeanMapper mapper;
 
-	@Autowired
-	private AgeGroupDAO dao;
+    @Autowired
+    private AgeGroupDAO dao;
 
-	@Autowired
-	public void setMapper(DozerBeanMapper mapper) {
-		this.mapper = mapper;
-	}
+    @Autowired
+    public void setMapper(DozerBeanMapper mapper)
+    {
+        this.mapper = mapper;
+    }
 
-	@Autowired
-	public void setDao(AgeGroupDAO dao) {
-		this.dao = dao;
-	}
+    @Autowired
+    public void setDao(AgeGroupDAO dao)
+    {
+        this.dao = dao;
+    }
 
-	public void save(AgeGroupDTO ageGroupDTO) {
-		dao.saveAndFlush(mapper.map(ageGroupDTO, AgeGroup.class));
-	}
+    public void save(AgeGroupDTO ageGroupDTO)
+    {
+        dao.saveAndFlush(mapper.map(ageGroupDTO, AgeGroup.class));
+    }
 
-	public List<AgeGroupDTO> findAll() {
-		List<AgeGroupDTO> ageGroups = new ArrayList<AgeGroupDTO>();
-		for (Object ageGroup : dao.findAll(new Sort(Sort.Direction.ASC, "name"))) {
-			ageGroups.add(mapper.map(ageGroup, AgeGroupDTO.class));
-		}
-		return ageGroups;
-	}
+    public List<AgeGroupDTO> findAll()
+    {
+        List<AgeGroupDTO> ageGroups = new ArrayList<AgeGroupDTO>();
+        for (Object ageGroup : dao.findAll(new Sort(Sort.Direction.ASC, "name")))
+        {
+            ageGroups.add(mapper.map(ageGroup, AgeGroupDTO.class));
+        }
+        return ageGroups;
+    }
 
-	public AgeGroupDTO findByName(String name) {
-		return mapper.map(dao.findByName(name), AgeGroupDTO.class);
-	}
+    public AgeGroupDTO findByName(String name)
+    {
+        return mapper.map(dao.findByName(name), AgeGroupDTO.class);
+    }
 
-	public void delete(AgeGroupDTO ageGroup) {
-		dao.delete(mapper.map(ageGroup, AgeGroup.class));
-	}
+    public void delete(AgeGroupDTO ageGroup)
+    {
+        dao.delete(mapper.map(ageGroup, AgeGroup.class));
+    }
 
-	public AgeGroupDTO findById(Long ageGroupId) {
-		return mapper.map(dao.findOne(ageGroupId), AgeGroupDTO.class);
-	}
+    public AgeGroupDTO findById(Long ageGroupId)
+    {
+        return mapper.map(dao.findOne(ageGroupId), AgeGroupDTO.class);
+    }
 
 }

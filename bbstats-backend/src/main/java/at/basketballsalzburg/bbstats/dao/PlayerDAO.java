@@ -15,19 +15,20 @@ import at.basketballsalzburg.bbstats.entities.Player;
  * @author Martin Schneider
  */
 @Transactional
-public interface PlayerDAO extends JpaRepository<Player, Long> {
-	Player findByFirstNameAndLastName(String firstName, String lastName);
+public interface PlayerDAO extends JpaRepository<Player, Long>
+{
+    Player findByFirstNameAndLastName(String firstName, String lastName);
 
-	@Query("select distinct practice.players from Practice practice where practice.dateTime>:date")
-	List<Player> findPlayersActiveSince(@Param("date") Date date);
+    @Query("select distinct practice.players from Practice practice where practice.dateTime>:date")
+    List<Player> findPlayersActiveSince(@Param("date") Date date);
 
-	@Query("select distinct p from Player p, AgeGroup agegroup where agegroup=:agegroup and agegroup member of p.ageGroups")
-	List<Player> findByAgeGroupOrderByName(
-			@Param("agegroup") AgeGroup agegroup);
+    @Query("select distinct p from Player p, AgeGroup agegroup where agegroup=:agegroup and agegroup member of p.ageGroups")
+    List<Player> findByAgeGroupOrderByName(
+        @Param("agegroup") AgeGroup agegroup);
 
-	@Query("select distinct p from Player p where p.ageGroups is empty")
-	List<Player> findWithoutAgeGroup();
+    @Query("select distinct p from Player p where p.ageGroups is empty")
+    List<Player> findWithoutAgeGroup();
 
-	@Query("select distinct p from Player p where p.ageGroups is not empty")
-	List<Player> findWithAgeGroup();
+    @Query("select distinct p from Player p where p.ageGroups is not empty")
+    List<Player> findWithAgeGroup();
 }

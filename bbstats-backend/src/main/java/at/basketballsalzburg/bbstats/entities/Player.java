@@ -18,124 +18,151 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "bbstats_player")
-public class Player {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
-	
-	@ManyToMany(targetEntity = AgeGroup.class, cascade = { CascadeType.PERSIST,
-		CascadeType.MERGE })
-	@JoinTable(name = "bbstats_player_agegroup", joinColumns = @JoinColumn(name = "playerid"), inverseJoinColumns = @JoinColumn(name = "agegroupid"))
-	private List<AgeGroup> ageGroups;
+public class Player
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	private String firstName;
-	private String lastName;
-	private String adress;
-	private String postalCode;
-	private String city;
-	private String country;
-	private String phone;
-	private String email;
-	private Date birthday;
-	private String nationality;
+    @ManyToMany(targetEntity = AgeGroup.class, cascade = {CascadeType.PERSIST,
+        CascadeType.MERGE})
+    @JoinTable(name = "bbstats_player_agegroup", joinColumns = @JoinColumn(name = "playerid"),
+        inverseJoinColumns = @JoinColumn(name = "agegroupid"))
+    private List<AgeGroup> ageGroups;
 
-	public Long getId() {
-		return id;
-	}
+    private String firstName;
+    private String lastName;
+    private String adress;
+    private String postalCode;
+    private String city;
+    private String country;
+    private String phone;
+    private String email;
+    private Date birthday;
+    private String nationality;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public String getFirstName() {
-		return firstName;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    public String getFirstName()
+    {
+        return firstName;
+    }
 
-	public String getLastName() {
-		return lastName;
-	}
+    public void setFirstName(String firstName)
+    {
+        this.firstName = firstName;
+    }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    public String getLastName()
+    {
+        return lastName;
+    }
 
-	public String getAdress() {
-		return adress;
-	}
+    public void setLastName(String lastName)
+    {
+        this.lastName = lastName;
+    }
 
-	public void setAdress(String adress) {
-		this.adress = adress;
-	}
+    public String getAdress()
+    {
+        return adress;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public void setAdress(String adress)
+    {
+        this.adress = adress;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public String getPostalCode()
+    {
+        return postalCode;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public void setPostalCode(String postalCode)
+    {
+        this.postalCode = postalCode;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public String getCity()
+    {
+        return city;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public String getCountry()
+    {
+        return country;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public void setCountry(String country)
+    {
+        this.country = country;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public String getPhone()
+    {
+        return phone;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public String getEmail()
+    {
+        return email;
+    }
 
-	public Date getBirthday() {
-		return birthday;
-	}
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    public Date getBirthday()
+    {
+        return birthday;
+    }
 
-	public String getNationality() {
-		return nationality;
-	}
+    public void setBirthday(Date birthday)
+    {
+        this.birthday = birthday;
+    }
 
-	public void setNationality(String nationality) {
-		this.nationality = nationality;
-	}
+    public String getNationality()
+    {
+        return nationality;
+    }
 
-	public String getDisplayName() {
-		return lastName + " " + firstName;
-	}
+    public void setNationality(String nationality)
+    {
+        this.nationality = nationality;
+    }
 
-	public List<AgeGroup> getAgeGroups() {
-		return ageGroups;
-	}
+    public String getDisplayName()
+    {
+        return lastName + " " + firstName;
+    }
 
-	public void setAgeGroups(List<AgeGroup> ageGroups) {
-		this.ageGroups = ageGroups;
-	}
+    public List<AgeGroup> getAgeGroups()
+    {
+        return ageGroups;
+    }
+
+    public void setAgeGroups(List<AgeGroup> ageGroups)
+    {
+        this.ageGroups = ageGroups;
+    }
 }

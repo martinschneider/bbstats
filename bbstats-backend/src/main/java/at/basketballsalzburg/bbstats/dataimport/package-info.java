@@ -1,5 +1,5 @@
 /**
- * Importing of statistics from various sources 
+ * Importing of statistics from various sources
  * 
  * @author Martin Schneider
  */

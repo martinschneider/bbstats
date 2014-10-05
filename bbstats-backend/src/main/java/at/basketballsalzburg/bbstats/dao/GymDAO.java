@@ -9,6 +9,7 @@ import at.basketballsalzburg.bbstats.entities.Gym;
  * @author Martin Schneider
  */
 @Transactional
-public interface GymDAO extends JpaRepository<Gym, Long> {
-	Gym findByName(String name);
+public interface GymDAO extends JpaRepository<Gym, Long>
+{
+    Gym findByName(String name);
 }

@@ -7,28 +7,32 @@ package at.basketballsalzburg.bbstats.utils;
  * @author Howard Lewis Ship
  */
 
-public class EvenOdd {
+public class EvenOdd
+{
 
-	private boolean even = true;
+    private boolean even = true;
 
-	/**
-	 * Returns "even" or "odd". Whatever it returns on one invocation, it will return the opposite on the next. By
-	 * default, the first value returned is "even".
-	 */
-	public String getNext() {
-		String result = even ? "even" : "odd";
-		even = !even;
-		return result;
-	}
+    /**
+     * Returns "even" or "odd". Whatever it returns on one invocation, it will return the opposite on the next. By
+     * default, the first value returned is "even".
+     */
+    public String getNext()
+    {
+        String result = even ? "even" : "odd";
+        even = !even;
+        return result;
+    }
 
-	public boolean isEven() {
-		return even;
-	}
+    public boolean isEven()
+    {
+        return even;
+    }
 
-	/**
-	 * Overrides the even flag.
-	 */
-	public void setEven(boolean value) {
-		even = value;
-	}
+    /**
+     * Overrides the even flag.
+     */
+    public void setEven(boolean value)
+    {
+        even = value;
+    }
 }

@@ -11,26 +11,27 @@ import at.basketballsalzburg.bbstats.dto.statistics.CompletePlayerStatisticDTO;
 /**
  * @author Martin Schneider
  */
-public interface PlayerService {
+public interface PlayerService
+{
 
-	public abstract void save(PlayerDTO player);
+    public abstract void save(PlayerDTO player);
 
-	public abstract SortedSet<PlayerDTO> findAll();
-	
-	public abstract SortedSet<PlayerDTO> findAllForAgegroup(AgeGroupDTO agegroup);
-	
-	public abstract SortedSet<PlayerDTO> findAllActiveSince(Date date);
+    public abstract SortedSet<PlayerDTO> findAll();
 
-	public abstract PlayerDTO findByName(String firstName, String lastName);
+    public abstract SortedSet<PlayerDTO> findAllForAgegroup(AgeGroupDTO agegroup);
 
-	public abstract PlayerDTO findById(Long playerId);
+    public abstract SortedSet<PlayerDTO> findAllActiveSince(Date date);
 
-	public abstract void delete(PlayerDTO player);
-	
-	public abstract List<CompletePlayerStatisticDTO> getCompleteStatistics(Date fromDate, Date toDate);
+    public abstract PlayerDTO findByName(String firstName, String lastName);
 
-	public abstract SortedSet<PlayerDTO> findAllWithAgeGroup();
-	
-	public abstract SortedSet<PlayerDTO> findAllWithoutAgeGroup();
+    public abstract PlayerDTO findById(Long playerId);
+
+    public abstract void delete(PlayerDTO player);
+
+    public abstract List<CompletePlayerStatisticDTO> getCompleteStatistics(Date fromDate, Date toDate);
+
+    public abstract SortedSet<PlayerDTO> findAllWithAgeGroup();
+
+    public abstract SortedSet<PlayerDTO> findAllWithoutAgeGroup();
 
 }

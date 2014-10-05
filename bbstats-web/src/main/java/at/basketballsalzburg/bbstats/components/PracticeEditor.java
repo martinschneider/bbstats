@@ -34,151 +34,159 @@ import at.basketballsalzburg.bbstats.utils.CoachValueEncoder;
 import at.basketballsalzburg.bbstats.utils.GymSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
 
-public class PracticeEditor {
-	public static final String PRACTICE_EDIT_CANCEL = "practiceeditcancel";
-	public static final String PRACTICE_EDIT_SAVE = "practiceeditsave";
+public class PracticeEditor
+{
+    public static final String PRACTICE_EDIT_CANCEL = "practiceeditcancel";
+    public static final String PRACTICE_EDIT_SAVE = "practiceeditsave";
 
-	@Inject
-	private PracticeService practiceService;
+    @Inject
+    private PracticeService practiceService;
 
-	@Inject
-	private GymService gymService;
+    @Inject
+    private GymService gymService;
 
-	@Inject
-	private PlayerService playerService;
+    @Inject
+    private PlayerService playerService;
 
-	@Inject
-	private CoachService coachService;
+    @Inject
+    private CoachService coachService;
 
-	@Inject
-	private AgeGroupService ageGroupService;
+    @Inject
+    private AgeGroupService ageGroupService;
 
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private ComponentResources componentResources;
 
-	@Inject
-	private SelectModelFactory selectModelFactory;
+    @Inject
+    private SelectModelFactory selectModelFactory;
 
-	@Inject
-	private JavaScriptSupport javaScriptSupport;
+    @Inject
+    private JavaScriptSupport javaScriptSupport;
 
-	@Inject
-	@Property
-	private CoachValueEncoder coachValueEncoder;
+    @Inject
+    @Property
+    private CoachValueEncoder coachValueEncoder;
 
-	@Inject
-	@Property
-	private PlayerValueEncoder playerValueEncoder;
+    @Inject
+    @Property
+    private PlayerValueEncoder playerValueEncoder;
 
-	@Inject
-	@Property
-	private AgeGroupValueEncoder ageGroupValueEncoder;
+    @Inject
+    @Property
+    private AgeGroupValueEncoder ageGroupValueEncoder;
 
-	@Component
-	private Form practiceEditForm;
+    @Component
+    private Form practiceEditForm;
 
-	@Component(parameters = { "value=practice.dateTime",
-			"datePattern=dd.MM.yyyy, HH:mm", "timePicker=true",
-			"timePickerAdjacent=true", "use24hrs=true" })
-	private DateTimeField date;
+    @Component(parameters = {"value=practice.dateTime",
+        "datePattern=dd.MM.yyyy, HH:mm", "timePicker=true",
+        "timePickerAdjacent=true", "use24hrs=true"})
+    private DateTimeField date;
 
-	@Component(parameters = { "value=practice.duration" })
-	private TextField duration;
+    @Component(parameters = {"value=practice.duration"})
+    private TextField duration;
 
-	@Component(parameters = { "value=practice.comment" })
-	private TextField comment;
+    @Component(parameters = {"value=practice.comment"})
+    private TextField comment;
 
-	@Component(parameters = { "value=gymId", "model=gymSelectModel" })
-	private Select gymSelect;
+    @Component(parameters = {"value=gymId", "model=gymSelectModel"})
+    private Select gymSelect;
 
-	@Component(parameters = { "selected=practice.players",
-			"model=playerSelectModel", "encoder=playerValueEncoder",
-			"availableLabel=message:availablePlayers",
-			"selectedLabel=message:selectedPlayers" })
-	private Palette playerPalette;
+    @Component(parameters = {"selected=practice.players",
+        "model=playerSelectModel", "encoder=playerValueEncoder",
+        "availableLabel=message:availablePlayers",
+        "selectedLabel=message:selectedPlayers"})
+    private Palette playerPalette;
 
-	@Component(parameters = { "value=practice.guests" })
-	private TextField guests;
+    @Component(parameters = {"value=practice.guests"})
+    private TextField guests;
 
-	@Component(parameters = { "selected=practice.coaches",
-			"model=coachSelectModel", "encoder=coachValueEncoder",
-			"availableLabel=message:availableCoaches",
-			"selectedLabel=message:selectedCoaches" })
-	private Palette coachPalette;
+    @Component(parameters = {"selected=practice.coaches",
+        "model=coachSelectModel", "encoder=coachValueEncoder",
+        "availableLabel=message:availableCoaches",
+        "selectedLabel=message:selectedCoaches"})
+    private Palette coachPalette;
 
-	@Component(parameters = { "selected=practice.ageGroups",
-			"model=ageGroupSelectModel", "encoder=ageGroupValueEncoder",
-			"availableLabel=message:availableAgeGroups",
-			"selectedLabel=message:selectedAgeGroups"})
-	private Palette ageGroupPalette;
+    @Component(parameters = {"selected=practice.ageGroups",
+        "model=ageGroupSelectModel", "encoder=ageGroupValueEncoder",
+        "availableLabel=message:availableAgeGroups",
+        "selectedLabel=message:selectedAgeGroups"})
+    private Palette ageGroupPalette;
 
-	@Property
-	private Coach coach;
+    @Property
+    private Coach coach;
 
-	@Property
-	private Player player;
+    @Property
+    private Player player;
 
-	@Property
-	@Persist
-	private SelectModel gymSelectModel;
+    @Property
+    @Persist
+    private SelectModel gymSelectModel;
 
-	@Property
-	private SelectModel playerSelectModel;
+    @Property
+    private SelectModel playerSelectModel;
 
-	@Property
-	private SelectModel coachSelectModel;
+    @Property
+    private SelectModel coachSelectModel;
 
-	@Property
-	private SelectModel ageGroupSelectModel;
+    @Property
+    private SelectModel ageGroupSelectModel;
 
-	@Component
-	private LinkSubmit submit;
+    @Component
+    private LinkSubmit submit;
 
-	@Component(parameters = "event=cancel")
-	private EventLink cancel;
+    @Component(parameters = "event=cancel")
+    private EventLink cancel;
 
-	@Persist
-	private PracticeDTO practice;
+    @Persist
+    private PracticeDTO practice;
 
-	@Property
-	@Persist
-	private Long gymId;
+    @Property
+    @Persist
+    private Long gymId;
 
-	public PracticeDTO getPractice() {
-		return practice;
-	}
+    public PracticeDTO getPractice()
+    {
+        return practice;
+    }
 
-	public void setPractice(PracticeDTO practice) {
-		this.practice = practice;
-	}
+    public void setPractice(PracticeDTO practice)
+    {
+        this.practice = practice;
+    }
 
-	void onSuccess() {
-		practice.setGym(gymService.findById(gymId));
-		practiceService.save(practice);
-		componentResources.triggerEvent(PRACTICE_EDIT_SAVE, null, null);
-	}
+    void onSuccess()
+    {
+        practice.setGym(gymService.findById(gymId));
+        practiceService.save(practice);
+        componentResources.triggerEvent(PRACTICE_EDIT_SAVE, null, null);
+    }
 
-	@OnEvent(value = "cancel")
-	void onEventFromCancel() {
-		componentResources.triggerEvent(PRACTICE_EDIT_CANCEL, null, null);
-	}
+    @OnEvent(value = "cancel")
+    void onEventFromCancel()
+    {
+        componentResources.triggerEvent(PRACTICE_EDIT_CANCEL, null, null);
+    }
 
-	@AfterRender
-	void afterRender() {
-		javaScriptSupport.require("practice-editor");
-	}
+    @AfterRender
+    void afterRender()
+    {
+        javaScriptSupport.require("practice-editor");
+    }
 
-	@SetupRender
-	void setupRender() {
-		if (practice.getGym() != null && practice.getGym().getId() != null) {
-			gymId = practice.getGym().getId();
-		}
-		gymSelectModel = new GymSelectModel(gymService.findAll());
-		playerSelectModel = selectModelFactory.create(new ArrayList<PlayerDTO>(
-				playerService.findAllWithAgeGroup()), "displayName");
-		coachSelectModel = selectModelFactory.create(coachService.findAll(),
-				"displayName");
-		ageGroupSelectModel = selectModelFactory.create(
-				ageGroupService.findAll(), "name");
-	}
+    @SetupRender
+    void setupRender()
+    {
+        if (practice.getGym() != null && practice.getGym().getId() != null)
+        {
+            gymId = practice.getGym().getId();
+        }
+        gymSelectModel = new GymSelectModel(gymService.findAll());
+        playerSelectModel = selectModelFactory.create(new ArrayList<PlayerDTO>(
+            playerService.findAllWithAgeGroup()), "displayName");
+        coachSelectModel = selectModelFactory.create(coachService.findAll(),
+            "displayName");
+        ageGroupSelectModel = selectModelFactory.create(
+            ageGroupService.findAll(), "name");
+    }
 }

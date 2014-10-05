@@ -7,16 +7,17 @@ import at.basketballsalzburg.bbstats.dto.GymDTO;
 /**
  * @author Martin Schneider
  */
-public interface GymService {
+public interface GymService
+{
 
-	public abstract void save(GymDTO gym);
+    public abstract void save(GymDTO gym);
 
-	public abstract List<GymDTO> findAll();
+    public abstract List<GymDTO> findAll();
 
-	public abstract GymDTO findByName(String name);
+    public abstract GymDTO findByName(String name);
 
-	public abstract GymDTO findById(Long gymId);
+    public abstract GymDTO findById(Long gymId);
 
-	public abstract void delete(GymDTO gym);
+    public abstract void delete(GymDTO gym);
 
 }

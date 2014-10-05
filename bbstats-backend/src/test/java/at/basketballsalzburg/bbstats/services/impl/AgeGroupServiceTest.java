@@ -2,7 +2,6 @@ package at.basketballsalzburg.bbstats.services.impl;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,22 +17,24 @@ import at.basketballsalzburg.bbstats.services.AgeGroupService;
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class AgeGroupServiceTest extends
-		AbstractTransactionalTestNGSpringContextTests {
+    AbstractTransactionalTestNGSpringContextTests
+{
 
-	private static final String AGEGROUP_NAME = "test";
-	
-	@Autowired
-	private AgeGroupService ageGroupService;
+    private static final String AGEGROUP_NAME = "test";
 
-	@Test
-	public void addAgeGroup() {
-		int size = ageGroupService.findAll().size();
-		AgeGroupDTO ageGroup = new AgeGroupDTO();
-		ageGroup.setName(AGEGROUP_NAME);
-		ageGroupService.save(ageGroup);
-		assertEquals(size + 1, ageGroupService.findAll().size());
-		ageGroup = ageGroupService.findByName(AGEGROUP_NAME);
-		assertNotNull(ageGroup);
-		assertEquals(ageGroup.getName(), AGEGROUP_NAME);
-	}
+    @Autowired
+    private AgeGroupService ageGroupService;
+
+    @Test
+    public void addAgeGroup()
+    {
+        int size = ageGroupService.findAll().size();
+        AgeGroupDTO ageGroup = new AgeGroupDTO();
+        ageGroup.setName(AGEGROUP_NAME);
+        ageGroupService.save(ageGroup);
+        assertEquals(size + 1, ageGroupService.findAll().size());
+        ageGroup = ageGroupService.findByName(AGEGROUP_NAME);
+        assertNotNull(ageGroup);
+        assertEquals(ageGroup.getName(), AGEGROUP_NAME);
+    }
 }

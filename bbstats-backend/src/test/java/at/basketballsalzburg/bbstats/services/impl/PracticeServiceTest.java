@@ -19,23 +19,25 @@ import at.basketballsalzburg.bbstats.services.PracticeService;
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class PracticeServiceTest extends
-		AbstractTransactionalTestNGSpringContextTests {
+    AbstractTransactionalTestNGSpringContextTests
+{
 
-	@Autowired
-	private PracticeService practiceService;
-	
-	@Autowired
-	private GymService gymService;
+    @Autowired
+    private PracticeService practiceService;
 
-	@Test
-	public void addPractice() {
-		int size = practiceService.findAll().size();
-		PracticeDTO practice = new PracticeDTO();
-		practice.setDateTime(new Date());
-		gymService.save(new GymDTO());
-		GymDTO gym = gymService.findAll().get(0);
-		practice.setGym(gym);
-		practiceService.save(practice);
-		Assert.assertEquals(size + 1, practiceService.findAll().size());
-	}
+    @Autowired
+    private GymService gymService;
+
+    @Test
+    public void addPractice()
+    {
+        int size = practiceService.findAll().size();
+        PracticeDTO practice = new PracticeDTO();
+        practice.setDateTime(new Date());
+        gymService.save(new GymDTO());
+        GymDTO gym = gymService.findAll().get(0);
+        practice.setGym(gym);
+        practiceService.save(practice);
+        Assert.assertEquals(size + 1, practiceService.findAll().size());
+    }
 }

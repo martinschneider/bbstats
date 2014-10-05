@@ -1,15 +1,7 @@
 /*
- * Apache License
- * Version 2.0, January 2004
- * http://www.apache.org/licenses/
- *
- * Copyright 2008-2010 by chenillekit.org
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Apache License Version 2.0, January 2004 http://www.apache.org/licenses/ Copyright 2008-2010 by chenillekit.org
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
  */
 
 package at.basketballsalzburg.bbstats.components;
@@ -44,277 +36,278 @@ import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 /**
- * A component used to collect a provided date/time from the user using a client-side JavaScript calendar. Non-JavaScript
- * clients can simply type into a text field.
- *
+ * A component used to collect a provided date/time from the user using a client-side JavaScript calendar.
+ * Non-JavaScript clients can simply type into a text field.
+ * 
  * @version $Id: DateTimeField.java 729 2010-11-03 19:51:08Z homburgs $
  */
 @Import(stylesheet = "css/Datepicker.css",
-		library = {
-				"js/datepicker.js",
-				"js/datepicker_lang.js",
-				"js/prototype-base-extensions.js",
-				"js/prototype-date-extensions.js"
-		})
+    library = {
+        "js/datepicker.js",
+        "js/datepicker_lang.js",
+        "js/prototype-base-extensions.js",
+        "js/prototype-date-extensions.js"
+    })
 public class DateTimeField extends AbstractField
 {
-	/**
-	 * The value parameter of a DateField must be a {@link java.util.Date}.
-	 */
-	@Parameter(required = true, principal = true)
-	private Date value;
+    /**
+     * The value parameter of a DateField must be a {@link java.util.Date}.
+     */
+    @Parameter(required = true, principal = true)
+    private Date value;
 
-	/**
-	 * The object that will perform input validation (which occurs after translation). The translate binding prefix is
-	 * generally used to provide this object in a declarative fashion.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.VALIDATE)
-	private FieldValidator<Object> validate;
+    /**
+     * The object that will perform input validation (which occurs after translation). The translate binding prefix is
+     * generally used to provide this object in a declarative fashion.
+     */
+    @Parameter(defaultPrefix = BindingConstants.VALIDATE)
+    private FieldValidator<Object> validate;
 
-	@Parameter(defaultPrefix = BindingConstants.ASSET, value = "images/calendar.png")
-	private Asset icon;
+    @Parameter(defaultPrefix = BindingConstants.ASSET, value = "images/calendar.png")
+    private Asset icon;
 
-	/**
-	 * the pattern describing the date and time format {@link java.text.SimpleDateFormat}.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "MM/dd/yyyy")
-	private String datePattern;
+    /**
+     * the pattern describing the date and time format {@link java.text.SimpleDateFormat}.
+     */
+    @Parameter(defaultPrefix = BindingConstants.LITERAL, value = "MM/dd/yyyy")
+    private String datePattern;
 
-	/**
-	 * a boolean value determining whether to display the date picker. Defaults to true.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
-	private boolean datePicker;
+    /**
+     * a boolean value determining whether to display the date picker. Defaults to true.
+     */
+    @Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
+    private boolean datePicker;
 
-	/**
-	 * a boolean value determining whether to display the time picker. Defaults to false.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
-	private boolean timePicker;
+    /**
+     * a boolean value determining whether to display the time picker. Defaults to false.
+     */
+    @Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+    private boolean timePicker;
 
-	/**
-	 * a boolean value determining whether to display the time picker next to the date picker (true) or under it (false, default).
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
-	private boolean timePickerAdjacent;
+    /**
+     * a boolean value determining whether to display the time picker next to the date picker (true) or under it (false,
+     * default).
+     */
+    @Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+    private boolean timePickerAdjacent;
 
-	/**
-	 * a boolean value determining whether to display the time in AM/PM or 24 hour notation. Defaults to false.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
-	private boolean use24hrs;
+    /**
+     * a boolean value determining whether to display the time in AM/PM or 24 hour notation. Defaults to false.
+     */
+    @Parameter(defaultPrefix = BindingConstants.PROP, value = "false")
+    private boolean use24hrs;
 
-	/**
-	 * a named javascript function, that executed after the date selected by the picker.
-	 * there should one function parameter that holds the input dom element.
-	 * This funtion should returns true or false.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.LITERAL, required = false)
-	private String afterUpdateElement;
+    /**
+     * a named javascript function, that executed after the date selected by the picker. there should one function
+     * parameter that holds the input dom element. This funtion should returns true or false.
+     */
+    @Parameter(defaultPrefix = BindingConstants.LITERAL, required = false)
+    private String afterUpdateElement;
 
-	/**
-	 * Specify whether or not date/time parsing is to be lenient.
-	 * With lenient parsing, the parser may use heuristics to interpret inputs that do not precisely match this object's format.
-	 * With strict parsing, inputs must match this object's format.
-	 */
-	@Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
-	private boolean lenient;
+    /**
+     * Specify whether or not date/time parsing is to be lenient. With lenient parsing, the parser may use heuristics to
+     * interpret inputs that do not precisely match this object's format. With strict parsing, inputs must match this
+     * object's format.
+     */
+    @Parameter(defaultPrefix = BindingConstants.PROP, value = "true")
+    private boolean lenient;
 
-	@Environmental
-	private JavaScriptSupport javascriptSupport;
+    @Environmental
+    private JavaScriptSupport javascriptSupport;
 
-	@Environmental
-	private ValidationTracker tracker;
+    @Environmental
+    private ValidationTracker tracker;
 
-	@Inject
-	private ComponentResources resources;
+    @Inject
+    private ComponentResources resources;
 
-	@Inject
-	private Messages messages;
+    @Inject
+    private Messages messages;
 
-	@Inject
-	private Request request;
+    @Inject
+    private Request request;
 
-	@Inject
-	private Locale locale;
+    @Inject
+    private Locale locale;
 
-	@Inject
-	private FieldValidatorDefaultSource fieldValidatorDefaultSource;
+    @Inject
+    private FieldValidatorDefaultSource fieldValidatorDefaultSource;
 
-	@Inject
-	private FieldValidationSupport fieldValidationSupport;
+    @Inject
+    private FieldValidationSupport fieldValidationSupport;
 
-	@Inject
-	private ComponentDefaultProvider defaultProvider;
+    @Inject
+    private ComponentDefaultProvider defaultProvider;
 
-	@Inject
-	@Path("images/clock.png")
-	private Asset clockAsset;
+    @Inject
+    @Path("images/clock.png")
+    private Asset clockAsset;
 
-	/**
-	 * For output, format nicely and unambiguously as four digits.
-	 */
-	private DateFormat outputFormat;
+    /**
+     * For output, format nicely and unambiguously as four digits.
+     */
+    private DateFormat outputFormat;
 
-	/**
-	 * When the user types a value, they may only type two digits for the year; SimpleDateFormat will do something
-	 * reasonable.  If they use the popup, it will be unambiguously 4 digits.
-	 */
-	private DateFormat inputFormat;
+    /**
+     * When the user types a value, they may only type two digits for the year; SimpleDateFormat will do something
+     * reasonable. If they use the popup, it will be unambiguously 4 digits.
+     */
+    private DateFormat inputFormat;
 
-	/**
-	 * The default value is a property of the container whose name matches the component's id. May return null if the
-	 * container does not have a matching property.
-	 */
-	final Binding defaultValue()
-	{
-		return defaultProvider.defaultBinding("value", resources);
-	}
+    /**
+     * The default value is a property of the container whose name matches the component's id. May return null if the
+     * container does not have a matching property.
+     */
+    final Binding defaultValue()
+    {
+        return defaultProvider.defaultBinding("value", resources);
+    }
 
-	/**
-	 * Computes a default value for the "validate" parameter using {@link org.apache.tapestry5.services.ComponentDefaultProvider}.
-	 */
-	final Binding defaultValidate()
-	{
-		return defaultProvider.defaultValidatorBinding("value", resources);
-	}
+    /**
+     * Computes a default value for the "validate" parameter using
+     * {@link org.apache.tapestry5.services.ComponentDefaultProvider}.
+     */
+    final Binding defaultValidate()
+    {
+        return defaultProvider.defaultValidatorBinding("value", resources);
+    }
 
-	/**
-	 * Tapestry render phase method.
-	 * Initialize temporary instance variables here.
-	 */
-	void setupRender()
-	{
-		outputFormat = new SimpleDateFormat(datePattern, locale);
-	}
+    /**
+     * Tapestry render phase method. Initialize temporary instance variables here.
+     */
+    void setupRender()
+    {
+        outputFormat = new SimpleDateFormat(datePattern, locale);
+    }
 
+    void beginRender(MarkupWriter writer)
+    {
+        Asset componentIcon;
+        String value = tracker.getInput(this);
 
-	void beginRender(MarkupWriter writer)
-	{
-		Asset componentIcon;
-		String value = tracker.getInput(this);
+        if (value == null)
+            value = formatCurrentValue();
 
-		if (value == null) value = formatCurrentValue();
+        String clientId = getClientId();
 
-		String clientId = getClientId();
+        writer.element("input",
 
-		writer.element("input",
+            "type", "text",
 
-					   "type", "text",
+            "class", "datepicker",
 
-					   "class", "datepicker",
+            "name", getControlName(),
 
-					   "name", getControlName(),
+            "id", clientId,
 
-					   "id", clientId,
+            "value", value);
 
-					   "value", value);
+        writeDisabled(writer);
 
-		writeDisabled(writer);
+        validate.render(writer);
 
-		validate.render(writer);
+        resources.renderInformalParameters(writer);
 
-		resources.renderInformalParameters(writer);
+        decorateInsideField();
 
-		decorateInsideField();
+        writer.end();
 
-		writer.end();
+        // The setup parameters passed to Calendar.setup():
 
-		// The setup parameters passed to Calendar.setup():
+        JSONObject setup = new JSONObject();
 
-		JSONObject setup = new JSONObject();
+        if (!datePicker && !timePicker)
+            throw new RuntimeException("both date- and timePicker set to false, that is senseless!");
 
-		if (!datePicker && !timePicker)
-			throw new RuntimeException("both date- and timePicker set to false, that is senseless!");
+        if (!datePicker && timePicker)
+            componentIcon = clockAsset;
+        else
+            componentIcon = icon;
 
-		if (!datePicker && timePicker)
-			componentIcon = clockAsset;
-		else
-			componentIcon = icon;
+        setup.put("icon", componentIcon.toClientURL());
+        setup.put("datePicker", datePicker);
+        setup.put("timePicker", timePicker);
+        setup.put("timePickerAdjacent", timePickerAdjacent);
+        setup.put("use24hrs", use24hrs);
+        setup.put("locale", locale.toString());
 
-		setup.put("icon", componentIcon.toClientURL());
-		setup.put("datePicker", datePicker);
-		setup.put("timePicker", timePicker);
-		setup.put("timePickerAdjacent", timePickerAdjacent);
-		setup.put("use24hrs", use24hrs);
-		setup.put("locale", locale.toString());
+        if (afterUpdateElement != null)
+            setup.put("afterUpdateElement", afterUpdateElement);
 
-		if (afterUpdateElement != null)
-			setup.put("afterUpdateElement", afterUpdateElement);
+        if (datePicker && timePicker)
+            setup.put("dateTimeFormat", datePattern);
+        else if (datePicker)
+            setup.put("dateFormat", datePattern);
+        else
+            setup.put("timeFormat", datePattern);
 
-		if (datePicker && timePicker)
-			setup.put("dateTimeFormat", datePattern);
-		else if (datePicker)
-			setup.put("dateFormat", datePattern);
-		else
-			setup.put("timeFormat", datePattern);
+        javascriptSupport.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
+    }
 
-		javascriptSupport.addScript("new Control.DatePicker('%s', %s);", getClientId(), setup);
-	}
+    private void writeDisabled(MarkupWriter writer)
+    {
+        if (isDisabled())
+            writer.attributes("disabled", "disabled");
+    }
 
-	private void writeDisabled(MarkupWriter writer)
-	{
-		if (isDisabled()) writer.attributes("disabled", "disabled");
-	}
+    private String formatCurrentValue()
+    {
+        if (value == null)
+            return "";
 
+        return outputFormat.format(value);
+    }
 
-	private String formatCurrentValue()
-	{
-		if (value == null) return "";
+    @Override
+    protected void processSubmission(String elementName)
+    {
+        String value = request.getParameter(elementName);
 
-		return outputFormat.format(value);
-	}
+        tracker.recordInput(this, value);
 
-	@Override
-	protected void processSubmission(String elementName)
-	{
-		String value = request.getParameter(elementName);
+        Date parsedValue = null;
 
-		tracker.recordInput(this, value);
+        try
+        {
+            if (InternalUtils.isNonBlank(value))
+            {
+                inputFormat = new SimpleDateFormat(datePattern, locale);
+                inputFormat.setLenient(lenient);
+                parsedValue = inputFormat.parse(value);
+            }
 
-		Date parsedValue = null;
+        }
+        catch (ParseException ex)
+        {
+            tracker.recordError(this, messages.format("date.not.parseable", value));
+            return;
+        }
 
-		try
-		{
-			if (InternalUtils.isNonBlank(value))
-			{
-				inputFormat = new SimpleDateFormat(datePattern, locale);
-				inputFormat.setLenient(lenient);
-				parsedValue = inputFormat.parse(value);
-			}
+        try
+        {
+            fieldValidationSupport.validate(parsedValue, resources, validate);
 
-		}
-		catch (ParseException ex)
-		{
-			tracker.recordError(this, messages.format("date.not.parseable", value));
-			return;
-		}
+            this.value = parsedValue;
+        }
+        catch (ValidationException ex)
+        {
+            tracker.recordError(this, ex.getMessage());
+        }
+    }
 
-		try
-		{
-			fieldValidationSupport.validate(parsedValue, resources, validate);
+    void injectResources(ComponentResources resources)
+    {
+        this.resources = resources;
+    }
 
-			this.value = parsedValue;
-		}
-		catch (ValidationException ex)
-		{
-			tracker.recordError(this, ex.getMessage());
-		}
-	}
+    void injectMessages(Messages messages)
+    {
+        this.messages = messages;
+    }
 
-	void injectResources(ComponentResources resources)
-	{
-		this.resources = resources;
-	}
-
-	void injectMessages(Messages messages)
-	{
-		this.messages = messages;
-	}
-
-	@Override
-	public boolean isRequired()
-	{
-		return validate.isRequired();
-	}
+    @Override
+    public boolean isRequired()
+    {
+        return validate.isRequired();
+    }
 }

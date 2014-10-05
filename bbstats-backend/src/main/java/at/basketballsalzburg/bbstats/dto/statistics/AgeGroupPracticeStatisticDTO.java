@@ -3,23 +3,28 @@ package at.basketballsalzburg.bbstats.dto.statistics;
 /**
  * @author Martin Schneider
  */
-public class AgeGroupPracticeStatisticDTO {
-	private String name;
-	private int count;
+public class AgeGroupPracticeStatisticDTO
+{
+    private String name;
+    private int count;
 
-	public String getName() {
-		return name;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public int getCount() {
-		return count;
-	}
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
-	public void setCount(int count) {
-		this.count = count;
-	}
+    public int getCount()
+    {
+        return count;
+    }
+
+    public void setCount(int count)
+    {
+        this.count = count;
+    }
 }

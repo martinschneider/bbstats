@@ -7,16 +7,17 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 /**
  * @author Martin Schneider
  */
-public interface AgeGroupService {
+public interface AgeGroupService
+{
 
-	public abstract void save(AgeGroupDTO ageGroup);
+    public abstract void save(AgeGroupDTO ageGroup);
 
-	public abstract List<AgeGroupDTO> findAll();
+    public abstract List<AgeGroupDTO> findAll();
 
-	public abstract AgeGroupDTO findByName(String name);
+    public abstract AgeGroupDTO findByName(String name);
 
-	public abstract void delete(AgeGroupDTO ageGroup);
+    public abstract void delete(AgeGroupDTO ageGroup);
 
-	public abstract AgeGroupDTO findById(Long ageGroupId);
+    public abstract AgeGroupDTO findById(Long ageGroupId);
 
 }

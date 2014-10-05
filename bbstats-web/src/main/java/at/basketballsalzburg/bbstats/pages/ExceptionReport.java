@@ -20,15 +20,15 @@ public class ExceptionReport implements ExceptionReporter
     {
         this.exception = exception;
     }
-    
+
     public String getExceptionOutput()
     {
-    	return ExceptionUtils.getStackTrace(exception);
+        return ExceptionUtils.getStackTrace(exception);
     }
-    
+
     @Component
     private PageLayout pageLayout;
-    
-    @Component(parameters={"title=message:exceptionBoxTitle"})
+
+    @Component(parameters = {"title=message:exceptionBoxTitle"})
     private Box exceptionBox;
 }

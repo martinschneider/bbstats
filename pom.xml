@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.basketball-salzburg</groupId>
 	<artifactId>bbstats-parent</artifactId>
-	<version>14.10.01</version>
+	<version>14.10.05</version>
 	<packaging>pom</packaging>
 
 	<name>bbstats parent</name>
@@ -27,21 +27,22 @@
 	<properties>
 		<tapestry.version>5.4-beta-6</tapestry.version>
 		<tapestry.security.version>0.5.1</tapestry.security.version>
-		<spring.version>4.0.6.RELEASE</spring.version>
-		<spring.data.version>1.6.2.RELEASE</spring.data.version>
+		<spring.version>4.1.0.RELEASE</spring.version>
+		<spring.data.version>1.7.0.RELEASE</spring.data.version>
 		<hibernate.version>4.3.6.Final</hibernate.version>
-		<guava.version>17.0</guava.version>
+		<guava.version>18.0</guava.version>
 		<testng.version>6.8.8</testng.version>
 		<javassist.version>3.12.1.GA</javassist.version>
-		<h2.version>1.4.180</h2.version>
+		<h2.version>1.4.181</h2.version>
 		<dozer.version>5.5.1</dozer.version>
-		<poi.version>3.9</poi.version>
+		<poi.version>3.10.1</poi.version>
 		<joda.time.version>2.4</joda.time.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
 		<ical.version>1.0.5.2</ical.version>
 		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
+		<jcabi.manifests.version>1.0.4</jcabi.manifests.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -202,6 +203,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven.compiler.plugin.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.jcabi</groupId>
+				<artifactId>jcabi-manifests</artifactId>
+				<version>${jcabi.manifests.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

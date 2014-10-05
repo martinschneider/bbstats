@@ -7,7 +7,8 @@
 
 	<bean class="at.basketballsalzburg.bbstats.utils.AgeGroupValueEncoder" />
 	<bean class="at.basketballsalzburg.bbstats.utils.CoachValueEncoder" />
-	<bean class="at.basketballsalzburg.bbstats.utils.PlayerValueEncoder" />
+    <bean class="at.basketballsalzburg.bbstats.utils.CountryValueEncoder" />
+    <bean class="at.basketballsalzburg.bbstats.utils.PlayerValueEncoder" />
 
 	<import resource="classpath:META-INF/bbstats.xml" />
 	<import resource="classpath:META-INF/db.xml" />

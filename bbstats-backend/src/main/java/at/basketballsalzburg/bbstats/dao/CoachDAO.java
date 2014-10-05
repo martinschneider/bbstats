@@ -9,6 +9,7 @@ import at.basketballsalzburg.bbstats.entities.Coach;
  * @author Martin Schneider
  */
 @Transactional
-public interface CoachDAO extends JpaRepository<Coach, Long> {
-	Coach findByFirstNameAndLastName(String firstName, String lastName);
+public interface CoachDAO extends JpaRepository<Coach, Long>
+{
+    Coach findByFirstNameAndLastName(String firstName, String lastName);
 }

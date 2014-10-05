@@ -7,35 +7,42 @@ import javax.persistence.Id;
  * @author Martin Schneider
  */
 @Entity
-public class PlayerStat {
-	@Id
-	private Long id;
-	
-	private String playerName;
-	
-	private Integer count;
+public class PlayerStat
+{
+    @Id
+    private Long id;
 
-	public String getPlayerName() {
-		return playerName;
-	}
+    private String playerName;
 
-	public void setPlayerName(String playerName) {
-		this.playerName = playerName;
-	}
+    private Integer count;
 
-	public Integer getCount() {
-		return count;
-	}
+    public String getPlayerName()
+    {
+        return playerName;
+    }
 
-	public void setCount(Integer count) {
-		this.count = count;
-	}
+    public void setPlayerName(String playerName)
+    {
+        this.playerName = playerName;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Integer getCount()
+    {
+        return count;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setCount(Integer count)
+    {
+        this.count = count;
+    }
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 }

@@ -6,41 +6,50 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * @author Martin Schneider
  */
-public class AgeGroupDTO implements Comparable<AgeGroupDTO> {
-	private Long id;
+public class AgeGroupDTO implements Comparable<AgeGroupDTO>
+{
+    private Long id;
 
-	private String name;
+    private String name;
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId()
+    {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name)
+    {
+        this.name = name;
+    }
 
-	public int compareTo(AgeGroupDTO rhs) {
-		return this.getName().compareTo(rhs.getName());
-	}
+    public int compareTo(AgeGroupDTO rhs)
+    {
+        return this.getName().compareTo(rhs.getName());
+    }
 
-	public boolean equals(Object rhs) {
-		return EqualsBuilder.reflectionEquals(this, rhs);
-	}
+    public boolean equals(Object rhs)
+    {
+        return EqualsBuilder.reflectionEquals(this, rhs);
+    }
 
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
-	}
+    public int hashCode()
+    {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
-	@Override
-	public String toString() {
-		return name;
-	}
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

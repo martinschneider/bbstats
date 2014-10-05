@@ -11,13 +11,14 @@ import org.testng.annotations.Test;
 @ContextConfiguration("classpath:META-INF/db-test.xml")
 @Transactional
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-public class PlayerStatsTest {
-	
-	@PersistenceContext
-	private EntityManager entityManager;
-	
-	@Test
-	public void testPracticeStats()
-	{
-	}
+public class PlayerStatsTest
+{
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Test
+    public void testPracticeStats()
+    {
+    }
 }

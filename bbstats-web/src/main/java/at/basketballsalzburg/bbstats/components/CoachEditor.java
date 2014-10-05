@@ -13,49 +13,54 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.services.CoachService;
 
-public class CoachEditor {
-	public static final String COACH_EDIT_CANCEL = "coacheditcancel";
-	public static final String COACH_EDIT_SAVE = "coacheditsave";
+public class CoachEditor
+{
+    public static final String COACH_EDIT_CANCEL = "coacheditcancel";
+    public static final String COACH_EDIT_SAVE = "coacheditsave";
 
-	@Inject
-	private CoachService coachService;
+    @Inject
+    private CoachService coachService;
 
-	@Inject
-	private ComponentResources componentResources;
+    @Inject
+    private ComponentResources componentResources;
 
-	@Component
-	private Form coachEditForm;
+    @Component
+    private Form coachEditForm;
 
-	@Component(parameters = { "value=coach.firstName" })
-	private TextField firstName;
+    @Component(parameters = {"value=coach.firstName"})
+    private TextField firstName;
 
-	@Component(parameters = { "value=coach.lastName" })
-	private TextField lastName;
+    @Component(parameters = {"value=coach.lastName"})
+    private TextField lastName;
 
-	@Component
-	private LinkSubmit submit;
+    @Component
+    private LinkSubmit submit;
 
-	@Component(parameters = "event=cancel")
-	private EventLink cancel;
+    @Component(parameters = "event=cancel")
+    private EventLink cancel;
 
-	@Persist
-	private CoachDTO coach;
+    @Persist
+    private CoachDTO coach;
 
-	void onSuccess() {
-		coachService.save(coach);
-		componentResources.triggerEvent(COACH_EDIT_SAVE, null, null);
-	}
+    void onSuccess()
+    {
+        coachService.save(coach);
+        componentResources.triggerEvent(COACH_EDIT_SAVE, null, null);
+    }
 
-	public CoachDTO getCoach() {
-		return coach;
-	}
+    public CoachDTO getCoach()
+    {
+        return coach;
+    }
 
-	public void setCoach(CoachDTO coach) {
-		this.coach = coach;
-	}
+    public void setCoach(CoachDTO coach)
+    {
+        this.coach = coach;
+    }
 
-	@OnEvent(value = "cancel")
-	void onEventFromCancel() {
-		componentResources.triggerEvent(COACH_EDIT_CANCEL, null, null);
-	}
+    @OnEvent(value = "cancel")
+    void onEventFromCancel()
+    {
+        componentResources.triggerEvent(COACH_EDIT_CANCEL, null, null);
+    }
 }

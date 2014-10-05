@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>at.basketball-salzburg</groupId>
 		<artifactId>bbstats-parent</artifactId>
-		<version>14.10.01</version>
+		<version>14.10.05</version>
 	</parent>
 
 	<name>bbstats backend</name>
@@ -99,7 +99,7 @@
 			<artifactId>ical4j</artifactId>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -109,6 +109,16 @@
 					<source>1.7</source>
 					<target>1.7</target>
 					<optimize>true</optimize>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Version>${project.version}</Version>
+						</manifestEntries>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
