@@ -113,7 +113,7 @@ public class GameStatEditor
     private EventLink editGameStat;
 
     @Component(parameters = {"event=gamestatdelete", "context=gameStatIndex",
-        "zone=gameStatEditZone"})
+        "zone=gameStatGridZone"})
     private EventLink deleteGameStat;
 
     @Component(parameters = {"event=gamestatcanceledit",

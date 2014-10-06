@@ -11,6 +11,12 @@
 	margin-bottom: 0;
 }
 
+.navbar-right li span#version
+{
+	display: block;
+	padding-top: 15px;
+}
+
 .btn {
 	margin-bottom: 10px;
 }
@@ -164,6 +170,7 @@ table.table tbody tr td
 div.innerbox div.btn-group
 {
 	padding-left: 8px;
+	padding-top: 8px;
 }
 
 div.innerbox div.well div.btn-group

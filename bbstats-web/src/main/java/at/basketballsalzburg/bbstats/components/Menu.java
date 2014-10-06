@@ -8,7 +8,6 @@ import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
-import org.tynamo.security.components.LoginLink;
 
 import com.jcabi.manifests.Manifests;
 
