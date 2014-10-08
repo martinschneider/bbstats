@@ -1,0 +1,67 @@
+<html t:id="pageLayout"
+	t:type="pageLayout"
+	xmlns:p="tapestry:parameter"
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
+	
+	<t:box t:id="selectBox">
+		<t:form t:id="form">
+			<div class="row">
+				<div class="form-group col-md-3">
+					<t:label for="coachSelect" />
+					<t:select t:id="coachSelect"/>
+				</div>
+				<div class="form-group col-md-3">
+					<t:label for="salaryPerPracticeField"/>
+					<t:textfield t:id="salaryPerPracticeField"/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-3">
+					<t:label for="dateFromField"/>
+					<t:datetimefield t:id="dateFromField" class="form-control" />
+				</div>
+				<div class="form-group col-md-3">
+					<t:label for="dateToField"/>
+					<t:datetimefield t:id="dateToField" class="form-control" />
+				</div>
+			</div>
+			
+			<button t:id="submit" class="btn btn-primary">${message:refresh}</button>
+		</t:form>
+	</t:box>
+	<t:zone t:id="resultsZone">
+		<t:if test="selectedCoach">
+			<t:box t:id="resultsBox">
+				<t:grid t:id="practiceGrid" class="table-striped table-condensed">
+					<p:dateTimeCell>
+						<t:output format="message:dateTimeFormat" value="practice.dateTime" />
+					</p:dateTimeCell>
+					<p:gymCell>${practice.gym.name}, ${practice.gym.city}</p:gymCell>
+					<p:playersCell>
+						<b>${practice.numberOfPlayers}</b>
+						<br />
+						<t:loop source="practice.players" value="player">
+							<t:pagelink t:id="playerDetail" context="${player.id}">${player.lastName}
+							${player.firstName}</t:pagelink>
+							<br />
+						</t:loop>
+						<t:if test="practice.guests">${message:guests}: ${practice.guests}</t:if>
+					</p:playersCell>
+					<p:coachesCell>
+						<t:loop source="practice.coaches" value="coach">
+							<t:pagelink t:id="coachDetail" context="${coach.id}">${coach.lastName} ${coach.firstName}</t:pagelink>
+							<br />
+						</t:loop>
+					</p:coachesCell>
+					<p:ageGroupsCell>
+						<t:loop source="practice.ageGroups" value="ageGroup">
+							${ageGroup.name}
+							<br />
+						</t:loop>
+					</p:ageGroupsCell>
+				</t:grid>
+			</t:box>
+		</t:if>
+	</t:zone>
+	
+</html>

@@ -260,6 +260,17 @@ public class PracticeServiceImpl implements PracticeService
         }
         return practices;
     }
+    
+    @Override
+    public List<PracticeDTO> findPracticesForCoachBetweenDates(Long coachId, Date fromDate, Date toDate)
+    {
+        List<PracticeDTO> practices = new ArrayList<PracticeDTO>();
+        for (Practice practice : practiceDao.findByCoachBetweenDates(coachId, fromDate, toDate))
+        {
+            practices.add(mapper.map(practice, PracticeDTO.class));
+        }
+        return practices;
+    }
 
     @Override
     public int countByPlayer(Long playerId)

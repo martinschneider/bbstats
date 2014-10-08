@@ -4,16 +4,18 @@
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
 	
 	<t:box t:id="datesBox">
-		<t:form t:id="form" class="form-horizontal" role="form">
-			<div class="form-group">
-				<t:label for="fromDateField" class="col-md-2"/>
-				<t:datetimefield t:id="fromDateField" class="form-control" />
+		<t:form t:id="form">
+			<div class="row">
+				<div class="form-group col-md-3">
+					<t:label for="fromDateField"/>
+					<t:datetimefield t:id="fromDateField" class="form-control" />
+				</div>
+				<div class="form-group col-md-3">
+					<t:label for="toDateField"/>
+					<t:datetimefield t:id="toDateField" class="form-control" />
+				</div>
 			</div>
-			<div class="form-group">
-				<t:label for="toDateField" class="col-md-2"/>
-				<t:datetimefield t:id="toDateField" class="form-control" />
-			</div>
-			<button t:id="submit" class="btn btn-default">${message:refresh}</button>
+			<button t:id="submit" class="btn btn-primary">${message:refresh}</button>
 		</t:form>
 	</t:box>
 	

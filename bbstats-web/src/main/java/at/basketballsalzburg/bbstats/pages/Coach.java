@@ -31,7 +31,6 @@ import at.basketballsalzburg.bbstats.utils.PracticeMode;
 @RequiresPermissions(Permissions.coachPage)
 public class Coach
 {
-
     @Inject
     private Request request;
 

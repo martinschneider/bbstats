@@ -35,6 +35,9 @@ public interface PracticeDAO extends JpaRepository<Practice, Long>
     @Query("select p from Practice p join p.coaches as coach with coach.id=?1")
     List<Practice> findByCoach(Long coachId, Pageable pageable);
 
+    @Query("select p from Practice p join p.coaches as coach with coach.id=?1 where p.dateTime>=?2 and p.dateTime<=?3 order by p.dateTime desc")
+    List<Practice> findByCoachBetweenDates(Long coachId, Date dateFrom, Date dateTo);
+
     @Query("select count(p) from Practice p join p.coaches as coach with coach.id=?1")
     int countByCoach(Long coachId);
 

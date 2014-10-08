@@ -50,4 +50,6 @@ public interface PracticeService
     public int countByPlayer(Long playerId);
 
     public int countByCoach(Long coachId);
+
+    public List<PracticeDTO> findPracticesForCoachBetweenDates(Long coachId, Date fromDate, Date toDate);
 }

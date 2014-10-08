@@ -63,6 +63,12 @@ public class Practices
     @Inject
     private GymService gymService;
 
+    @Inject
+    private BeanModelSource beanModelSource;
+    
+    @Inject
+    private ComponentResources componentResources;
+
     @Property
     private PracticeDTO practice;
 
@@ -153,11 +159,6 @@ public class Practices
     {
         editorVisible = false;
     }
-
-    @Inject
-    private BeanModelSource beanModelSource;
-    @Inject
-    private ComponentResources componentResources;
 
     public BeanModel<PracticeDTO> getPracticeModel()
     {

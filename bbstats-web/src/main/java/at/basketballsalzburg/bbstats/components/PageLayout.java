@@ -14,6 +14,7 @@ import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import at.basketballsalzburg.bbstats.commons.MenuHelper;
 import at.basketballsalzburg.bbstats.commons.MenuItem;
+import at.basketballsalzburg.bbstats.pages.Accounting;
 import at.basketballsalzburg.bbstats.pages.AgeGroupMaintenance;
 import at.basketballsalzburg.bbstats.pages.CoachMaintenance;
 import at.basketballsalzburg.bbstats.pages.GameStatistics;
@@ -81,6 +82,10 @@ public class PageLayout
             {
                 items.add(statistics);
             }
+            
+            // ACCOUNTING
+            items = MenuHelper.addItem(items, messages.get("accounting"),
+                Accounting.class);
 
             // MAINTENANCE
             MenuItem maintenance = new MenuItem(messages.get("maintenance"),

@@ -14,6 +14,7 @@ public final class Permissions
     public static final String gameStatisticsPage = "gameStatisticsPage";
     public static final String practicesPage = "practicePage";
     public static final String teamMaintenancePage = "teamMaintenancePage";
+    public static final String accountingPage = "accountingPage";
 
     // edit
     public static final String editAgegroup = "editAgegroup";
