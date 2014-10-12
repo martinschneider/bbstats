@@ -181,4 +181,18 @@ public class PlayerServiceImpl implements PlayerService
         }
         return players;
     }
+
+    @Override
+    public List<String> getBirthdays()
+    {
+        List<String> results = new ArrayList<String>();
+        for (Object o : entityManager
+            .createNativeQuery(
+                "SELECT CONCAT(FIRSTNAME, ' ', LASTNAME, ' (', DATEDIFF('YEAR', BIRTHDAY, CURRENT_TIMESTAMP()), ')') AS NAME FROM BBSTATS_PLAYER WHERE DAY(BIRTHDAY)=DAY(CURRENT_TIMESTAMP())AND MONTH(BIRTHDAY)=MONTH(CURRENT_TIMESTAMP()) ORDER BY NAME")
+            .getResultList())
+        {
+            results.add((String) o);
+        }
+        return results;
+    }
 }

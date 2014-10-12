@@ -34,4 +34,6 @@ public interface PlayerService
 
     public abstract SortedSet<PlayerDTO> findAllWithoutAgeGroup();
 
+    public abstract List<String> getBirthdays();
+
 }
