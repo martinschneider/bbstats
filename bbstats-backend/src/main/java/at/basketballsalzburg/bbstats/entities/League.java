@@ -47,7 +47,7 @@ public class League
         return shortName;
     }
 
-    public void setShortname(String shortName)
+    public void setShortName(String shortName)
     {
         this.shortName = shortName;
     }

@@ -37,9 +37,9 @@ public class LeagueServiceImpl implements LeagueService
         this.dao = dao;
     }
 
-    public void save(LeagueDTO LeagueDTO)
+    public void save(LeagueDTO leagueDTO)
     {
-        dao.saveAndFlush(mapper.map(LeagueDTO, League.class));
+        dao.saveAndFlush(mapper.map(leagueDTO, League.class));
     }
 
     public List<LeagueDTO> findAll()
