@@ -8,60 +8,59 @@ import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
-
-import com.jcabi.manifests.Manifests;
+import org.joda.time.LocalDate;
 
 import at.basketballsalzburg.bbstats.commons.MenuItem;
 
-public class Menu
-{
-    @Persist
-    private List<MenuItem> menuItems;
+import com.jcabi.manifests.Manifests;
 
-    @Parameter
-    @Property
-    private String homepageURL;
+public class Menu {
+	@Persist
+	private List<MenuItem> menuItems;
 
-    @Parameter
-    @Property
-    private String homepageName;
+	@Parameter
+	@Property
+	private String homepageURL;
 
-    @Property
-    private MenuItem item;
+	@Parameter
+	@Property
+	private String homepageName;
 
-    @Property
-    private MenuItem subItem;
+	@Property
+	private MenuItem item;
 
-    private boolean initialized;
+	@Property
+	private MenuItem subItem;
 
-    @Inject
-    private Request request;
-    
-    @Component
-    private LoginLink loginLink;
+	private boolean initialized;
 
-    public List<MenuItem> getMenuItems()
-    {
-        return menuItems;
-    }
+	@Inject
+	private Request request;
 
-    public void setMenuItems(List<MenuItem> menuItems)
-    {
-        this.menuItems = menuItems;
-    }
+	@Component
+	private LoginLink loginLink;
 
-    public boolean isInitialized()
-    {
-        return initialized;
-    }
+	public List<MenuItem> getMenuItems() {
+		return menuItems;
+	}
 
-    public void setInitialized(boolean initialized)
-    {
-        this.initialized = initialized;
-    }
+	public void setMenuItems(List<MenuItem> menuItems) {
+		this.menuItems = menuItems;
+	}
 
-    public String getVersion()
-    {
-        return Manifests.read("Version");
-    }
+	public boolean isInitialized() {
+		return initialized;
+	}
+
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+
+	public String getVersion() {
+		try {
+			return Manifests.read("Version");
+		} catch (IllegalArgumentException e) {
+			return "development-" + LocalDate.now();
+		}
+	}
 }

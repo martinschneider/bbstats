@@ -1,55 +1,49 @@
 <div xmlns:p="tapestry:parameter"
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
+
 	<nav class="navbar navbar-default" role="navigation">
 		<!-- Brand and toggle get grouped for better mobile display -->
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar">
-				</span>
-				<span class="icon-bar">
-				</span>
-				<span class="icon-bar">
-				</span>
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"> </span> <span class="icon-bar"> </span> <span
+					class="icon-bar"> </span>
 			</button>
 			<a class="navbar-brand" href="${homepageUrl}">${homepageName}</a>
 		</div>
-		
+
 		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<t:loop t:source="menuItems" t:value="item">
 					<t:if test="item.group" negate="true">
-						<li>
-							<t:pagelink page="${item.page}">${item.key}</t:pagelink>
+						<li><t:pagelink page="${item.page}">${item.key}</t:pagelink>
 						</li>
 						<p:else>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-									${item.key}
-									<b class="caret">
-									</b>
-								</a>
+							<li class="dropdown"><a href="#" class="dropdown-toggle"
+								data-toggle="dropdown"> ${item.key} <b class="caret"> </b>
+							</a>
 								<ul class="dropdown-menu">
 									<t:loop t:source="item.items" t:value="subitem">
-										<li>
-											<t:pagelink page="${subitem.page}">${subitem.key}</t:pagelink>
+										<li><t:pagelink page="${subitem.page}">${subitem.key}</t:pagelink>
 										</li>
 									</t:loop>
-								</ul>
-							</li>
+								</ul></li>
 						</p:else>
 					</t:if>
 				</t:loop>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<span id="version">Version: ${version}</span>
-				</li>
-				<li>
-					<t:loginLink t:id="loginLink" />
-				</li>
+				<li class="dropdown"><a href="#" class="dropdown-toggle"
+					data-toggle="dropdown">${message:admin}<b class="caret"> </b>
+				</a>
+					<ul class="dropdown-menu">
+						<li><t:loginLink t:id="loginLink" /></li>
+						<li><a
+							href="javascript:alert('${message:description}\n\n${message:version}: ${version}')">${message:about}</a></li>
+					</ul></li>
 			</ul>
 		</div>
 		<!-- /.navbar-collapse -->

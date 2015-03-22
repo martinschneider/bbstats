@@ -37,22 +37,6 @@
 						<t:output format="message:dateTimeFormat" value="practice.dateTime" />
 					</p:dateTimeCell>
 					<p:gymCell>${practice.gym.name}, ${practice.gym.city}</p:gymCell>
-					<p:playersCell>
-						<b>${practice.numberOfPlayers}</b>
-						<br />
-						<t:loop source="practice.players" value="player">
-							<t:pagelink t:id="playerDetail" context="${player.id}">${player.lastName}
-							${player.firstName}</t:pagelink>
-							<br />
-						</t:loop>
-						<t:if test="practice.guests">${message:guests}: ${practice.guests}</t:if>
-					</p:playersCell>
-					<p:coachesCell>
-						<t:loop source="practice.coaches" value="coach">
-							<t:pagelink t:id="coachDetail" context="${coach.id}">${coach.lastName} ${coach.firstName}</t:pagelink>
-							<br />
-						</t:loop>
-					</p:coachesCell>
 					<p:ageGroupsCell>
 						<t:loop source="practice.ageGroups" value="ageGroup">
 							${ageGroup.name}

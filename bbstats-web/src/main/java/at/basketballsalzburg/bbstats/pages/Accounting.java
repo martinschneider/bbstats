@@ -13,7 +13,6 @@ import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.BeanModel;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
-import org.apache.tapestry5.corelib.components.PageLink;
 import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.corelib.components.Zone;
@@ -67,18 +66,12 @@ public class Accounting
     @Component
     private Zone resultsZone;
 
-    @Component(parameters = {"page=player"})
-    private PageLink playerDetail;
-
-    @Component(parameters = {"page=coach"})
-    private PageLink coachDetail;
-
     @Component(parameters = {"source=practices",
         "empty=message:noPracticeData", "row=practice",
-        "model=practiceModel", "rowsPerPage=20",
+        "model=practiceModel", "rowsPerPage=30",
         "include=dateTime,duration,gym", "inplace=true",
-        "add=players,coaches,ageGroups",
-        "reorder=dateTime,gym,duration,players,coaches,ageGroups",
+        "add=ageGroups",
+        "reorder=dateTime,gym,duration,ageGroups",
         "class=table table-striped table-condensed"})
     private Grid practiceGrid;
 

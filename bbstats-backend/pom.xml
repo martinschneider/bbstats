@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>at.basketball-salzburg</groupId>
 		<artifactId>bbstats-parent</artifactId>
-		<version>14.10.18</version>
+		<version>15.03.22</version>
 	</parent>
 
 	<name>bbstats backend</name>

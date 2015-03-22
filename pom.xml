@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.basketball-salzburg</groupId>
 	<artifactId>bbstats-parent</artifactId>
-	<version>14.10.18</version>
+	<version>15.03.22</version>
 	<packaging>pom</packaging>
 
 	<name>bbstats parent</name>
@@ -27,22 +27,23 @@
 	<properties>
 		<tapestry.version>5.4-beta-6</tapestry.version>
 		<tapestry.security.version>0.5.1</tapestry.security.version>
-		<spring.version>4.1.0.RELEASE</spring.version>
-		<spring.data.version>1.7.0.RELEASE</spring.data.version>
-		<hibernate.version>4.3.6.Final</hibernate.version>
+		<spring.version>4.1.5.RELEASE</spring.version>
+		<spring.data.version>1.7.2.RELEASE</spring.data.version>
+		<hibernate.version>4.3.8.Final</hibernate.version>
 		<guava.version>18.0</guava.version>
-		<testng.version>6.8.8</testng.version>
+		<testng.version>6.8.21</testng.version>
 		<javassist.version>3.12.1.GA</javassist.version>
-		<h2.version>1.4.181</h2.version>
+		<h2.version>1.4.186</h2.version>
 		<dozer.version>5.5.1</dozer.version>
-		<poi.version>3.10.1</poi.version>
-		<joda.time.version>2.4</joda.time.version>
+		<poi.version>3.11</poi.version>
+		<joda.time.version>2.7</joda.time.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
-		<ical.version>1.0.5.2</ical.version>
-		<maven.compiler.plugin.version>3.1</maven.compiler.plugin.version>
-		<jcabi.manifests.version>1.0.4</jcabi.manifests.version>
+		<ical.version>1.0.6</ical.version>
+		<maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
+		<jcabi.manifests.version>1.1</jcabi.manifests.version>
+		<shiro.version>1.2.3</shiro.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -208,6 +209,16 @@
 				<groupId>com.jcabi</groupId>
 				<artifactId>jcabi-manifests</artifactId>
 				<version>${jcabi.manifests.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-web</artifactId>
+				<version>${shiro.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

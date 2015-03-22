@@ -15,6 +15,7 @@ import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.javascript.JavaScriptStack;
 import org.apache.tapestry5.services.javascript.JavaScriptStackSource;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.tynamo.security.SecuritySymbols;
 
 import com.jcabi.manifests.Manifests;
@@ -34,7 +35,7 @@ public class AppModule
     {
         configuration.add(SymbolConstants.SUPPORTED_LOCALES, "de");
         configuration.add(SymbolConstants.PRODUCTION_MODE, "true");
-        configuration.add(SymbolConstants.APPLICATION_VERSION, Manifests.read("Version"));
+        configuration.add(SymbolConstants.APPLICATION_VERSION, getVersion());
         configuration.add(SecuritySymbols.LOGIN_URL, "/signin");
         configuration.add(SymbolConstants.HMAC_PASSPHRASE,
             "&Uq-\"(#rRM5qoTB'~VL");
@@ -99,4 +100,12 @@ public class AppModule
         realm.setCredentialsMatcher(hcm);
         configuration.add(realm);
     }
+    
+	private static String getVersion() {
+		try {
+			return Manifests.read("Version");
+		} catch (IllegalArgumentException e) {
+			return "development-" + LocalDate.now();
+		}
+	}
 }
