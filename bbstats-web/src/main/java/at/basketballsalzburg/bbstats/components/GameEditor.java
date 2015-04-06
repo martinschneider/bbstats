@@ -8,6 +8,7 @@ import org.apache.tapestry5.ComponentEventCallback;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventConstants;
 import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.annotations.Cached;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.OnEvent;
 import org.apache.tapestry5.annotations.Parameter;
@@ -19,7 +20,6 @@ import org.apache.tapestry5.corelib.components.Checkbox;
 import org.apache.tapestry5.corelib.components.EventLink;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
-import org.apache.tapestry5.corelib.components.Palette;
 import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.corelib.components.Zone;
@@ -28,8 +28,20 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.SelectModelFactory;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
+import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
+import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
+import at.basketballsalzburg.bbstats.dto.GymDTO;
+import at.basketballsalzburg.bbstats.dto.LeagueDTO;
+import at.basketballsalzburg.bbstats.dto.TeamDTO;
+import at.basketballsalzburg.bbstats.select2.ChoiceProvider;
+import at.basketballsalzburg.bbstats.select2.Settings;
+import at.basketballsalzburg.bbstats.select2.provider.AgeGroupProvider;
+import at.basketballsalzburg.bbstats.select2.provider.CoachProvider;
+import at.basketballsalzburg.bbstats.select2.provider.GymProvider;
+import at.basketballsalzburg.bbstats.select2.provider.LeagueProvider;
+import at.basketballsalzburg.bbstats.select2.provider.TeamProvider;
 import at.basketballsalzburg.bbstats.services.AgeGroupService;
 import at.basketballsalzburg.bbstats.services.CoachService;
 import at.basketballsalzburg.bbstats.services.GameService;
@@ -37,12 +49,7 @@ import at.basketballsalzburg.bbstats.services.GymService;
 import at.basketballsalzburg.bbstats.services.LeagueService;
 import at.basketballsalzburg.bbstats.services.PlayerService;
 import at.basketballsalzburg.bbstats.services.TeamService;
-import at.basketballsalzburg.bbstats.utils.AgeGroupValueEncoder;
-import at.basketballsalzburg.bbstats.utils.CoachValueEncoder;
-import at.basketballsalzburg.bbstats.utils.GymSelectModel;
-import at.basketballsalzburg.bbstats.utils.LeagueSelectModel;
 import at.basketballsalzburg.bbstats.utils.PlayerValueEncoder;
-import at.basketballsalzburg.bbstats.utils.TeamSelectModel;
 
 public class GameEditor
 {
@@ -82,15 +89,7 @@ public class GameEditor
 
     @Inject
     @Property
-    private CoachValueEncoder coachValueEncoder;
-
-    @Inject
-    @Property
     private PlayerValueEncoder playerValueEncoder;
-
-    @Inject
-    @Property
-    private AgeGroupValueEncoder ageGroupValueEncoder;
 
     private Object zoneToUpdate;
 
@@ -186,29 +185,29 @@ public class GameEditor
     @Component(parameters = {"value=game.penalized"})
     private Checkbox penalized;
 
-    @Component(parameters = {"value=gymId", "model=gymSelectModel"})
-    private Select gymSelect;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=gymProvider", "singleValue=game.gym" })
+	private Select2 gymSelect;
 
-    @Component(parameters = {"value=leagueId", "model=leagueSelectModel"})
-    private Select leagueSelect;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=leagueProvider", "singleValue=game.league" })
+    private Select2 leagueSelect;
 
-    @Component(parameters = {"value=teamAId", "model=teamSelectModel"})
-    private Select teamASelect;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=teamProvider", "singleValue=game.teamA" })
+    private Select2 teamASelect;
 
-    @Component(parameters = {"value=teamBId", "model=teamSelectModel"})
-    private Select teamBSelect;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=teamProvider", "singleValue=game.teamB" })
+    private Select2 teamBSelect;
 
-    @Component(parameters = {"selected=game.coaches",
-        "model=coachSelectModel", "encoder=coachValueEncoder",
-        "availableLabel=message:availableCoaches",
-        "selectedLabel=message:selectedCoaches"})
-    private Palette coachPalette;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=coachProvider", "multiValue=game.coaches" })
+	private MultiSelect2 coachSelect;
 
-    @Component(parameters = {"selected=game.ageGroups",
-        "model=ageGroupSelectModel", "encoder=ageGroupValueEncoder",
-        "availableLabel=message:availableAgeGroups",
-        "selectedLabel=message:selectedAgeGroups"})
-    private Palette ageGroupPalette;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=ageGroupProvider", "multiValue=game.ageGroups" })
+	private MultiSelect2 ageGroupSelect;
 
     @Inject
     private Messages messages;
@@ -218,22 +217,6 @@ public class GameEditor
 
     @Component
     private GameStatEditor gameStatEditor;
-
-    @Property
-    @Persist
-    private SelectModel gymSelectModel;
-
-    @Property
-    @Persist
-    private SelectModel leagueSelectModel;
-
-    @Property
-    @Persist
-    private SelectModel coachSelectModel;
-
-    @Property
-    @Persist
-    private SelectModel ageGroupSelectModel;
 
     @Property
     @Persist
@@ -248,24 +231,8 @@ public class GameEditor
     @Persist
     private GameDTO game;
 
-    @Property
-    @Validate(value = "required")
-    private Long gymId;
-
-    @Property
-    @Validate(value = "required")
-    @Persist
-    private Long leagueId;
-
-    @Property
-    @Validate(value = "required")
-    @Persist
-    private Long teamAId;
-
-    @Property
-    @Validate(value = "required")
-    @Persist
-    private Long teamBId;
+	@Property
+	private Settings settings;
 
     public GameDTO getGame()
     {
@@ -316,10 +283,6 @@ public class GameEditor
         {
             return false;
         }
-        game.setGym(gymService.findById(gymId));
-        game.setLeague(leagueService.findById(leagueId));
-        game.setTeamA(teamService.findById(teamAId));
-        game.setTeamB(teamService.findById(teamBId));
         game.setStats(gameStatEditor.getGameStats());
         if (game.getStats() != null)
         {
@@ -335,7 +298,6 @@ public class GameEditor
 
     private ComponentEventCallback<Object> getMyCallback()
     {
-
         ComponentEventCallback<Object> callback = new ComponentEventCallback<Object>()
         {
             public boolean handleResult(Object result)
@@ -359,36 +321,14 @@ public class GameEditor
     @SetupRender
     void setupRender()
     {
-        if (game.getGym() != null && game.getLeague().getId() != null)
-        {
-            gymId = game.getGym().getId();
-        }
-        if (game.getLeague() != null && game.getLeague().getId() != null)
-        {
-            leagueId = game.getLeague().getId();
-        }
-        if (game.getTeamA() != null && game.getTeamA().getId() != null)
-        {
-            teamAId = game.getTeamA().getId();
-        }
-        if (game.getTeamB() != null && game.getTeamB().getId() != null)
-        {
-            teamBId = game.getTeamB().getId();
-        }
-        gymSelectModel = new GymSelectModel(gymService.findAll());
-        leagueSelectModel = new LeagueSelectModel(leagueService.findAll());
-        teamSelectModel = new TeamSelectModel(teamService.findAll());
-        coachSelectModel = selectModelFactory.create(coachService.findAll(),
-            "displayName");
-        ageGroupSelectModel = selectModelFactory.create(
-            ageGroupService.findAll(), "name");
-
         if (game.getStats() == null)
         {
             game.setStats(new ArrayList<GameStatDTO>());
         }
         gameStatEditor.setGameStats(game.getStats());
         gameStatEditor.setGameId(game.getId());
+		settings = new Settings();
+		settings.setWidth("100%");
     }
 
     public Object getPeriodResultFields()
@@ -448,5 +388,30 @@ public class GameEditor
         }
         return messages.format(INVALID_PLAYER_STATS, teamScore, playerScore);
     }
+    
+	@Cached
+	public ChoiceProvider<GymDTO> getGymProvider() {
+		return new GymProvider(gymService);
+	}
+	
+	@Cached
+	public ChoiceProvider<CoachDTO> getCoachProvider() {
+		return new CoachProvider(coachService);
+	}
+	
+	@Cached
+	public ChoiceProvider<AgeGroupDTO> getAgeGroupProvider() {
+		return new AgeGroupProvider(ageGroupService);
+	}
+	
+	@Cached
+	public ChoiceProvider<LeagueDTO> getLeagueProvider() {
+		return new LeagueProvider(leagueService);
+	}
+	
+	@Cached
+	public ChoiceProvider<TeamDTO> getTeamProvider() {
+		return new TeamProvider(teamService);
+	}
 
 }

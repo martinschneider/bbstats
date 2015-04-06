@@ -29,7 +29,7 @@
 		<t:if test="showEditor">
 			<div class="well">
 				<t:label for="playerSelect"/>
-				<t:select t:id="playerSelect" t:validate="required" class="form-control"/>
+				<t:select2 t:id="playerSelect" t:validate="required" class="form-control"/>
 				<t:label for="points"/>
 				<t:textfield t:id="points"
 						t:validate="min=0" />

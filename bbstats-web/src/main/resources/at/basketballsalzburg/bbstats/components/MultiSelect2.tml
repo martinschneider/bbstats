@@ -1,0 +1,21 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+    <t:tapselect2 t:id="select2InputField"
+                         settings="settings"
+                         owntype="${type}"
+                         value="value"
+                         t:mixins="ZoneUpdater"
+                         t:clientEvent="change"
+                         t:event="Select2Changed"
+                         t:elementId="clientId"
+                         style="inherit:style"
+                         zone="ajaxZoneId"/>
+
+    <t:zone t:id="ajaxZone" id="${ajaxZoneId}" t:update="highlight">
+        <t:if test="verbose">
+            ${selectedValue}
+            <p:else>
+
+            </p:else>
+        </t:if>
+    </t:zone>
+</t:container>

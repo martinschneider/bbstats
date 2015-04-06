@@ -71,4 +71,24 @@ public class CoachServiceImpl implements CoachService
     {
         dao.delete(mapper.map(coach, Coach.class));
     }
+
+	@Override
+	public List<CoachDTO> findByQuery(String query) {
+		List<CoachDTO> coaches = new ArrayList<CoachDTO>();
+        for (Object coach : dao.findByQuery(query))
+        {
+            coaches.add(mapper.map(coach, CoachDTO.class));
+        }
+        return coaches;
+	}
+
+	@Override
+	public List<CoachDTO> findByIds(List<Long> ids) {
+		List<CoachDTO> coaches = new ArrayList<CoachDTO>();
+        for (Object coach : dao.findByIdIn(ids))
+        {
+            coaches.add(mapper.map(coach, CoachDTO.class));
+        }
+        return coaches;
+	}
 }

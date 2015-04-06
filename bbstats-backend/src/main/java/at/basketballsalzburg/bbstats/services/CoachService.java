@@ -9,7 +9,6 @@ import at.basketballsalzburg.bbstats.dto.CoachDTO;
  */
 public interface CoachService
 {
-
     public abstract void save(CoachDTO coach);
 
     public abstract void delete(CoachDTO coach);
@@ -19,5 +18,9 @@ public interface CoachService
     public abstract CoachDTO findByName(String firstName, String lastName);
 
     public abstract CoachDTO findById(Long coachId);
+    
+    public abstract List<CoachDTO> findByIds(List<Long> ids);
+    
+    public abstract List<CoachDTO> findByQuery(String query);
 
 }

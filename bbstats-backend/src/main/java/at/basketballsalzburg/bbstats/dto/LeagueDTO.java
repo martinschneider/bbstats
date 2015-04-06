@@ -42,4 +42,8 @@ public class LeagueDTO
         this.shortName = shortName;
     }
 
+	public String getDisplayName() {
+		return this.name + " (" + this.shortName + ")";
+	}
+
 }

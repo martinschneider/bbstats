@@ -1,5 +1,7 @@
 package at.basketballsalzburg.bbstats.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.LeagueDTO;
@@ -19,4 +21,8 @@ public interface LeagueService
     public abstract void delete(LeagueDTO league);
 
     public abstract LeagueDTO findById(Long leagueId);
+
+	public abstract List<LeagueDTO> findByQuery(String lowerCase);
+
+	public abstract Collection<LeagueDTO> findByIds(ArrayList<Long> newArrayList);
 }

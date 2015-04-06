@@ -17,6 +17,8 @@ public interface PlayerService
     public abstract void save(PlayerDTO player);
 
     public abstract SortedSet<PlayerDTO> findAll();
+    
+    public abstract SortedSet<PlayerDTO> findByQuery(String query);
 
     public abstract SortedSet<PlayerDTO> findAllForAgegroup(AgeGroupDTO agegroup);
 
@@ -25,6 +27,8 @@ public interface PlayerService
     public abstract PlayerDTO findByName(String firstName, String lastName);
 
     public abstract PlayerDTO findById(Long playerId);
+    
+    public abstract List<PlayerDTO> findByIds(List<Long> ids);
 
     public abstract void delete(PlayerDTO player);
 

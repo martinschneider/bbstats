@@ -8,7 +8,6 @@ import at.basketballsalzburg.bbstats.services.CoachService;
 
 public class CoachValueEncoder implements ValueEncoder<CoachDTO>
 {
-
     private CoachService coachService;
 
     @Autowired

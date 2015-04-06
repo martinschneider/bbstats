@@ -5,186 +5,182 @@ import java.util.List;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.SelectModel;
+import org.apache.tapestry5.annotations.Cached;
 import org.apache.tapestry5.annotations.Component;
+import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.BeanModel;
+import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Grid;
 import org.apache.tapestry5.corelib.components.LinkSubmit;
-import org.apache.tapestry5.corelib.components.Select;
 import org.apache.tapestry5.corelib.components.TextField;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
 import org.apache.tapestry5.services.SelectModelFactory;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.joda.time.DateTime;
 
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.DateTimeField;
 import at.basketballsalzburg.bbstats.components.PageLayout;
+import at.basketballsalzburg.bbstats.components.Select2;
 import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
 import at.basketballsalzburg.bbstats.security.Permissions;
+import at.basketballsalzburg.bbstats.select2.ChoiceProvider;
+import at.basketballsalzburg.bbstats.select2.Settings;
+import at.basketballsalzburg.bbstats.select2.provider.CoachProvider;
 import at.basketballsalzburg.bbstats.services.CoachService;
 import at.basketballsalzburg.bbstats.services.PracticeService;
-import at.basketballsalzburg.bbstats.utils.CoachValueEncoder;
 
 @RequiresPermissions(Permissions.accountingPage)
-public class Accounting
-{
-    @Component
-    private PageLayout pageLayout;
+public class Accounting {
+	@Component
+	private PageLayout pageLayout;
 
-    @Component(parameters = {"title=prop:resultsBoxTitle", "type=tablebox"})
-    private Box resultsBox;
+	@Component(parameters = { "title=prop:resultsBoxTitle", "type=tablebox" })
+	private Box resultsBox;
 
-    @Component(parameters = {"title=message:selectBoxTitle"})
-    private Box selectBox;
+	@Component(parameters = { "title=message:selectBoxTitle" })
+	private Box selectBox;
 
-    @Component(parameters = {"value=selectedCoach",
-        "model=coachSelectModel", "encoder=coachValueEncoder",
-    })
-    private Select coachSelect;
+	@Component(parameters = { "value=dateFrom", "datePattern=dd.MM.yyyy" })
+	private DateTimeField dateFromField;
 
-    @Component(parameters = {"value=dateFrom", "datePattern=dd.MM.yyyy"})
-    private DateTimeField dateFromField;
+	@Component(parameters = { "value=dateTo", "datePattern=dd.MM.yyyy" })
+	private DateTimeField dateToField;
 
-    @Component(parameters = {"value=dateTo", "datePattern=dd.MM.yyyy"})
-    private DateTimeField dateToField;
+	@Component(parameters = { "value=salaryPerPractice" })
+	private TextField salaryPerPracticeField;
 
-    @Component(parameters = {"value=salaryPerPractice"})
-    private TextField salaryPerPracticeField;
+	@Component
+	private LinkSubmit submit;
 
-    @Component
-    private LinkSubmit submit;
+	@Component
+	private Zone resultsZone;
 
-    @Component
-    private Zone resultsZone;
+	@Component(parameters = { "source=practices",
+			"empty=message:noPracticeData", "row=practice",
+			"model=practiceModel", "rowsPerPage=30",
+			"include=dateTime,duration,gym", "inplace=true", "add=ageGroups",
+			"reorder=dateTime,gym,duration,ageGroups",
+			"class=table table-striped table-condensed" })
+	private Grid practiceGrid;
 
-    @Component(parameters = {"source=practices",
-        "empty=message:noPracticeData", "row=practice",
-        "model=practiceModel", "rowsPerPage=30",
-        "include=dateTime,duration,gym", "inplace=true",
-        "add=ageGroups",
-        "reorder=dateTime,gym,duration,ageGroups",
-        "class=table table-striped table-condensed"})
-    private Grid practiceGrid;
+	@Component(parameters = { "settings=settings", "type=literal:hidden",
+			"provider=coachProvider", "singleValue=coach" })
+	private Select2 coachSelect;
 
-    @Inject
-    private CoachService coachService;
+	@Property
+	private Settings settings;
 
-    @Inject
-    private PracticeService practiceService;
+	@InjectComponent
+	private Form form;
 
-    @Inject
-    private SelectModelFactory selectModelFactory;
+	@Inject
+	private CoachService coachService;
 
-    @Inject
-    private BeanModelSource beanModelSource;
+	@Inject
+	private PracticeService practiceService;
 
-    @Inject
-    private ComponentResources componentResources;
+	@Inject
+	private SelectModelFactory selectModelFactory;
 
-    @Inject
-    private Messages messages;
+	@Inject
+	private BeanModelSource beanModelSource;
 
-    @Inject
-    @Property
-    private CoachValueEncoder coachValueEncoder;
+	@Inject
+	private ComponentResources componentResources;
 
-    @Persist
-    @Property
-    private SelectModel coachSelectModel;
+	@Inject
+	private Messages messages;
 
-    @Property
-    @Persist
-    private DateTime dateFrom;
+	@Inject
+	private JavaScriptSupport javaScriptSupport;
 
-    @Property
-    @Persist
-    private DateTime dateTo;
+	@Property
+	@Persist
+	private DateTime dateFrom;
 
-    @Property
-    @Persist
-    private CoachDTO selectedCoach;
+	@Property
+	@Persist
+	private DateTime dateTo;
 
-    @Property
-    @Persist
-    private int numberOfPractices;
+	@Property
+	@Persist
+	private CoachDTO coach;
 
-    @Property
-    @Persist
-    private BigDecimal salary;
+	@Property
+	@Persist
+	private int numberOfPractices;
 
-    @Property
-    @Persist
-    private BigDecimal salaryPerPractice;
+	@Property
+	@Persist
+	private BigDecimal salary;
 
-    @Property
-    @Persist
-    private List<PracticeDTO> practices;
+	@Property
+	@Persist
+	private BigDecimal salaryPerPractice;
 
-    @Property
-    private PracticeDTO practice;
+	@Property
+	@Persist
+	private List<PracticeDTO> practices;
 
-    @Property
-    private PlayerDTO player;
+	@Property
+	private PracticeDTO practice;
 
-    @Property
-    private CoachDTO coach;
+	@Property
+	private PlayerDTO player;
 
-    @Property
-    private AgeGroupDTO ageGroup;
+	@Property
+	private AgeGroupDTO ageGroup;
 
-    @SetupRender
-    void onSetup()
-    {
-        if (dateTo == null)
-        {
-            dateTo = new DateTime();
-        }
-        if (dateFrom == null)
-        {
-            dateFrom = dateTo.minusMonths(1);
-        }
-        if (salaryPerPractice == null)
-        {
-            salaryPerPractice = BigDecimal.ZERO;
-        }
-        coachSelectModel = selectModelFactory.create(coachService.findAll(),
-            "displayName");
-        if (selectedCoach != null)
-        {
-            practices =
-                practiceService.findPracticesForCoachBetweenDates(selectedCoach.getId(), dateFrom.toDate(),
-                    dateTo.toDate());
-            numberOfPractices = practices.size();
-            salary = new BigDecimal(numberOfPractices).multiply(salaryPerPractice);
-        }
-    }
+	@SetupRender
+	void onSetup() {
+		if (dateTo == null) {
+			dateTo = new DateTime();
+		}
+		if (dateFrom == null) {
+			dateFrom = dateTo.minusMonths(1);
+		}
+		if (salaryPerPractice == null) {
+			salaryPerPractice = BigDecimal.ZERO;
+		}
+		if (coach != null) {
+			practices = practiceService.findPracticesForCoachBetweenDates(
+					coach.getId(), dateFrom.toDate(), dateTo.toDate());
+			numberOfPractices = practices.size();
+			salary = new BigDecimal(numberOfPractices)
+					.multiply(salaryPerPractice);
+		}
+		settings = new Settings();
+		settings.setWidth("100%");
+	}
 
-    public BeanModel<PracticeDTO> getPracticeModel()
-    {
-        BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
-            PracticeDTO.class, componentResources.getMessages());
-        beanModel.add("gym", null).sortable(true);
-        return beanModel;
-    }
+	@Cached
+	public ChoiceProvider<CoachDTO> getCoachProvider() {
+		return new CoachProvider(coachService);
+	}
 
-    Object onSuccess()
-    {
-        return resultsZone;
-    }
+	public BeanModel<PracticeDTO> getPracticeModel() {
+		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
+				PracticeDTO.class, componentResources.getMessages());
+		beanModel.add("gym", null).sortable(true);
+		return beanModel;
+	}
 
-    public String getResultsBoxTitle()
-    {
-        return messages.get("sum") + ": " + numberOfPractices + ", "
-            + messages.get("salary") + ": " + salary;
-    }
+	public String getResultsBoxTitle() {
+		return messages.get("sum") + ": " + numberOfPractices + ", "
+				+ messages.get("salary") + ": " + salary;
+	}
 
+	Object onSuccessFromForm() {
+		return resultsZone;
+	}
 }

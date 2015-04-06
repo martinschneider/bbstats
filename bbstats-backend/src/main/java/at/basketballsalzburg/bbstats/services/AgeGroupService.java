@@ -1,5 +1,7 @@
 package at.basketballsalzburg.bbstats.services;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
@@ -19,5 +21,10 @@ public interface AgeGroupService
     public abstract void delete(AgeGroupDTO ageGroup);
 
     public abstract AgeGroupDTO findById(Long ageGroupId);
+
+	public abstract List<AgeGroupDTO> findByQuery(String lowerCase);
+
+	public abstract Collection<AgeGroupDTO> findByIds(
+			ArrayList<Long> newArrayList);
 
 }

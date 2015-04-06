@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>bbstats-parent</artifactId>
 		<groupId>at.basketball-salzburg</groupId>
-		<version>15.03.22</version>
+		<version>15.04.11</version>
 	</parent>
 
 	<name>bbstats-web</name>
@@ -67,6 +67,11 @@
 		<dependency>
 			<groupId>com.jcabi</groupId>
 			<artifactId>jcabi-manifests</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
 		</dependency>
 	</dependencies>
 

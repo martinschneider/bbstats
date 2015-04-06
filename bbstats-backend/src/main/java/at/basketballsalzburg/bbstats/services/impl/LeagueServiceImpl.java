@@ -1,6 +1,7 @@
 package at.basketballsalzburg.bbstats.services.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.dozer.DozerBeanMapper;
@@ -66,5 +67,24 @@ public class LeagueServiceImpl implements LeagueService
     {
         return mapper.map(dao.findOne(leagueId), LeagueDTO.class);
     }
+    
+	@Override
+	public List<LeagueDTO> findByQuery(String query) {
+		List<LeagueDTO> leagues = new ArrayList<LeagueDTO>();
+        for (Object league : dao.findByQuery(query))
+        {
+            leagues.add(mapper.map(league, LeagueDTO.class));
+        }
+        return leagues;
+	}
 
+	@Override
+	public Collection<LeagueDTO> findByIds(ArrayList<Long> ids) {
+		List<LeagueDTO> leagues = new ArrayList<LeagueDTO>();
+        for (Object league : dao.findByIdIn(ids))
+        {
+            leagues.add(mapper.map(league, LeagueDTO.class));
+        }
+        return leagues;
+	}
 }

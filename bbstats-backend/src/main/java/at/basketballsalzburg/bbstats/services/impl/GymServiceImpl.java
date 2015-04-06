@@ -69,4 +69,24 @@ public class GymServiceImpl implements GymService
     {
         dao.delete(mapper.map(gym, Gym.class));
     }
+
+	@Override
+	public List<GymDTO> findByIds(List<Long> ids) {
+		List<GymDTO> gyms = new ArrayList<GymDTO>();
+        for (Gym gym : dao.findByIdIn(ids))
+        {
+            gyms.add(mapper.map(gym, GymDTO.class));
+        }
+        return gyms;
+	}
+
+	@Override
+	public List<GymDTO> findByQuery(String query) {
+		List<GymDTO> gyms = new ArrayList<GymDTO>();
+        for (Gym gym : dao.findByQuery(query))
+        {
+            gyms.add(mapper.map(gym, GymDTO.class));
+        }
+        return gyms;
+	}
 }

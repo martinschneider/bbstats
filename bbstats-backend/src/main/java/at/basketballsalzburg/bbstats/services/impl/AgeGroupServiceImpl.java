@@ -1,6 +1,7 @@
 package at.basketballsalzburg.bbstats.services.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.dozer.DozerBeanMapper;
@@ -69,4 +70,23 @@ public class AgeGroupServiceImpl implements AgeGroupService
         return mapper.map(dao.findOne(ageGroupId), AgeGroupDTO.class);
     }
 
+	@Override
+	public List<AgeGroupDTO> findByQuery(String query) {
+		List<AgeGroupDTO> ageGroups = new ArrayList<AgeGroupDTO>();
+        for (Object ageGroup : dao.findByQuery(query))
+        {
+            ageGroups.add(mapper.map(ageGroup, AgeGroupDTO.class));
+        }
+        return ageGroups;
+	}
+
+	@Override
+	public Collection<AgeGroupDTO> findByIds(ArrayList<Long> ids) {
+		List<AgeGroupDTO> ageGroups = new ArrayList<AgeGroupDTO>();
+        for (Object ageGroup : dao.findByIdIn(ids))
+        {
+        	ageGroups.add(mapper.map(ageGroup, AgeGroupDTO.class));
+        }
+        return ageGroups;
+	}
 }

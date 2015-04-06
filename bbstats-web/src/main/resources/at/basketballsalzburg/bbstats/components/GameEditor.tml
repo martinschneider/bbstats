@@ -6,13 +6,13 @@
 		<t:label for="date"/>
 		<t:datetimefield t:id="date" class="form-control"/>
 		<t:label for="gymSelect"/>
-		<t:select t:id="gymSelect" t:validate="required"/>
+		<t:select2 t:id="gymSelect" t:validate="required"/>
 		<t:label for="leagueSelect"/>
-		<t:select t:id="leagueSelect" t:validate="required"/>
+		<t:select2 t:id="leagueSelect" t:validate="required"/>
 		<t:label for="teamASelect"/>
-		<t:textfield t:id="teamASelect" t:validate="required"/>
+		<t:select2 t:id="teamASelect" t:validate="required"/>
 		<t:label for="teamBSelect"/>
-		<t:textfield t:id="teamBSelect" t:validate="required"/>
+		<t:select2 t:id="teamBSelect" t:validate="required"/>
 		<t:label for="penalized" />
 		<t:checkbox t:id="penalized"/>
 		
@@ -129,14 +129,14 @@
 					${message:coaches}
 					<span class="badge badge-success" id="coachCount" />
 				</label>
-				<t:select t:id="coachPalette" />
+				<t:select2 t:id="coachSelect" />
 			</div>
 			<div class="form-group col-md-6">
 				<label class="block">
 					${message:ageGroups}
 					<span class="badge badge-success" id="ageGroupCount" />
 				</label>
-				<t:select t:id="ageGroupPalette" />
+				<t:select2 t:id="ageGroupSelect" />
 			</div>
 		</div>
 		<div class="btn-group">

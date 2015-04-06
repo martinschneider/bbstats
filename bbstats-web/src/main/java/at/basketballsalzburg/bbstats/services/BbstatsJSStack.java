@@ -27,13 +27,12 @@ public class BbstatsJSStack implements JavaScriptStack
     public List<Asset> getJavaScriptLibraries()
     {
         List<Asset> assets = new ArrayList<Asset>();
-
         assets.add(assetSource.getClasspathAsset(
             "META-INF/assets/js/jquery.vegas.js", null));
-
         assets.add(assetSource.getClasspathAsset(
             "META-INF/assets/js/bootstrap.min.js", null));
-
+        assets.add(assetSource.getClasspathAsset(
+                "META-INF/assets/js/chosen.jquery.min.js", null));
         return assets;
     }
 

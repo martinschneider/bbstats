@@ -34,7 +34,6 @@ import at.basketballsalzburg.bbstats.services.PlayerService;
 @Transactional
 public class PlayerServiceImpl implements PlayerService
 {
-
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
     private PlayerDAO dao;
     private DozerBeanMapper mapper;
@@ -195,4 +194,24 @@ public class PlayerServiceImpl implements PlayerService
         }
         return results;
     }
+
+	@Override
+	public SortedSet<PlayerDTO> findByQuery(String query) {
+        SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
+        for (Object player : dao.findByQuery(query))
+        {
+            players.add(mapper.map(player, PlayerDTO.class));
+        }
+        return players;
+	}
+
+	@Override
+	public List<PlayerDTO> findByIds(List<Long> ids) {
+        List<PlayerDTO> players = new ArrayList<PlayerDTO>();
+        for (Object player : dao.findByIdIn(ids))
+        {
+            players.add(mapper.map(player, PlayerDTO.class));
+        }
+        return players;
+	}
 }
