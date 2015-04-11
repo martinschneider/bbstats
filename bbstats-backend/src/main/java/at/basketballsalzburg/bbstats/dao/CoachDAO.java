@@ -16,7 +16,7 @@ import at.basketballsalzburg.bbstats.entities.Coach;
 public interface CoachDAO extends JpaRepository<Coach, Long> {
 	Coach findByFirstNameAndLastName(String firstName, String lastName);
 
-	@Query("select distinct c from Coach c where lower(firstName) like %:query% or lower(lastName) like %:query%")
+	@Query("select distinct c from Coach c where lower(firstName) like :query% or lower(lastName) like :query%")
 	List<Coach> findByQuery(@Param("query") String query);
 
 	List<Coach> findByIdIn(List<Long> ids);

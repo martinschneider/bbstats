@@ -20,7 +20,7 @@ public interface TeamDAO extends JpaRepository<Team, Long>
 
     Team findByName(String name);
     
-	@Query("select distinct t from Team t where lower(name) like %:query%")
+	@Query("select distinct t from Team t where lower(name) like :query%")
 	List<AgeGroup> findByQuery(@Param("query") String query);
 
 	List<AgeGroup> findByIdIn(List<Long> ids);

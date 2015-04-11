@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.annotations.Test;
 
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
+import at.basketballsalzburg.bbstats.dto.CountryDTO;
 import at.basketballsalzburg.bbstats.dto.GameDTO;
 import at.basketballsalzburg.bbstats.dto.GameStatDTO;
 import at.basketballsalzburg.bbstats.dto.GymDTO;
@@ -63,7 +64,7 @@ public class GameServiceTest extends
         PlayerDTO player2 = new PlayerDTO();
         player2.setFirstName("elton");
         player2.setLastName("john");
-        player2.setNationality("us");
+        player1.setNationality("us");
 
         GameStatDTO stat1 = new GameStatDTO();
         stat1.setFouls(5);

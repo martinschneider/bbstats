@@ -190,11 +190,4 @@ public class Player
         beanModel.addEmpty("stats");
         return beanModel;
     }
-
-    public String getCountry()
-    {
-        // return player.getNationalityDisplayName(request.getLocale());
-        return player.getNationalityDisplayName(Locale.GERMAN);
-    }
-
 }

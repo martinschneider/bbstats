@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>at.basketball-salzburg</groupId>
 		<artifactId>bbstats-parent</artifactId>
-		<version>15.04.11</version>
+		<version>15.04.12</version>
 	</parent>
 
 	<name>bbstats backend</name>
@@ -95,8 +95,16 @@
 			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.mnode.ical4j</groupId>
 			<artifactId>ical4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
 		</dependency>
 	</dependencies>
 

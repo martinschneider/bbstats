@@ -18,7 +18,7 @@ public interface LeagueDAO extends JpaRepository<League, Long>
 {
     League findByName(String name);
 
-	@Query("select distinct l from League l where lower(name) like %:query% or lower(shortName) like %:query%")
+	@Query("select distinct l from League l where lower(name) like :query% or lower(shortName) like :query%")
 	List<AgeGroup> findByQuery(@Param("query") String query);
 
 	List<AgeGroup> findByIdIn(List<Long> ids);

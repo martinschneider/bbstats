@@ -109,6 +109,7 @@ public class ExcelPlayerExporter implements PlayerExporter
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         wb.write(out);
+        wb.close();
         return new ByteArrayInputStream(out.toByteArray());
     }
 }

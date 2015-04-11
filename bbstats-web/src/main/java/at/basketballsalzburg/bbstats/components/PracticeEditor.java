@@ -56,12 +56,6 @@ public class PracticeEditor {
 	@Inject
 	private ComponentResources componentResources;
 
-	@Inject
-	private SelectModelFactory selectModelFactory;
-
-	@Inject
-	private JavaScriptSupport javaScriptSupport;
-
 	@Component
 	private Form practiceEditForm;
 
@@ -77,7 +71,7 @@ public class PracticeEditor {
 	private TextField comment;
 
 	@Component(parameters = { "settings=settings", "type=literal:hidden",
-			"provider=gymProvider", "singleValue=gym" })
+			"provider=gymProvider", "singleValue=practice.gym" })
 	private Select2 gymSelect;
 
 	@Component(parameters = { "settings=settings", "type=literal:hidden",
@@ -113,10 +107,6 @@ public class PracticeEditor {
 	@Persist
 	private PracticeDTO practice;
 
-	@Property
-	@Persist
-	private GymDTO gym;
-
 	public PracticeDTO getPractice() {
 		return practice;
 	}
@@ -146,7 +136,6 @@ public class PracticeEditor {
 	}
 
 	void onSuccess() {
-		practice.setGym(gym);
 		practiceService.save(practice);
 		componentResources.triggerEvent(PRACTICE_EDIT_SAVE, null, null);
 	}
@@ -158,9 +147,6 @@ public class PracticeEditor {
 
 	@SetupRender
 	void setupRender() {
-		if (practice != null) {
-			gym = practice.getGym();
-		}
 		settings = new Settings();
 		settings.setWidth("100%");
 	}

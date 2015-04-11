@@ -23,12 +23,6 @@ public class Coach
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany(targetEntity = AgeGroup.class, cascade = {CascadeType.PERSIST,
-        CascadeType.MERGE})
-    @JoinTable(name = "bbstats_coach_agegroup", joinColumns = @JoinColumn(name = "coachid"),
-        inverseJoinColumns = @JoinColumn(name = "agegroupid"))
-    private List<AgeGroup> ageGroups;
-
     private String lastName;
 
     public String getLastName()
@@ -66,15 +60,5 @@ public class Coach
     public String getDisplayName()
     {
         return lastName + " " + firstName;
-    }
-
-    public List<AgeGroup> getAgeGroups()
-    {
-        return ageGroups;
-    }
-
-    public void setAgeGroups(List<AgeGroup> ageGroups)
-    {
-        this.ageGroups = ageGroups;
     }
 }

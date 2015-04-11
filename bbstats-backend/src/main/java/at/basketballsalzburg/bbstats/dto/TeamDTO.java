@@ -10,8 +10,6 @@ public class TeamDTO implements Comparable<TeamDTO>
 
     private String name;
 
-    private String shortName;
-
     public Long getId()
     {
         return id;
@@ -30,16 +28,6 @@ public class TeamDTO implements Comparable<TeamDTO>
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public String getShortName()
-    {
-        return shortName;
-    }
-
-    public void setShortName(String shortName)
-    {
-        this.shortName = shortName;
     }
 
     public int compareTo(TeamDTO rhs)

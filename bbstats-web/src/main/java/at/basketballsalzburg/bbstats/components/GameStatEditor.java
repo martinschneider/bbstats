@@ -242,7 +242,7 @@ public class GameStatEditor
     void setupRender()
     {
         playerSelectModel = new PlayerSelectModel(new ArrayList<PlayerDTO>(
-            playerService.findAllWithAgeGroup()));
+            playerService.findAll()));
     }
 
     public Integer getGameStatIndex()

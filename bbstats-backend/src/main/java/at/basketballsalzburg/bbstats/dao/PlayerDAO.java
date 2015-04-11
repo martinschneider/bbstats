@@ -21,16 +21,7 @@ public interface PlayerDAO extends JpaRepository<Player, Long> {
 	@Query("select distinct practice.players from Practice practice where practice.dateTime>:date")
 	List<Player> findPlayersActiveSince(@Param("date") Date date);
 
-	@Query("select distinct p from Player p, AgeGroup agegroup where agegroup=:agegroup and agegroup member of p.ageGroups")
-	List<Player> findByAgeGroupOrderByName(@Param("agegroup") AgeGroup agegroup);
-
-	@Query("select distinct p from Player p where p.ageGroups is empty")
-	List<Player> findWithoutAgeGroup();
-
-	@Query("select distinct p from Player p where p.ageGroups is not empty")
-	List<Player> findWithAgeGroup();
-
-	@Query("select distinct p from Player p where lower(p.firstName) like %:query% or lower(p.lastName) like %:query%")
+	@Query("select distinct p from Player p where lower(p.firstName) like :query% or lower(p.lastName) like :query%")
 	List<Player> findByQuery(@Param("query") String query);
 	
 	List<Player> findByIdIn(List<Long> ids);

@@ -148,40 +148,6 @@ public class PlayerServiceImpl implements PlayerService
     }
 
     @Override
-    public SortedSet<PlayerDTO> findAllForAgegroup(AgeGroupDTO agegroup)
-    {
-        SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
-        for (Object player : dao.findByAgeGroupOrderByName(mapper.map(agegroup,
-            AgeGroup.class)))
-        {
-            players.add(mapper.map(player, PlayerDTO.class));
-        }
-        return players;
-    }
-
-    @Override
-    public SortedSet<PlayerDTO> findAllWithoutAgeGroup()
-    {
-        SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
-        for (Object player : dao.findWithoutAgeGroup())
-        {
-            players.add(mapper.map(player, PlayerDTO.class));
-        }
-        return players;
-    }
-
-    @Override
-    public SortedSet<PlayerDTO> findAllWithAgeGroup()
-    {
-        SortedSet<PlayerDTO> players = new TreeSet<PlayerDTO>();
-        for (Object player : dao.findWithAgeGroup())
-        {
-            players.add(mapper.map(player, PlayerDTO.class));
-        }
-        return players;
-    }
-
-    @Override
     public List<String> getBirthdays()
     {
         List<String> results = new ArrayList<String>();

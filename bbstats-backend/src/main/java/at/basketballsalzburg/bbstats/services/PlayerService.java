@@ -20,8 +20,6 @@ public interface PlayerService
     
     public abstract SortedSet<PlayerDTO> findByQuery(String query);
 
-    public abstract SortedSet<PlayerDTO> findAllForAgegroup(AgeGroupDTO agegroup);
-
     public abstract SortedSet<PlayerDTO> findAllActiveSince(Date date);
 
     public abstract PlayerDTO findByName(String firstName, String lastName);
@@ -33,10 +31,6 @@ public interface PlayerService
     public abstract void delete(PlayerDTO player);
 
     public abstract List<CompletePlayerStatisticDTO> getCompleteStatistics(Date fromDate, Date toDate);
-
-    public abstract SortedSet<PlayerDTO> findAllWithAgeGroup();
-
-    public abstract SortedSet<PlayerDTO> findAllWithoutAgeGroup();
 
     public abstract List<String> getBirthdays();
 

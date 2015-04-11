@@ -9,7 +9,7 @@
 				${message:birthday}:
 				<t:output format="message:dateFormat" value="player.birthday" />
 			</li>
-			<li>${message:nationality}: ${country}</li>
+			<li>${message:nationality}: ${player.nationality.countryName}</li>
 			<li>${message:games}: ${gameSource.getAvailableRows()}</li>
 			<li>${message:practices}: ${practiceSource.getAvailableRows()}</li>
 		</ul>

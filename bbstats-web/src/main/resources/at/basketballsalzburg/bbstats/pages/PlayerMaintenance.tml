@@ -16,11 +16,6 @@
 			</p:else>
 		</t:if>
 	</t:zone>
-	<t:box t:id="filterBox">
-		<t:form t:id="form">
-			<t:palette t:id="ageGroupPalette" />
-		</t:form>
-	</t:box>
 	<t:zone t:id="playerGridZone">
 		<t:box t:id="playerGridBox">
 			<t:grid t:id="playersGrid">
@@ -31,11 +26,6 @@
 					<t:output format="literal:dd.MM.yyyy" value="player.birthday" />
 				</p:birthdayCell>
 				<p:nationalityCell>${player.getNationalityDisplayName(request.locale)}</p:nationalityCell>
-				<p:ageGroupsCell>
-					<ul class="nobullets">
-						<li t:type="loop" t:id="agegrouploop">${agegroup}</li>
-					</ul>
-				</p:ageGroupsCell>
 				<p:editCell>
 					<t:eventlink t:id="editPlayer" class="edit-item" title="${message:edit}" />
 				</p:editCell>

@@ -1,34 +1,54 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
+import java.util.Locale;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.ExceptionReporter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.PageLayout;
+import at.basketballsalzburg.bbstats.services.ErrorReportService;
 
 /**
  * @author Martin Schneider
  */
-public class ExceptionReport implements ExceptionReporter
-{
-    @Property
-    private Throwable exception;
+public class ExceptionReport implements ExceptionReporter {
+	Logger LOGGER = LoggerFactory.getLogger("bbstats");
 
-    public void reportException(Throwable exception)
-    {
-        this.exception = exception;
-    }
+	@Inject
+	private ErrorReportService errorReporter;
 
-    public String getExceptionOutput()
-    {
-        return ExceptionUtils.getStackTrace(exception);
-    }
+	@Property
+	private Throwable exception;
 
-    @Component
-    private PageLayout pageLayout;
+	@Property
+	private String logReference;
 
-    @Component(parameters = {"title=message:exceptionBoxTitle"})
-    private Box exceptionBox;
+	public void reportException(Throwable exception) {
+		this.exception = exception;
+		logReference = RandomStringUtils.randomAlphanumeric(7).toUpperCase(
+				Locale.US);
+		LOGGER.error(logReference, exception);
+		String username;
+		if (SecurityUtils.getSubject() == null
+				|| SecurityUtils.getSubject().getPrincipal() == null) {
+			username = "anonymous";
+		} else {
+			username = SecurityUtils.getSubject().getPrincipal().toString();
+		}
+
+		errorReporter.sendErrorReport(username, logReference, exception);
+	}
+
+	@Component
+	private PageLayout pageLayout;
+
+	@Component(parameters = { "title=message:exceptionBoxTitle" })
+	private Box exceptionBox;
 }

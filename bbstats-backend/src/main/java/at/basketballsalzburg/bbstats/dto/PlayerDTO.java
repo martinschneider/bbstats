@@ -28,11 +28,9 @@ public class PlayerDTO implements Comparable<PlayerDTO>
     private String nationality;
 
     private List<PracticeDTO> practices;
-    private List<AgeGroupDTO> ageGroups;
 
     public PlayerDTO()
     {
-        ageGroups = new ArrayList<AgeGroupDTO>();
     }
 
     public Long getId()
@@ -171,17 +169,7 @@ public class PlayerDTO implements Comparable<PlayerDTO>
             return null;
         }
     }
-
-    public List<AgeGroupDTO> getAgeGroups()
-    {
-        return ageGroups;
-    }
-
-    public void setAgeGroups(List<AgeGroupDTO> ageGroups)
-    {
-        this.ageGroups = ageGroups;
-    }
-
+    
     public int compareTo(PlayerDTO rhs)
     {
         return new CompareToBuilder()

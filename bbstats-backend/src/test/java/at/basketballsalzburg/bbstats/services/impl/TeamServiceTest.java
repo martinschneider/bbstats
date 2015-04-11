@@ -27,7 +27,6 @@ public class TeamServiceTest extends
         int size = teamService.findAll().size();
         TeamDTO team = new TeamDTO();
         team.setName("BSC Salzburg");
-        team.setShortName("BSC");
         teamService.save(team);
         Assert.assertEquals(size + 1, teamService.findAll().size());
     }

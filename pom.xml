@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.basketball-salzburg</groupId>
 	<artifactId>bbstats-parent</artifactId>
-	<version>15.04.11</version>
+	<version>15.04.12</version>
 	<packaging>pom</packaging>
 
 	<name>bbstats parent</name>
@@ -27,13 +27,13 @@
 	<properties>
 		<tapestry.version>5.4-beta-6</tapestry.version>
 		<tapestry.security.version>0.5.1</tapestry.security.version>
-		<spring.version>4.1.5.RELEASE</spring.version>
-		<spring.data.version>1.7.2.RELEASE</spring.data.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
+		<spring.data.version>1.8.0.RELEASE</spring.data.version>
 		<hibernate.version>4.3.8.Final</hibernate.version>
 		<guava.version>18.0</guava.version>
 		<testng.version>6.8.21</testng.version>
 		<javassist.version>3.12.1.GA</javassist.version>
-		<h2.version>1.4.186</h2.version>
+		<h2.version>1.4.187</h2.version>
 		<dozer.version>5.5.1</dozer.version>
 		<poi.version>3.11</poi.version>
 		<joda.time.version>2.7</joda.time.version>
@@ -41,9 +41,11 @@
 		<javax.servlet.version>3.1.0</javax.servlet.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
 		<ical.version>1.0.6</ical.version>
-		<maven.compiler.plugin.version>3.2</maven.compiler.plugin.version>
+		<maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
 		<jcabi.manifests.version>1.1</jcabi.manifests.version>
 		<shiro.version>1.2.3</shiro.version>
+		<java.mail.version>1.4.3</java.mail.version>
+		<json.version>20090211</json.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -91,6 +93,11 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-context-support</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
 			<dependency>
@@ -219,6 +226,16 @@
 				<groupId>org.apache.shiro</groupId>
 				<artifactId>shiro-web</artifactId>
 				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>${java.mail.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>${json.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -42,14 +42,4 @@ public class Team
         this.name = name;
     }
 
-    public String getShortname()
-    {
-        return shortname;
-    }
-
-    public void setShortname(String shortname)
-    {
-        this.shortname = shortname;
-    }
-
 }

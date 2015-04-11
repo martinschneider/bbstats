@@ -17,7 +17,7 @@ public interface GymDAO extends JpaRepository<Gym, Long>
 {
     Gym findByName(String name);
     
-	@Query("select distinct g from Gym g where lower(g.city) like %:query% or lower(g.name) like %:query%")
+	@Query("select distinct g from Gym g where lower(g.city) like :query% or lower(g.name) like :query%")
 	List<Gym> findByQuery(@Param("query") String query);
 	
 	List<Gym> findByIdIn(List<Long> ids);

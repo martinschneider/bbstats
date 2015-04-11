@@ -6,7 +6,7 @@
 
 <body>
 
-	<t:box t:id="exceptionBox">${exceptionOutput}</t:box>
+	<t:box t:id="exceptionBox">${message:logReference}: ${logReference}</t:box>
 	<p>
 		<t:pagelink page="index">${message:backToStart}</t:pagelink>
 	</p>

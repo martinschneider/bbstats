@@ -1,14 +1,10 @@
 package at.basketballsalzburg.bbstats.pages;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.SelectModel;
-import org.apache.tapestry5.annotations.Cached;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.OnEvent;
@@ -17,289 +13,157 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
 import org.apache.tapestry5.beaneditor.BeanModel;
 import org.apache.tapestry5.corelib.components.EventLink;
-import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.Grid;
-import org.apache.tapestry5.corelib.components.Loop;
 import org.apache.tapestry5.corelib.components.PageLink;
-import org.apache.tapestry5.corelib.components.Palette;
 import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.Messages;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.SelectModelFactory;
 
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.PageLayout;
 import at.basketballsalzburg.bbstats.components.PlayerEditor;
-import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.export.ExcelPlayerExporter;
-import at.basketballsalzburg.bbstats.mixins.PaletteObserve;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.security.Permissions;
-import at.basketballsalzburg.bbstats.services.AgeGroupService;
 import at.basketballsalzburg.bbstats.services.PlayerService;
-import at.basketballsalzburg.bbstats.utils.AgeGroupValueEncoder;
 import at.basketballsalzburg.bbstats.utils.GenericStreamResponse;
 
 @RequiresPermissions(Permissions.playerMaintenancePage)
-public class PlayerMaintenance
-{
+public class PlayerMaintenance {
+	@Component
+	private PageLayout pageLayout;
 
-    private List<String> otherAgeGroups;
+	@Inject
+	@Property
+	private Request request;
 
-    @Component
-    private PageLayout pageLayout;
+	@Component
+	private PlayerEditor playerEditor;
 
-    @Inject
-    @Property
-    private Request request;
+	@Component(parameters = {
+			"source=players",
+			"model=playerModel",
+			"empty=message:noData",
+			"row=player",
+			"rowsPerPage=20",
+			"include=displayName,adress,postalCode,city,country,phone,email,birthday,nationality",
+			"add=edit,delete",
+			"reorder=displayName,adress,postalCode,city,country,phone,email,birthday,nationality,edit,delete",
+			"inplace=true", "class=table table-striped table-condensed" })
+	private Grid playersGrid;
 
-    @Component
-    private PlayerEditor playerEditor;
+	@Inject
+	private PlayerService playerService;
 
-    @Component(parameters = {
-        "source=players",
-        "model=playerModel",
-        "empty=message:noData",
-        "row=player",
-        "rowsPerPage=20",
-        "include=displayName,adress,postalCode,city,country,phone,email,birthday,nationality",
-        "add=agegroups,edit,delete",
-        "reorder=displayName,adress,postalCode,city,country,phone,email,birthday,nationality,agegroups,edit,delete",
-        "inplace=true", "class=table table-striped table-condensed"})
-    private Grid playersGrid;
+	@Inject
+	private ExcelPlayerExporter playerExporter;
 
-    @Component(parameters = {"title=message:filterBoxTitle"})
-    private Box filterBox;
+	@Inject
+	private Messages messages;
 
-    @Component(parameters = {"selected=selectedAgeGroups",
-        "model=ageGroupSelectModel", "encoder=ageGroupValueEncoder",
-        "availableLabel=message:availableAgeGroups",
-        "selectedLabel=message:selectedAgeGroups",
-        "paletteObserve.event=literal:filter",
-        "paletteObserve.zone=playerGridZone"})
-    @MixinClasses(PaletteObserve.class)
-    private Palette agegroupPalette;
+	@Persist
+	@Property
+	private Set<PlayerDTO> players;
 
-    @Component
-    private Form form;
+	@Property
+	@Persist
+	private PlayerDTO player;
 
-    @Component(parameters = {"source=player.agegroups", "value=agegroup"})
-    private Loop<AgeGroupDTO> ageGroupLoop;
+	@Component
+	private Zone playerEditorZone;
 
-    @Inject
-    private SelectModelFactory selectModelFactory;
+	@Component
+	private Zone playerGridZone;
 
-    @Inject
-    private AgeGroupService ageGroupService;
+	@Component(parameters = "title=message:playerEditorBoxTitle")
+	private Box playerEditorBox;
 
-    @Inject
-    private PlayerService playerService;
+	@Component(parameters = { "title=message:playerGridBoxTitle",
+			"type=tablebox" })
+	private Box playerGridBox;
 
-    @Inject
-    private ExcelPlayerExporter playerExporter;
+	@Component(parameters = { "event=edit", "context=player.id",
+			"Permission.allowedPermissions=editPlayer" })
+	@MixinClasses(Permission.class)
+	private EventLink editPlayer;
 
-    @Inject
-    private Messages messages;
+	@Component(parameters = { "event=delete", "context=player.id",
+			"Permission.allowedPermissions=deletePlayer" })
+	@MixinClasses(Permission.class)
+	private EventLink deletePlayer;
 
-    @Persist
-    @Property
-    private Set<PlayerDTO> players;
+	@Component(parameters = { "event=new",
+			"Permission.allowedPermissions=newPlayer" })
+	@MixinClasses(Permission.class)
+	private EventLink newPlayer;
 
-    @Property
-    @Persist
-    private PlayerDTO player;
+	@Component(parameters = { "event=downloadXLS",
+			"Permission.allowedPermissions=downloadPlayerList" })
+	@MixinClasses(Permission.class)
+	private EventLink downloadXLS;
 
-    @Property
-    @Persist
-    private AgeGroupDTO agegroup;
+	@Component(parameters = { "page=player" })
+	private PageLink playerDetail;
 
-    @Component
-    private Zone playerEditorZone;
+	@Property
+	@Persist
+	private boolean editorVisible;
 
-    @Component
-    private Zone playerGridZone;
+	@Inject
+	private BeanModelSource beanModelSource;
 
-    @Component(parameters = "title=message:playerEditorBoxTitle")
-    private Box playerEditorBox;
+	@Inject
+	private ComponentResources componentResources;
 
-    @Component(parameters = {"title=message:playerGridBoxTitle",
-        "type=tablebox"})
-    private Box playerGridBox;
+	@OnEvent(value = "edit")
+	Object onEdit(Long playerId) {
+		editorVisible = true;
+		playerEditor.setPlayer(playerService.findById(playerId));
+		return playerEditorZone;
+	}
 
-    @Component(parameters = {"event=edit", "context=player.id",
-        "Permission.allowedPermissions=editPlayer"})
-    @MixinClasses(Permission.class)
-    private EventLink editPlayer;
+	@OnEvent(value = "delete")
+	Object onDelete(Long playerId) {
+		playerService.delete(playerService.findById(playerId));
+		return playerGridZone;
+	}
 
-    @Component(parameters = {"event=delete", "context=player.id",
-        "Permission.allowedPermissions=deletePlayer"})
-    @MixinClasses(Permission.class)
-    private EventLink deletePlayer;
+	@OnEvent(value = "new")
+	Object onNew() {
+		playerEditor.setPlayer(new PlayerDTO());
+		editorVisible = true;
+		return playerEditorZone;
+	}
 
-    @Component(parameters = {"event=new",
-        "Permission.allowedPermissions=newPlayer"})
-    @MixinClasses(Permission.class)
-    private EventLink newPlayer;
+	@OnEvent(value = PlayerEditor.PLAYER_EDIT_CANCEL)
+	void onCancel() {
+		editorVisible = false;
+	}
 
-    @Component(parameters = {"event=downloadXLS",
-        "Permission.allowedPermissions=downloadPlayerList"})
-    @MixinClasses(Permission.class)
-    private EventLink downloadXLS;
+	@OnEvent(value = PlayerEditor.PLAYER_EDIT_SAVE)
+	void onSave() {
+		editorVisible = false;
+	}
 
-    @Component(parameters = {"page=player"})
-    private PageLink playerDetail;
+	@OnEvent(value = "downloadXLS")
+	Object onDownloadXLS() throws IOException {
+		return new GenericStreamResponse("application/vnd.ms-excel", ".xls",
+				playerExporter.getFile(players), "players");
+	}
 
-    @Property
-    private SelectModel ageGroupSelectModel;
+	public BeanModel<PlayerDTO> getPlayerModel() {
+		return beanModelSource.createDisplayModel(PlayerDTO.class,
+				componentResources.getMessages());
+	}
 
-    @Property
-    @Persist
-    private List<AgeGroupDTO> selectedAgeGroups;
-
-    @Property
-    @Persist
-    private boolean filterPlayers;
-
-    @Property
-    @Persist
-    private boolean editorVisible;
-
-    @Inject
-    private BeanModelSource beanModelSource;
-
-    @Inject
-    private ComponentResources componentResources;
-
-    @Inject
-    @Property
-    private AgeGroupValueEncoder ageGroupValueEncoder;
-
-    @OnEvent(value = "edit")
-    Object onEdit(Long playerId)
-    {
-        editorVisible = true;
-        playerEditor.setPlayer(playerService.findById(playerId));
-        return playerEditorZone;
-    }
-
-    @OnEvent(value = "delete")
-    Object onDelete(Long playerId)
-    {
-        playerService.delete(playerService.findById(playerId));
-        return playerGridZone;
-    }
-
-    @OnEvent(value = "new")
-    Object onNew()
-    {
-        playerEditor.setPlayer(new PlayerDTO());
-        editorVisible = true;
-        return playerEditorZone;
-    }
-
-    @OnEvent(value = PlayerEditor.PLAYER_EDIT_CANCEL)
-    void onCancel()
-    {
-        editorVisible = false;
-    }
-
-    @OnEvent(value = PlayerEditor.PLAYER_EDIT_SAVE)
-    void onSave()
-    {
-        editorVisible = false;
-    }
-
-    @OnEvent(value = "filter")
-    Object onFilter(String ageGroups)
-    {
-        players.clear();
-        selectedAgeGroups.clear();
-        if (!ageGroups.isEmpty())
-        {
-            for (String ageGroupId : ageGroups.split(","))
-            {
-                if (ageGroupId.equals("-1"))
-                {
-                    players.addAll(playerService.findAllWithoutAgeGroup());
-                    selectedAgeGroups.add(getOthers());
-                }
-                else
-                {
-                    AgeGroupDTO ageGroup = ageGroupService.findById(Long
-                        .parseLong(ageGroupId));
-                    players.addAll(playerService.findAllForAgegroup(ageGroup));
-                    selectedAgeGroups.add(ageGroup);
-                }
-            }
-        }
-        return playerGridZone;
-    }
-
-    @OnEvent(value = "downloadXLS")
-    Object onDownloadXLS() throws IOException
-    {
-        return new GenericStreamResponse("application/vnd.ms-excel", ".xls",
-            playerExporter.getFile(players), "players");
-    }
-
-    public BeanModel<PlayerDTO> getPlayerModel()
-    {
-        return beanModelSource.createDisplayModel(PlayerDTO.class,
-            componentResources.getMessages());
-    }
-
-    @SetupRender
-    void setup()
-    {
-        if (otherAgeGroups == null)
-        {
-            otherAgeGroups = Arrays.asList("no team", "kein Team",
-                messages.get("noAgeGroups"));
-        }
-        if (selectedAgeGroups == null)
-        {
-            selectedAgeGroups = ageGroupService.findAll();
-            selectedAgeGroups.add(getOthers());
-            players = playerService.findAll();
-        }
-        else
-        {
-            players.clear();
-            for (AgeGroupDTO ageGroup : selectedAgeGroups)
-            {
-                if (ageGroup.equals(getOthers()))
-                {
-                    players.addAll(playerService.findAllWithoutAgeGroup());
-                }
-                else
-                {
-                    players.addAll(playerService.findAllForAgegroup(ageGroup));
-                }
-            }
-
-        }
-        if (playersGrid.getSortModel().getSortConstraints().isEmpty())
-        {
-            playersGrid.getSortModel().updateSort("displayName");
-        }
-        if (ageGroupSelectModel == null)
-        {
-            List<AgeGroupDTO> ageGroups = ageGroupService.findAll();
-            ageGroups.add(getOthers());
-            ageGroupSelectModel = selectModelFactory.create(ageGroups, "name");
-        }
-    }
-
-    @Cached
-    public AgeGroupDTO getOthers()
-    {
-        AgeGroupDTO others = new AgeGroupDTO();
-        others.setName(messages.get("noAgeGroups"));
-        others.setId(-1L);
-        return others;
-    }
-
+	@SetupRender
+	void setup() {
+		players = playerService.findAll();
+		if (playersGrid.getSortModel().getSortConstraints().isEmpty()) {
+			playersGrid.getSortModel().updateSort("displayName");
+		}
+	}
 }
