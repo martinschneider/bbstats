@@ -37,8 +37,8 @@ public class CoachMaintenance
 
     @Component(parameters = {"source=coachesList", "model=coachModel",
         "empty=message:noData", "row=coach", "rowsPerPage=20",
-        "include=firstName,lastName", "add=edit,delete",
-        "reorder=lastName,firstName,edit,delete", "inplace=true", "class=table table-striped table-condensed"})
+        "include=firstName,lastName", "add=actions",
+        "reorder=lastName,firstName,actions", "inplace=true", "class=table table-striped table-condensed"})
     private Grid coachesGrid;
 
     @Component

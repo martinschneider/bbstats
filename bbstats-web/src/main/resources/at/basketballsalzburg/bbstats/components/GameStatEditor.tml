@@ -1,22 +1,23 @@
 <div xmlns:p="tapestry:parameter"
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
+
 	<t:zone t:id="gameStatGridZone">
-		<div>
-		</div>
+		<div></div>
 		<!-- needed for tapestry hidden field -->
 		<t:grid t:id="gameStatGrid">
 			<p:nameCell>${gameStatForGrid.player.displayName}</p:nameCell>
 			<p:ftCell>${gameStatForGrid.ftm}/${gameStatForGrid.fta}</p:ftCell>
 			<p:editCell>
-				<t:eventlink t:id="editGameStat" class="edit-item" title="${message:edit}" />
+				<t:eventlink t:id="editGameStat" class="edit-item"
+					title="${message:edit}" />
 			</p:editCell>
 			<p:deleteCell>
-				<t:eventlink t:id="deleteGameStat" class="delete-item" title="${message:delete}" />
+				<t:eventlink t:id="deleteGameStat" class="delete-item"
+					title="${message:delete}" />
 			</p:deleteCell>
 		</t:grid>
 	</t:zone>
-	
+
 	<t:zone t:id="gameStatEditZone">
 		<t:if test="showEditor" negate="true">
 			<t:if test="showImporter" negate="true">
@@ -28,22 +29,20 @@
 		</t:if>
 		<t:if test="showEditor">
 			<div class="well">
-				<t:label for="playerSelect"/>
-				<t:select2 t:id="playerSelect" t:validate="required" class="form-control"/>
-				<t:label for="points"/>
-				<t:textfield t:id="points"
-						t:validate="min=0" />
-				<t:label for="fta"/>
+				<t:label for="playerSelect" />
+				<t:select2 t:id="playerSelect" t:validate="required"
+					class="form-control" />
+				<t:label for="points" />
+				<t:textfield t:id="points" t:validate="min=0" />
+				<t:label for="fta" />
 				<t:textfield t:id="fta" t:validate="min=0" />
-				<t:label for="ftm"/>
+				<t:label for="ftm" />
 				<t:textfield t:id="ftm" t:validate="min=0" />
-				<t:label for="threes"/>
-				<t:textfield t:id="threes"
-						t:validate="min=0" />
-				<t:label for="fouls"/>
-				<t:textfield t:id="fouls"
-						t:validate="min=0" />
-				
+				<t:label for="threes" />
+				<t:textfield t:id="threes" t:validate="min=0" />
+				<t:label for="fouls" />
+				<t:textfield t:id="fouls" t:validate="min=0" />
+
 				<div class="btn-group">
 					<t:linksubmit t:id="statSubmit" class="btn btn-primary">
 						<t:if test="edit">
@@ -58,14 +57,12 @@
 		<t:if test="showImporter">
 			<div class="well">
 				<p>
-					<b>${message:exampleHeader}</b>
-					<br />
-					${message:example1}
-					<br />
+					<b>${message:exampleHeader}</b> <br /> ${message:example1} <br />
 					${message:example2}
 				</p>
 				<t:label for="input" />
-				<t:textarea t:id="input" style="width:500px;height:200px;" t:validate="required" />
+				<t:textarea t:id="input" style="width:500px;height:200px;"
+					t:validate="required" />
 				<div class="btn-group">
 					<t:linksubmit t:id="importData" class="btn btn-primary">${message:import}</t:linksubmit>
 					<t:eventlink t:id="cancelImport" class="btn btn-primary">${message:cancel}</t:eventlink>

@@ -1,6 +1,8 @@
 package at.basketballsalzburg.bbstats.pages;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
@@ -25,6 +27,7 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
+import at.basketballsalzburg.bbstats.mixins.GridColumnDecorator;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.GymService;
@@ -32,150 +35,159 @@ import at.basketballsalzburg.bbstats.services.PracticeService;
 import at.basketballsalzburg.bbstats.utils.PracticeDataSource;
 
 @RequiresPermissions(Permissions.practicesPage)
-public class Practices
-{
+public class Practices {
 
-    @Component
-    private PageLayout pageLayout;
+	@Component
+	private PageLayout pageLayout;
 
-    @Component(parameters = "title=message:practiceEditorBoxTitle")
-    private Box practiceEditorBox;
+	@Component(parameters = "title=message:practiceEditorBoxTitle")
+	private Box practiceEditorBox;
 
-    @Component(parameters = {"title=message:practiceGridBoxTitle",
-        "type=tablebox"})
-    private Box practiceGridBox;
+	@Component(parameters = { "title=message:practiceGridBoxTitle",
+			"type=tablebox" })
+	private Box practiceGridBox;
 
-    @Component
-    private PracticeEditor practiceEditor;
+	@Component
+	private PracticeEditor practiceEditor;
 
-    @Component(parameters = {"source=practiceSource",
-        "empty=message:noPracticeData", "row=practice",
-        "model=practiceModel", "rowsPerPage=20",
-        "include=dateTime,duration,gym", "inplace=true",
-        "add=players,coaches,ageGroups,edit,delete",
-        "reorder=dateTime,gym,duration,players,coaches,ageGroups,edit,delete",
-        "class=table table-striped table-condensed"})
-    private Grid practiceGrid;
+	@MixinClasses(GridColumnDecorator.class)
+	@Component(parameters = { "source=practiceSource",
+			"empty=message:noPracticeData", "row=practice",
+			"model=practiceModel", "rowsPerPage=20",
+			"include=dateTime,duration,gym", "inplace=true",
+			"add=players,coaches,ageGroups,actions",
+			"reorder=dateTime,gym,duration,players,coaches,ageGroups,actions",
+			"class=table table-striped table-condensed",
+			"gridColumnDecorator.cssClassMap=cssClassMap" })
+	private Grid practiceGrid;
 
-    @Inject
-    private PracticeService practiceService;
+	@Inject
+	private PracticeService practiceService;
 
-    @Inject
-    private GymService gymService;
+	@Inject
+	private GymService gymService;
 
-    @Inject
-    private BeanModelSource beanModelSource;
-    
-    @Inject
-    private ComponentResources componentResources;
+	@Inject
+	private BeanModelSource beanModelSource;
 
-    @Property
-    private PracticeDTO practice;
+	@Inject
+	private ComponentResources componentResources;
 
-    @Property
-    private PlayerDTO player;
+	@Property
+	private PracticeDTO practice;
 
-    @Property
-    private CoachDTO coach;
+	@Property
+	private PlayerDTO player;
 
-    @Property
-    private AgeGroupDTO ageGroup;
+	@Property
+	private CoachDTO coach;
 
-    @Property
-    @Persist
-    private PracticeDataSource practiceSource;
+	@Property
+	private AgeGroupDTO ageGroup;
 
-    @Component(parameters = {"event=edit", "context=practice.id",
-        "Permission.allowedPermissions=editPractice"})
-    @MixinClasses(Permission.class)
-    private EventLink editPractice;
+	@Property
+	@Persist
+	private PracticeDataSource practiceSource;
 
-    @Component(parameters = {"event=delete", "context=practice.id",
-        "Permission.allowedPermissions=deletePractice"})
-    @MixinClasses(Permission.class)
-    private EventLink deletePractice;
+	@Component(parameters = { "event=edit", "context=practice.id",
+			"Permission.allowedPermissions=editPractice" })
+	@MixinClasses(Permission.class)
+	private EventLink editPractice;
 
-    @Component(parameters = {"event=new",
-        "Permission.allowedPermissions=newPractice"})
-    @MixinClasses(Permission.class)
-    private EventLink newPractice;
+	@Component(parameters = { "event=delete", "context=practice.id",
+			"Permission.allowedPermissions=deletePractice" })
+	@MixinClasses(Permission.class)
+	private EventLink deletePractice;
 
-    @Component(parameters = {"page=player"})
-    private PageLink playerDetail;
+	@Component(parameters = { "event=new",
+			"Permission.allowedPermissions=newPractice" })
+	@MixinClasses(Permission.class)
+	private EventLink newPractice;
 
-    @Component(parameters = {"page=coach"})
-    private PageLink coachDetail;
+	@Component(parameters = { "page=player" })
+	private PageLink playerDetail;
 
-    @Component
-    private Zone practiceEditorZone;
+	@Component(parameters = { "page=coach" })
+	private PageLink coachDetail;
 
-    @Component
-    private Zone practiceGridZone;
+	@Component
+	private Zone practiceEditorZone;
 
-    @Property
-    @Persist
-    private boolean editorVisible;
+	@Component
+	private Zone practiceGridZone;
 
-    @OnEvent(value = "edit")
-    Object onEdit(Long practiceId)
-    {
-        practiceEditor.setPractice(findPracticeById(practiceId));
-        editorVisible = true;
-        return practiceEditorZone;
-    }
+	@Property
+	@Persist
+	private boolean editorVisible;
 
-    @OnEvent(value = "delete")
-    Object onDelete(Long practiceId)
-    {
-        practiceService.delete(practiceService.findById(practiceId));
-        return practiceGridZone;
-    }
+	@OnEvent(value = "edit")
+	Object onEdit(Long practiceId) {
+		practiceEditor.setPractice(findPracticeById(practiceId));
+		editorVisible = true;
+		return practiceEditorZone;
+	}
 
-    private PracticeDTO findPracticeById(Long practiceId)
-    {
-        return practiceService.findById(practiceId);
-    }
+	@OnEvent(value = "delete")
+	Object onDelete(Long practiceId) {
+		practiceService.delete(practiceService.findById(practiceId));
+		return practiceGridZone;
+	}
 
-    @OnEvent(value = "new")
-    Object onNew()
-    {
-        PracticeDTO newPractice = new PracticeDTO();
-        newPractice.setAgeGroups(new ArrayList<AgeGroupDTO>());
-        newPractice.setPlayers(new ArrayList<PlayerDTO>());
-        newPractice.setCoaches(new ArrayList<CoachDTO>());
-        practiceEditor.setPractice(newPractice);
-        editorVisible = true;
-        return practiceEditorZone;
-    }
+	private PracticeDTO findPracticeById(Long practiceId) {
+		return practiceService.findById(practiceId);
+	}
 
-    @OnEvent(value = PracticeEditor.PRACTICE_EDIT_CANCEL)
-    void onCancel()
-    {
-        editorVisible = false;
-    }
+	@OnEvent(value = "new")
+	Object onNew() {
+		PracticeDTO newPractice = new PracticeDTO();
+		newPractice.setAgeGroups(new ArrayList<AgeGroupDTO>());
+		newPractice.setPlayers(new ArrayList<PlayerDTO>());
+		newPractice.setCoaches(new ArrayList<CoachDTO>());
+		practiceEditor.setPractice(newPractice);
+		editorVisible = true;
+		return practiceEditorZone;
+	}
 
-    @OnEvent(value = PracticeEditor.PRACTICE_EDIT_SAVE)
-    void onSave()
-    {
-        editorVisible = false;
-    }
+	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_CANCEL)
+	void onCancel() {
+		editorVisible = false;
+	}
 
-    public BeanModel<PracticeDTO> getPracticeModel()
-    {
-        BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
-            PracticeDTO.class, componentResources.getMessages());
-        beanModel.add("gym", null).sortable(true);
-        return beanModel;
-    }
+	@OnEvent(value = PracticeEditor.PRACTICE_EDIT_SAVE)
+	void onSave() {
+		editorVisible = false;
+	}
 
-    @SetupRender
-    void setup()
-    {
-        practiceSource = new PracticeDataSource(practiceService);
-        if (practiceGrid.getSortModel().getSortConstraints().isEmpty())
-        {
-            practiceGrid.getSortModel().updateSort("dateTime");
-            practiceGrid.getSortModel().updateSort("dateTime");
-        }
-    }
+	public BeanModel<PracticeDTO> getPracticeModel() {
+		BeanModel<PracticeDTO> beanModel = beanModelSource.createDisplayModel(
+				PracticeDTO.class, componentResources.getMessages());
+		beanModel.add("gym", null).sortable(true);
+		return beanModel;
+	}
+
+	public boolean isEditRight() {
+		return pageLayout.isPermitted("editPractice");
+	}
+
+	public boolean isDeleteRight() {
+		return pageLayout.isPermitted("editGame");
+	}
+
+	public Map<String, String> getCssClassMap() {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("gym", "hidden-sm hidden-xs");
+		values.put("coaches", "hidden-xs");
+		values.put("ageGroups", "hidden-sm hidden-xs");
+		values.put("duration", "hidden-xs");
+		return values;
+	}
+
+	@SetupRender
+	void setup() {
+		practiceSource = new PracticeDataSource(practiceService);
+		if (practiceGrid.getSortModel().getSortConstraints().isEmpty()) {
+			practiceGrid.getSortModel().updateSort("dateTime");
+			practiceGrid.getSortModel().updateSort("dateTime");
+		}
+	}
 }

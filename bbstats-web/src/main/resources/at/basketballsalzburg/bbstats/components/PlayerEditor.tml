@@ -1,48 +1,56 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
+
 	<t:form t:id="playerEditForm">
 		<div class="row">
 			<div class="form-group col-md-3">
-				<t:label for="firstName"/>
-				<t:textfield t:id="firstName" t:validate="required" />	
-			</div>				
+				<t:label for="firstName" />
+				<t:textfield t:id="firstName" t:validate="required" />
+			</div>
 			<div class="form-group col-md-3">
-				<t:label for="lastName"/>
+				<t:label for="lastName" />
 				<t:textfield t:id="lastName" t:validate="required" />
-			</div>				
-		</div>		
+			</div>
+		</div>
 		<div class="row">
-			<div class="form-group col-md-3"><t:label for="adress"/>
-			<t:textfield t:id="adress" /></div>
-			<div class="form-group col-md-3"><t:label for="postalCode"/>
-			<t:textfield t:id="postalCode" /></div>
-			<div class="form-group col-md-3"><t:label for="city"/>
-			<t:textfield t:id="city" /></div>
-			<div class="form-group col-md-3"><t:label for="country"/>
-			<t:textfield t:id="country" /></div>
-		</div>	
+			<div class="form-group col-md-3">
+				<t:label for="adress" />
+				<t:textfield t:id="adress" />
+			</div>
+			<div class="form-group col-md-3">
+				<t:label for="postalCode" />
+				<t:textfield t:id="postalCode" />
+			</div>
+			<div class="form-group col-md-3">
+				<t:label for="city" />
+				<t:textfield t:id="city" />
+			</div>
+			<div class="form-group col-md-3">
+				<t:label for="country" />
+				<t:textfield t:id="country" />
+			</div>
+		</div>
 		<div class="row">
 			<div class="form-group col-md-3">
 				<t:label for="phone" />
 				<t:textfield t:id="phone" />
 			</div>
 			<div class="form-group col-md-3">
-				<t:label for="email"/>
+				<t:label for="email" />
 				<t:textfield t:id="email" />
 			</div>
 			<div class="form-group col-md-3">
-				<t:label for="birthday"/>
+				<t:label for="birthday" />
 				<t:datetimefield t:id="birthday" class="form-control" />
 			</div>
 			<div class="form-group col-md-3">
-				<t:label for="nationality"/>
-				<t:select2 t:id="nationality" />	
+				<t:label for="nationality" />
+				<t:select2 t:id="nationality" />
 			</div>
-		</div>			
+		</div>
 		<div class="btn-group">
 			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
 			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 		</div>
 	</t:form>
-	
+
 </div>

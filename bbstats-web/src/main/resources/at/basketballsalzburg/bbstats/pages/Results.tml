@@ -1,138 +1,142 @@
-<html t:id="pageLayout"
-	t:type="pageLayout"
-	xmlns:p="tapestry:parameter"
+<html t:id="pageLayout" t:type="pageLayout" xmlns:p="tapestry:parameter"
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
-	<t:zone t:id="gameEditorZone">
-		<t:if test="editorVisible">
-			<t:box t:id="gameEditorBox">
-				<t:gameEditor t:id="gameEditor" gameParameter="game" />
-			</t:box>
-			<p:else>
-				<t:eventlink t:id="newGame" class="btn btn-primary">${message:new}</t:eventlink>
-			</p:else>
-		</t:if>
-	</t:zone>
-	
-	<t:box t:id="gameGridBox">
-		<t:zone t:id="gameGridZone">
-			<t:grid t:id="gameGrid" class="table-striped table-condensed">
-				<p:dateTimeCell>
-					<t:output format="message:dateTimeFormat" value="game.dateTime" />
-				</p:dateTimeCell>
-				<p:leagueCell>${game.league.shortname}</p:leagueCell>
-				<p:teamACell>
-					<t:if test="home">
-						<b>${game.teamA.name}</b>
-						<p:else>${game.teamA.name}</p:else>
-					</t:if>
-				</p:teamACell>
-				<p:teamBCell>
-					<t:if test="away">
-						<b>${game.teamB.name}</b>
-						<p:else>${game.teamB.name}</p:else>
-					</t:if>
-				</p:teamBCell>
-				<p:resultCell>
-					<t:if test="noResult" negate="true">
-						<b>
-							${game.printEndResult()}
-							<t:if test="ot">${message:ot}</t:if>
-						</b>
+
+<t:zone t:id="gameEditorZone">
+	<t:if test="editorVisible">
+		<t:box t:id="gameEditorBox">
+			<t:gameEditor t:id="gameEditor" gameParameter="game" />
+		</t:box>
+		<p:else>
+			<t:eventlink t:id="newGame" class="btn btn-primary">${message:new}</t:eventlink>
+		</p:else>
+	</t:if>
+</t:zone>
+
+<t:box t:id="gameGridBox">
+	<t:zone t:id="gameGridZone">
+		<t:grid t:id="gameGrid" class="table-striped table-condensed">
+			<p:dateTimeCell>
+				<t:output format="message:dateTimeFormat" value="game.dateTime" />
+			</p:dateTimeCell>
+			<p:leagueCell>${game.league.shortname}</p:leagueCell>
+			<p:teamACell>
+				<t:if test="home">
+					<b>${game.teamA.name}</b>
+					<p:else>${game.teamA.name}</p:else>
+				</t:if>
+			</p:teamACell>
+			<p:teamBCell>
+				<t:if test="away">
+					<b>${game.teamB.name}</b>
+					<p:else>${game.teamB.name}</p:else>
+				</t:if>
+			</p:teamBCell>
+			<p:gymCell>${game.gym.name}, ${game.gym.city}</p:gymCell>
+			<p:resultCell>
+				<t:if test="noResult" negate="true">
+					<b> ${game.printEndResult()} <t:if test="ot">${message:ot}</t:if>
+					</b>
 						${game.printPeriodResults()}
 						<p:else>${message:notAvailable}</p:else>
-						<t:if test="game.penalized">${message:penalized}</t:if>
-					</t:if>
-				</p:resultCell>
-				<p:coachesCell>
-					
-				</p:coachesCell>
-				<p:statsCell>
-					<t:if test="showStats">
-						<a class="stats-icon" title="${message:statsBoxTitle}" data-toggle="modal" data-target="#stats${game.id}"
-							/>
-						<div class="modal fade" id="stats${game.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-							aria-hidden="true">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">${message:x}</button>
-										<h3 id="myModalLabel">
-											${message:statsBoxTitle}
-											<t:output format="message:dateTimeFormat" value="game.dateTime" />
-										</h3>
-										<h4>
-											${game.teama.name} - ${game.teamb.name}
-								${game.printEndResult()}
-											<t:if test="ot">${message:ot}</t:if>
-											<t:if test="game.penalized">${message:penalized}</t:if>
-										</h4>
-									</div>
-									<div class="modal-body">
-										<t:grid t:id="statGrid" class="table-striped table-condensed">
-											<p:nameCell>
-												<t:if test="publicMode" negate="true">
-													<t:pagelink t:id="playerDetail" context="${gameStat.player.id}">${gameStat.player.lastName}
+					<t:if test="game.penalized">${message:penalized}</t:if>
+				</t:if>
+			</p:resultCell>
+			<p:coachesCell>
+
+			</p:coachesCell>
+			<p:statsCell>
+				<t:if test="showStats">
+					<a class="stats-icon" title="${message:statsBoxTitle}"
+						data-toggle="modal" data-target="#stats${game.id}" />
+					<div class="modal fade" id="stats${game.id}" tabindex="-1"
+						role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-hidden="true">${message:x}</button>
+									<h3 id="myModalLabel">
+										${message:statsBoxTitle}
+										<t:output format="message:dateTimeFormat"
+											value="game.dateTime" />
+									</h3>
+									<h4>
+										${game.teama.name} - ${game.teamb.name}
+										${game.printEndResult()}
+										<t:if test="ot">${message:ot}</t:if>
+										<t:if test="game.penalized">${message:penalized}</t:if>
+									</h4>
+								</div>
+								<div class="modal-body">
+									<t:grid t:id="statGrid" class="table-striped table-condensed">
+										<p:nameCell>
+											<t:if test="publicMode" negate="true">
+												<t:pagelink t:id="playerDetail"
+													context="${gameStat.player.id}">${gameStat.player.lastName}
 										${gameStat.player.firstName}</t:pagelink>
-													<p:else>${gameStat.player.lastName}
+												<p:else>${gameStat.player.lastName}
 										${gameStat.player.firstName}</p:else>
-												</t:if>
-												
-											</p:nameCell>
-										</t:grid>
-										<div style="margin-top: 15px; margin-left: 10px;">
-											<b>${message:coaches}</b>
+											</t:if>
+
+										</p:nameCell>
+									</t:grid>
+									<div style="margin-top: 15px; margin-left: 10px;">
+										<b>${message:coaches}</b> <br />
+										<t:loop source="game.coaches" value="coach">
+											<t:if test="publicMode" negate="true">
+												<t:pagelink t:id="coachDetail" context="${coach.id}">${coach.lastName} ${coach.firstName}</t:pagelink>
+												<p:else>${coach.lastName} ${coach.firstName}</p:else>
+											</t:if>
 											<br />
-											<t:loop source="game.coaches" value="coach">
-												<t:if test="publicMode" negate="true">
-													<t:pagelink t:id="coachDetail" context="${coach.id}">${coach.lastName} ${coach.firstName}</t:pagelink>
-													<p:else>${coach.lastName} ${coach.firstName}</p:else>
-												</t:if>
-												<br />
-											</t:loop>
-										</div>
-										<div style="margin-top: 15px; margin-left: 10px;">
-											<b>${message:ageGroups}</b>
-											<br />
-											<t:loop source="game.ageGroups" value="ageGroup">
+										</t:loop>
+									</div>
+									<div style="margin-top: 15px; margin-left: 10px;">
+										<b>${message:ageGroups}</b> <br />
+										<t:loop source="game.ageGroups" value="ageGroup">
 												${ageGroup.name}
 												<br />
-											</t:loop>
-										</div>
+										</t:loop>
 									</div>
-									<div class="modal-footer">
-										<div class="btn-group">
-											<a class="btn btn-primary" data-dismiss="modal">${message:close}</a>
-										</div>
+								</div>
+								<div class="modal-footer">
+									<div class="btn-group">
+										<a class="btn btn-primary" data-dismiss="modal">${message:close}</a>
 									</div>
 								</div>
 							</div>
 						</div>
-					</t:if>
-				</p:statsCell>
-				<p:statsErrorsCell>
+					</div>
+				</t:if>
+			</p:statsCell>
+			<p:statsErrorsCell>
+				<t:if test="editRight">
 					<t:if test="error">
-						<a class="warning-icon" alt="${errorList}" title="${errorList}"/>
+						<a class="warning-icon" alt="${errorList}" title="${errorList}" />
 					</t:if>
-				</p:statsErrorsCell>
-				<p:winLossCell>
-					<t:if test="noResult" negate="true">
-						<t:if test="win">
-							<div class="win" />
-							<p:else>
-								<div class="loss" />
-							</p:else>
-						</t:if>
+				</t:if>
+			</p:statsErrorsCell>
+			<p:winLossCell>
+				<t:if test="noResult" negate="true">
+					<t:if test="win">
+						<div class="win" />
+						<p:else>
+							<div class="loss" />
+						</p:else>
 					</t:if>
-				</p:winLossCell>
-				<p:editCell>
-					<t:eventlink t:id="editGame" class="edit-item" title="${message:edit}" />
-				</p:editCell>
-				<p:deleteCell>
-					<t:eventlink t:id="deleteGame" class="delete-item" title="${message:delete}" />
-				</p:deleteCell>
-			</t:grid>
-		</t:zone>
-	</t:box>
-	
+				</t:if>
+			</p:winLossCell>
+			<p:actionsCell>
+				<t:if test="editRight">
+					<t:eventlink t:id="editGame" class="edit-item"
+						title="${message:edit}" />
+				</t:if>
+				<t:if test="deleteRight">
+					<t:eventlink t:id="deleteGame" class="delete-item"
+						title="${message:delete}" />
+				</t:if>
+			</p:actionsCell>
+		</t:grid>
+	</t:zone>
+</t:box>
+
 </html>

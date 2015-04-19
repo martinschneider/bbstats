@@ -1,6 +1,8 @@
 package at.basketballsalzburg.bbstats.pages;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,11 +23,13 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.BeanModelSource;
 import org.apache.tapestry5.services.Request;
 
+import at.basketballsalzburg.bbstats.commons.CssConstants;
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.PageLayout;
 import at.basketballsalzburg.bbstats.components.PlayerEditor;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.export.ExcelPlayerExporter;
+import at.basketballsalzburg.bbstats.mixins.GridColumnDecorator;
 import at.basketballsalzburg.bbstats.mixins.Permission;
 import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.services.PlayerService;
@@ -43,6 +47,7 @@ public class PlayerMaintenance {
 	@Component
 	private PlayerEditor playerEditor;
 
+	@MixinClasses(GridColumnDecorator.class)
 	@Component(parameters = {
 			"source=players",
 			"model=playerModel",
@@ -50,9 +55,10 @@ public class PlayerMaintenance {
 			"row=player",
 			"rowsPerPage=20",
 			"include=displayName,adress,postalCode,city,country,phone,email,birthday,nationality",
-			"add=edit,delete",
-			"reorder=displayName,adress,postalCode,city,country,phone,email,birthday,nationality,edit,delete",
-			"inplace=true", "class=table table-striped table-condensed" })
+			"add=actions",
+			"reorder=displayName,adress,postalCode,city,country,phone,email,birthday,nationality,actions",
+			"inplace=true", "class=table table-striped table-condensed",
+			"gridColumnDecorator.cssClassMap=cssClassMap" })
 	private Grid playersGrid;
 
 	@Inject
@@ -157,6 +163,17 @@ public class PlayerMaintenance {
 	public BeanModel<PlayerDTO> getPlayerModel() {
 		return beanModelSource.createDisplayModel(PlayerDTO.class,
 				componentResources.getMessages());
+	}
+
+	public Map<String, String> getCssClassMap() {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("email", CssConstants.HIDDEN_SM_XS);
+		values.put("nationality", CssConstants.HIDDEN_SM_XS);
+		values.put("country", CssConstants.HIDDEN_XS);
+		values.put("postalCode", CssConstants.HIDDEN_XS);
+		values.put("city", CssConstants.HIDDEN_XS);
+		values.put("adress", CssConstants.HIDDEN_XS);
+		return values;
 	}
 
 	@SetupRender

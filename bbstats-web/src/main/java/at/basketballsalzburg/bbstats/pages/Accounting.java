@@ -1,13 +1,16 @@
 package at.basketballsalzburg.bbstats.pages;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Cached;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.InjectComponent;
+import org.apache.tapestry5.annotations.MixinClasses;
 import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.annotations.SetupRender;
@@ -24,6 +27,7 @@ import org.apache.tapestry5.services.SelectModelFactory;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.joda.time.DateTime;
 
+import at.basketballsalzburg.bbstats.commons.CssConstants;
 import at.basketballsalzburg.bbstats.components.Box;
 import at.basketballsalzburg.bbstats.components.DateTimeField;
 import at.basketballsalzburg.bbstats.components.PageLayout;
@@ -32,6 +36,7 @@ import at.basketballsalzburg.bbstats.dto.AgeGroupDTO;
 import at.basketballsalzburg.bbstats.dto.CoachDTO;
 import at.basketballsalzburg.bbstats.dto.PlayerDTO;
 import at.basketballsalzburg.bbstats.dto.PracticeDTO;
+import at.basketballsalzburg.bbstats.mixins.GridColumnDecorator;
 import at.basketballsalzburg.bbstats.security.Permissions;
 import at.basketballsalzburg.bbstats.select2.ChoiceProvider;
 import at.basketballsalzburg.bbstats.select2.Settings;
@@ -65,12 +70,14 @@ public class Accounting {
 	@Component
 	private Zone resultsZone;
 
+	@MixinClasses(GridColumnDecorator.class)
 	@Component(parameters = { "source=practices",
 			"empty=message:noPracticeData", "row=practice",
 			"model=practiceModel", "rowsPerPage=30",
 			"include=dateTime,duration,gym", "inplace=true", "add=ageGroups",
 			"reorder=dateTime,gym,duration,ageGroups",
-			"class=table table-striped table-condensed" })
+			"class=table table-striped table-condensed",
+			"gridColumnDecorator.cssClassMap=cssClassMap" })
 	private Grid practiceGrid;
 
 	@Component(parameters = { "settings=settings", "type=literal:hidden",
@@ -178,6 +185,12 @@ public class Accounting {
 	public String getResultsBoxTitle() {
 		return messages.get("sum") + ": " + numberOfPractices + ", "
 				+ messages.get("salary") + ": " + salary;
+	}
+
+	public Map<String, String> getCssClassMap() {
+		Map<String, String> values = new HashMap<String, String>();
+		values.put("gym", CssConstants.HIDDEN_XS);
+		return values;
 	}
 
 	Object onSuccessFromForm() {

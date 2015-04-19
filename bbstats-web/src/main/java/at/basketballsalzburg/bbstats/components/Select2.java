@@ -83,7 +83,7 @@ public class Select2 extends AbstractField {
 
 	@InjectComponent
 	private TapSelect2 select2InputField;
-
+	
 	@InjectComponent
 	private Zone ajaxZone;
 

@@ -5,21 +5,19 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
 	default-lazy-init="false">
-	
-<bean class="org.h2.tools.Server"
-	destroy-method="stop"
-	factory-method="createTcpServer"
-	id="tcpDbServer"
-	init-method="start">
-	<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" />
-</bean>
 
-	<bean id="webDbServer" class="org.h2.tools.Server"
-		factory-method="createWebServer" init-method="start">
+	<bean class="org.h2.tools.Server" destroy-method="stop"
+		factory-method="createTcpServer" id="tcpDbServer" init-method="start">
+		<constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,9092" />
+	</bean>
+
+	<bean id="webDbServer" class="org.h2.tools.Server" factory-method="createWebServer"
+		init-method="start">
 		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
 	</bean>
 
-	<bean id="bbstatsDataSource" class="org.apache.commons.dbcp.BasicDataSource" depends-on="tcpDbServer">
+	<bean id="bbstatsDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		depends-on="tcpDbServer">
 		<property name="driverClassName" value="${db.driverClassName}" />
 		<property name="url" value="${db.url}" />
 		<property name="username" value="${db.username}" />

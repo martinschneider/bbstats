@@ -9,10 +9,8 @@
 				<t:select2 t:id="coachSelect" />
 			</div>
 			<div class="form-group col-md-3">
-				<div class="form-group col-md-3">
-					<t:label for="salaryPerPracticeField" />
-					<t:textfield t:id="salaryPerPracticeField" />
-				</div>
+				<t:label for="salaryPerPracticeField" />
+				<t:textfield t:id="salaryPerPracticeField" />
 			</div>
 		</div>
 		<div class="row">

@@ -1,14 +1,14 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
+
 	<t:form t:id="coachEditForm">
-		<t:label for="firstName"/>
-		<t:textfield t:id="firstName" t:validate="required"/>
-		<t:label for="lastName"/>
-		<t:textfield t:id="lastName" t:validate="required"/>
+		<t:label for="firstName" />
+		<t:textfield t:id="firstName" t:validate="required" />
+		<t:label for="lastName" />
+		<t:textfield t:id="lastName" t:validate="required" />
 		<div class="btn-group">
 			<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
 			<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 		</div>
 	</t:form>
-	
+
 </div>

@@ -1,7 +1,5 @@
 package at.basketballsalzburg.bbstats.pages;
 
-import java.util.Locale;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Component;
@@ -34,8 +32,8 @@ import at.basketballsalzburg.bbstats.utils.PracticeMode;
 @RequiresPermissions(Permissions.playerPage)
 public class Player
 {
-
     @Inject
+    @Property
     private Request request;
 
     @Inject

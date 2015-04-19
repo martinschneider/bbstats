@@ -36,8 +36,8 @@ public class TeamMaintenance
 
     @Component(parameters = {"source=teamList", "model=teamModel",
         "empty=message:noData", "row=team", "rowsPerPage=9999",
-        "include=name,shortname", "add=edit,delete",
-        "reorder=name,shortName,edit,delete", "inplace=true",
+        "include=name", "add=actions",
+        "reorder=name,actions", "inplace=true",
         "class=table table-striped table-condensed"})
     private Grid teamGrid;
 

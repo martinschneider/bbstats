@@ -37,7 +37,7 @@ public class AgeGroupMaintenance
 
     @Component(parameters = {"source=ageGroupsList", "model=ageGroupModel",
         "empty=message:noData", "row=ageGroup", "rowsPerPage=20",
-        "include=name", "add=edit,delete", "reorder=name,edit,delete",
+        "include=name", "add=actions", "reorder=name,actions",
         "inplace=true", "class=table table-striped table-condensed"})
     private Grid ageGroupGrid;
 

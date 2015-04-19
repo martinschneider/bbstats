@@ -30,8 +30,6 @@ public class TeamEditor
     @Component(parameters = {"value=team.name"})
     private TextField name;
 
-    @Component(parameters = {"value=team.shortname"})
-    private TextField shortname;
     @Component
     private LinkSubmit submit;
 

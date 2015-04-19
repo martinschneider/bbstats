@@ -1,12 +1,10 @@
 <div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
+
 	<t:form t:id="teamEditForm">
-		<t:label for="name"/>
-		<t:textfield t:id="name" t:validate="required"/>
-		<t:label for="shortName"/>
-		<t:textfield t:id="shortName" />
+		<t:label for="name" />
+		<t:textfield t:id="name" t:validate="required" />
 		<t:linksubmit t:id="submit" class="btn btn-primary">${message:save}</t:linksubmit>
 		<t:eventlink t:id="cancel" class="btn btn-primary">${message:cancel}</t:eventlink>
 	</t:form>
-	
+
 </div>

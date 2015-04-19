@@ -36,8 +36,8 @@ public class LeagueMaintenance
 
     @Component(parameters = {"source=leagueList", "model=leagueModel",
         "empty=message:noData", "row=league", "rowsPerPage=9999",
-        "include=shortname,name", "add=edit,delete",
-        "reorder=shortName,name,edit,delete", "inplace=true", "class=table table-striped table-condensed"})
+        "include=shortname,name", "add=actions",
+        "reorder=shortName,name,actions", "inplace=true", "class=table table-striped table-condensed"})
     private Grid leagueGrid;
 
     @Component

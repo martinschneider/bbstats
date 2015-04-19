@@ -1,62 +1,64 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd" xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+	xmlns:p="tapestry:parameter">
 
-	<t:zone t:id="practiceEditorZone">
-		<t:if test="editorVisible">
-			<t:box t:id="practiceEditorBox">
-				<t:practiceEditor t:id="practiceEditor"
-					practiceParameter="practice" />
-			</t:box>
-			<p:else>
-				<t:eventlink t:id="newPractice" class="btn btn-primary">${message:new}
+<t:zone t:id="practiceEditorZone">
+	<t:if test="editorVisible">
+		<t:box t:id="practiceEditorBox">
+			<t:practiceEditor t:id="practiceEditor" practiceParameter="practice" />
+		</t:box>
+		<p:else>
+			<t:eventlink t:id="newPractice" class="btn btn-primary">${message:new}
 				</t:eventlink>
-			</p:else>
-		</t:if>
-	</t:zone>
+		</p:else>
+	</t:if>
+</t:zone>
 
-	<t:box t:id="practiceGridBox">
-		<t:zone t:id="practiceGridZone">
-			<t:grid t:id="practiceGrid" class="table-striped table-condensed">
-				<p:dateTimeCell>
-					<t:output format="message:dateTimeFormat" value="practice.dateTime" />
-				</p:dateTimeCell>
-				<p:gymCell>${practice.gym.name}, ${practice.gym.city}</p:gymCell>
-				<p:playersCell>
-					<b>${practice.numberOfPlayers}</b>
-					<br />
-					<t:loop source="practice.players" value="player">
-						<t:pagelink t:id="playerDetail" context="${player.id}">${player.lastName}
+<t:box t:id="practiceGridBox">
+	<t:zone t:id="practiceGridZone">
+		<t:grid t:id="practiceGrid" class="table-striped table-condensed">
+			<p:dateTimeCell>
+				<t:output format="message:dateTimeFormat" value="practice.dateTime" />
+			</p:dateTimeCell>
+			<p:gymCell>${practice.gym.name}, ${practice.gym.city}</p:gymCell>
+			<p:playersCell>
+				<b>${practice.numberOfPlayers}</b>
+				<br />
+				<t:loop source="practice.players" value="player">
+					<t:pagelink t:id="playerDetail" context="${player.id}">${player.lastName}
 							${player.firstName}
 						</t:pagelink>
-						<br />
-					</t:loop>
-					<t:if test="practice.guests">
+					<br />
+				</t:loop>
+				<t:if test="practice.guests">
 						${message:guests}: ${practice.guests}
 					</t:if>
-				</p:playersCell>
-				<p:coachesCell>
-					<t:loop source="practice.coaches" value="coach">
-						<t:pagelink t:id="coachDetail" context="${coach.id}">
+			</p:playersCell>
+			<p:coachesCell>
+				<t:loop source="practice.coaches" value="coach">
+					<t:pagelink t:id="coachDetail" context="${coach.id}">
 							${coach.lastName} ${coach.firstName}
 						</t:pagelink>
-						<br />
-					</t:loop>
-				</p:coachesCell>
-				<p:ageGroupsCell>
-					<t:loop source="practice.ageGroups" value="ageGroup">
+					<br />
+				</t:loop>
+			</p:coachesCell>
+			<p:ageGroupsCell>
+				<t:loop source="practice.ageGroups" value="ageGroup">
 						${ageGroup.name}
 						<br />
-					</t:loop>
-				</p:ageGroupsCell>
-				<p:editCell>
+				</t:loop>
+			</p:ageGroupsCell>
+			<p:actionsCell>
+				<t:if test="editRight">
 					<t:eventlink t:id="editPractice" class="edit-item"
 						title="${message:edit}" />
-				</p:editCell>
-				<p:deleteCell>
+				</t:if>
+				<t:if test="deleteRight">
 					<t:eventlink t:id="deletePractice" class="delete-item"
 						title="${message:delete}" />
-				</p:deleteCell>
-			</t:grid>
-		</t:zone>
-	</t:box>
+				</t:if>
+			</p:actionsCell>
+		</t:grid>
+	</t:zone>
+</t:box>
 </html>

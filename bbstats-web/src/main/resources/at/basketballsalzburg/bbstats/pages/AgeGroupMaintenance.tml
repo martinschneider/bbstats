@@ -1,31 +1,29 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd" xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+	xmlns:p="tapestry:parameter">
 
-	<t:zone t:id="ageGroupEditorZone">
-		<t:if test="editorVisible">
-			<t:box t:id="ageGroupEditorBox">
-				<t:ageGroupEditor t:id="ageGroupEditor"
-					ageGroupParameter="ageGroup" />
-			</t:box>
-			<p:else>
-				<t:eventlink t:id="newAgeGroup" class="btn btn-primary">${message:newAgeGroup}
-				</t:eventlink>
-			</p:else>
-		</t:if>
-	</t:zone>
-	<t:zone t:id="ageGroupGridZone">
-		<t:box t:id="ageGroupGridBox">
-			<t:grid t:id="ageGroupGrid">
-				<p:editCell>
-					<t:eventlink t:id="editAgeGroup" class="edit-item"
-						title="${message:edit}" />
-				</p:editCell>
-				<p:deleteCell>
-					<t:eventlink t:id="deleteAgeGroup" class="delete-item"
-						title="${message:delete}" />
-				</p:deleteCell>
-			</t:grid>
+<t:zone t:id="ageGroupEditorZone">
+	<t:if test="editorVisible">
+		<t:box t:id="ageGroupEditorBox">
+			<t:ageGroupEditor t:id="ageGroupEditor" ageGroupParameter="ageGroup" />
 		</t:box>
-	</t:zone>
+		<p:else>
+			<t:eventlink t:id="newAgeGroup" class="btn btn-primary">${message:newAgeGroup}
+				</t:eventlink>
+		</p:else>
+	</t:if>
+</t:zone>
+<t:zone t:id="ageGroupGridZone">
+	<t:box t:id="ageGroupGridBox">
+		<t:grid t:id="ageGroupGrid">
+			<p:actionsCell>
+				<t:eventlink t:id="editAgeGroup" class="edit-item"
+					title="${message:edit}" />
+				<t:eventlink t:id="deleteAgeGroup" class="delete-item"
+					title="${message:delete}" />
+			</p:actionsCell>
+		</t:grid>
+	</t:box>
+</t:zone>
 
 </html>

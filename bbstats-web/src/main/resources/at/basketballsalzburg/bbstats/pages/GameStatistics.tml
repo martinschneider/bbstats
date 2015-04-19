@@ -1,32 +1,32 @@
-<html t:id="pageLayout"
-	t:type="pageLayout"
-	xmlns:p="tapestry:parameter"
+<html t:id="pageLayout" t:type="pageLayout" xmlns:p="tapestry:parameter"
 	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
-	
-	<t:box t:id="datesBox">
-		<t:form t:id="form">
-			<div class="row">
-				<div class="form-group col-md-3">
-					<t:label for="fromDateField"/>
-					<t:datetimefield t:id="fromDateField" class="form-control" />
-				</div>
-				<div class="form-group col-md-3">
-					<t:label for="toDateField"/>
-					<t:datetimefield t:id="toDateField" class="form-control" />
-				</div>
+
+<t:box t:id="datesBox">
+	<t:form t:id="form">
+		<div class="row">
+			<div class="form-group col-md-3">
+				<t:label for="fromDateField" />
+				<t:datetimefield t:id="fromDateField" class="form-control" />
 			</div>
-			<button t:id="submit" class="btn btn-primary">${message:refresh}</button>
-		</t:form>
-	</t:box>
-	
-	<t:zone t:id="resultsZone">
-		<t:box t:id="playersBox">
-			<t:grid t:id="playerStatisticsGrid" class="table-striped table-condensed">
-				<p:nameCell>
-					<t:pagelink t:id="playerDetail" context="${playerStatistic.playerId}">${playerStatistic.lastName}
+			<div class="form-group col-md-3">
+				<t:label for="toDateField" />
+				<t:datetimefield t:id="toDateField" class="form-control" />
+			</div>
+		</div>
+		<button t:id="submit" class="btn btn-primary">${message:refresh}</button>
+	</t:form>
+</t:box>
+
+<t:zone t:id="resultsZone">
+	<t:box t:id="playersBox">
+		<t:grid t:id="playerStatisticsGrid"
+			class="table-striped table-condensed">
+			<p:nameCell>
+				<t:pagelink t:id="playerDetail"
+					context="${playerStatistic.playerId}">${playerStatistic.lastName}
 						${playerStatistic.firstName}</t:pagelink>
-				</p:nameCell>
-			</t:grid>
-		</t:box>
-	</t:zone>
+			</p:nameCell>
+		</t:grid>
+	</t:box>
+</t:zone>
 </html>

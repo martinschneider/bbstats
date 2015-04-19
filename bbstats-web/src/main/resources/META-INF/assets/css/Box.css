@@ -1,7 +1,6 @@
 @CHARSET "UTF-8";
 
-.box
-{
+.box {
 	margin-bottom: 10px;
 }
 
@@ -10,17 +9,15 @@
 }
 
 /* do not change anything for boxes, which only contain text */
-.tablebox .panel-body:not(:empty){
+.tablebox .panel-body:not (:empty ){
 	padding: 0;
 }
 
-.tablebox table.table
-{
+.tablebox table.table {
 	margin-bottom: 0;
 }
 
-.box .pagination
-{
+.box .pagination {
 	margin: 20px;
 }
 

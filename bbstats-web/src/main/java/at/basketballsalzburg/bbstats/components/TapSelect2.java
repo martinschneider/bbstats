@@ -23,8 +23,8 @@ import at.basketballsalzburg.bbstats.select2.Settings;
 /**
  * @author Victor Kanopelko
  */
-@Import(library = {"select2.js"},
-        stylesheet = {"select2.css","select2-bootstrap.css"})
+@Import(library = {"js/select2.js"},
+        stylesheet = {"css/select2.css","css/select2-bootstrap.css"})
 public class TapSelect2 extends TextField {
 
 	@Parameter(required = true)

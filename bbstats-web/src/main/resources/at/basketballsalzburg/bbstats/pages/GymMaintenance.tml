@@ -1,32 +1,33 @@
 <html t:type="pageLayout" t:id="pageLayout"
-	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd" xmlns:p="tapestry:parameter">
+	xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd"
+	xmlns:p="tapestry:parameter">
 
-	<t:zone t:id="gymEditorZone">
-		<t:if test="editorVisible">
-			<t:box t:id="gymEditorBox">
-				<t:gymEditor t:id="gymEditor" gymParameter="gym" />
-			</t:box>
-			<p:else>
-				<t:eventlink t:id="newGym" class="btn btn-primary">${message:newGym}
-				</t:eventlink>
-			</p:else>
-		</t:if>
-	</t:zone>
-	<t:zone t:id="gymGridZone">
-		<t:box t:id="gymGridBox">
-			<t:grid t:id="gymsGrid">
-				<p:routeCell>
-					<a href="${googleMapsLink}" class="route-icon" title="${message:route}" />
-				</p:routeCell>
-				<p:editCell>
-					<t:eventlink t:id="editGym" class="edit-item" title="${message:edit}" />
-				</p:editCell>
-				<p:deleteCell>
-					<t:eventlink t:id="deleteGym" class="delete-item"
-						title="${message:delete}" />
-				</p:deleteCell>
-			</t:grid>
+<t:zone t:id="gymEditorZone">
+	<t:if test="editorVisible">
+		<t:box t:id="gymEditorBox">
+			<t:gymEditor t:id="gymEditor" gymParameter="gym" />
 		</t:box>
-	</t:zone>
+		<p:else>
+			<t:eventlink t:id="newGym" class="btn btn-primary">${message:newGym}
+				</t:eventlink>
+		</p:else>
+	</t:if>
+</t:zone>
+<t:zone t:id="gymGridZone">
+	<t:box t:id="gymGridBox">
+		<t:grid t:id="gymsGrid">
+			<p:routeCell>
+				<a href="${googleMapsLink}" class="route-icon"
+					title="${message:route}" />
+			</p:routeCell>
+			<p:actionsCell>
+				<t:eventlink t:id="editGym" class="edit-item"
+					title="${message:edit}" />
+				<t:eventlink t:id="deleteGym" class="delete-item"
+					title="${message:delete}" />
+			</p:actionsCell>
+		</t:grid>
+	</t:box>
+</t:zone>
 
 </html>
