@@ -1,5 +1,6 @@
 package at.basketballsalzburg.bbstats.commons;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +9,11 @@ import java.util.List;
  * 
  * @author Martin Schneider
  */
-public class MenuItem
+public class MenuItem implements Serializable
 {
-    String key;
+	private static final long serialVersionUID = 1L;
+	
+	String key;
     String page;
     boolean group;
     List<MenuItem> items;
